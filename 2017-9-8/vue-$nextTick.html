@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // $nextTick 是在下次 DOM 更新循环结束之后执行延迟回调，在修改数据之后使用 $nextTick
+        // ，则可以在回调中获取更新后的 DOM。
+        // 个人见解：是在一个方法中先更新数据执行后边的程序不会用新更新的数据 
+        // 因为一个循环还没有完成；所以在一个方法中更新数据接着调用这个数据数据还是原来的，
+        // 而不是更新后的 用$nextTick是延迟执行方法，使数据更新完成后 在执行 $nextTick里边的方法
+        window.onload = function () {
+            new Vue({
+                el: '.app',
+                data: {
+                    msg: 'Hello Vue.',
+                    msg1: '',
+                    msg2: '',
+                    msg3: '',
+                    msg4: ''
+                },
+                methods: {
+                    changeMsg() {
+                        this.msg = "Hello world."
+                        this.msg1 = this.$refs.msgDiv.innerHTML
+                        this.$nextTick(() => {
+                            this.msg2 = this.$refs.msgDiv.innerHTML
+                        })
+                        console.log(this.$refs)
+                        this.msg3 = this.$refs.msgDiv.innerHTML
+                        this.msg4 = "aaaa"
+                    }
+                }
+            })
+        };
+    </script>
+    <div class="app">
+        <div ref="msgDiv">{{msg}}</div>
+        <div v-if="msg1">Message got outside $nextTick: {{msg1}}</div>
+        <div v-if="msg2">Message got inside $nextTick: {{msg2}}</div>
+        <div v-if="msg3">Message got outside $nextTick: {{msg3}}</div>
+        <div v-if="msg4">Message got outside $nextTick: {{msg4}}</div>
+        <button @click="changeMsg">
+Change the Message
+</button>
+</body>
+
+</html>
