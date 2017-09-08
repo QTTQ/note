@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        有个网友问了个问题，如下的html，为什么每次输出都是5，而不是点击每个p，就alert出对应的1，2，3，4，5。
+        [html] view plaincopyprint?
+        <html >     
+        <head>     
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />     
+        <title>闭包演示</title>     
+        <script type="text/javascript">     
+            
+        function init() {     
+            var pAry = document.getElementsByTagName("p");     
+            for( var i=0; i<pAry.length; i++ ) {     
+                 pAry[i].onclick = function() {     
+                 alert(i);     
+            }     
+          }     
+        }     
+        </script>     
+        </head>     
+        <body onload="init();">     
+        <p>产品一</p>     
+        <p>产品二</p>     
+        <p>产品三</p>     
+        <p>产品四</p>     
+        <p>产品五</p>     
+        </body>     
+        </html>     
+        
+        
+         
+        解决方式有两种，
+        
+        1、将变量 i 保存给在每个段落对象（p）上
+        [javascript] view plaincopyprint?
+        function init() {     
+          var pAry = document.getElementsByTagName("p");     
+          for( var i=0; i<pAry.length; i++ ) {     
+             pAry[i].i = i;     
+             pAry[i].onclick = function() {     
+                alert(this.i);     
+             }     
+          }     
+        }     
+        
+         
+        2、将变量 i 保存在匿名函数自身 
+        [javascript] view plaincopyprint?
+        function init2() {     
+          var pAry = document.getElementsByTagName("p");     
+          for( var i=0; i<pAry.length; i++ ) {       
+           (pAry[i].onclick = function() {     
+                alert(arguments.callee.i);     
+            }).i = i;     
+          }     
+        }     
+        
+        再增加3种
+         
+        3、加一层闭包，i以函数参数形式传递给内层函数
+        [javascript] view plaincopyprint?
+        function init3() {     
+          var pAry = document.getElementsByTagName("p");     
+          for( var i=0; i<pAry.length; i++ ) {     
+           (function(arg){         
+               pAry[i].onclick = function() {         
+                  alert(arg);     
+               };     
+           })(i);//调用时参数     
+          }     
+        }     
+        
+         
+        4、加一层闭包，i以局部变量形式传递给内存函数
+        [javascript] view plaincopyprint?
+        function init4() {     
+          var pAry = document.getElementsByTagName("p");     
+          for( var i=0; i<pAry.length; i++ ) {       
+            (function () {     
+              var temp = i;//调用时局部变量     
+              pAry[i].onclick = function() {       
+                alert(temp);       
+              }     
+            })();     
+          }     
+        }     
+        
+        5、加一层闭包，返回一个函数作为响应事件（注意与3的细微区别）
+        [javascript] view plaincopyprint?
+        function init5() {     
+          var pAry = document.getElementsByTagName("p");     
+          for( var i=0; i<pAry.length; i++ ) {       
+           pAry[i].onclick = function(arg) {     
+               return function() {//返回一个函数     
+               alert(arg);     
+             }     
+           }(i);     
+          }     
+        }    
+        
+         
+        又有一种方法
+         
+         
+        6、用Function实现，实际上每产生一个函数实例就会产生一个闭包
+        [javascript] view plaincopyprint?
+        function init6() {     
+            var pAry = document.getElementsByTagName("p");     
+            for( var i=0; i<pAry.length; i++ ) {       
+              pAry[i].onclick = new Function("alert(" + i + ");");//new一次就产生一个函数实例    
+            }     
+        }    
+        
+         
+        再增加一种
+        7、用Function实现，注意与6的区别
+        [javascript] view plaincopyprint?
+        function init7() {     
+            var pAry = document.getElementsByTagName("p");     
+            for( var i=0; i<pAry.length; i++ ) {     
+                 pAry[i].onclick = Function('alert('+i+')')    
+            }     
+        }    
+        
+        
+        <!-- ------------------------------------------------------------------------------ -->
+        for循环。定时器,闭包混合那一块的那点事
+
+        1，对于一个基本的for循环，顺序输出变量值。
+        
+                for(var i = 1; i < 4; i++){
+                    console.log(i);//结果不多说了吧
+                }
+            2，如果for循环中有定时器，如下代码。
+        
+                for (var i = 1; i < 4; i++) {
+                    setTimeout(function() {
+                        console.log(i);//3个4
+                    }, 3000);
+                }
+                初衷想要3s后输出1,2,3。但是3s后，输出3个4。原因是定时器的异步执行，for循环的执行速度很快，当真正执行到函数体时，此时i早已变成4，所以结果不想而知。
+        
+            3，如果要得到正确结果，就要引入闭包来保存变量i不被销毁。
+        
+        复制代码
+                for (var i = 1; i < 4; i++) {
+                    (function(a) {
+                        setTimeout(function() {
+                            console.log(a);//操纵变量a，和i无关
+                        }, 3000);
+                    })(i)
+                }
+        复制代码
+                这样引入闭包，变量i保存下来，3s后函数体执行，输出1,2,3.
+        
+                也可以这样写
+        
+        复制代码
+                 for (var i = 1; i < 4; i++) {
+                     setTimeout(fn(i), 3000);
+                 }
+                 function fn(a){
+                     return function(){
+                         console.log(a);
+                     }
+                 }
+        复制代码
+            4，如果要实现，没隔3s输出一个数字，即，3s输出1,3s后再输出2...，就要对定时器时间设置
+        
+        复制代码
+                for (var i = 1; i < 4; i++) {
+                    (function(a) {
+                        setTimeout(function() {
+                            console.log(a);
+                        }, a*3000); //.....
+                    })(i)
+                }
+        复制代码
+               实际上，for循环很快，上述代码类似于同时启动3个定时器，只需要确保时间不一样即可。在此，时间分别是3s，6s，9s，由于同时启动，但是执行时间不同，各个时间间隔都是3s。巧妙地达到了目的。
+        
+              后续如果有补充，会继续添加...
+</body>
+</html>

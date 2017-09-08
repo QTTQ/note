@@ -1,0 +1,18 @@
+      window.onload = function () {
+            var a = "G"
+            function n() {
+                console.log(a)                    
+            }
+            function m() {
+                var a = "O"
+                console.log(a)
+            }
+            function main() {
+                n()
+                m()
+                n()
+            }
+            main();
+        }
+        // 结果：G O G
+        作用域这种基础的东西一定要记牢了  太丢人了
