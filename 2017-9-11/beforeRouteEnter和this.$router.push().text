@@ -1,0 +1,8 @@
+beforeRouteEnter(to,from,next){
+    //可以监听路由，next是callback函数吧
+        console.log(from.path);
+        next(vm => vm.from = from);
+}
+
+//跳转到指定url
+this.$router.push("/");
