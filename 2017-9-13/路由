@@ -1,3 +1,3 @@
 在main.js中写router.beforeEach(to,from,next)监听所有路由跳转
 watch只能监听一级组件路由 不能监听下一级组件跳转路由
-beforeRouteEnter(to, from, next) {next(vm=>{vm.from=from;})}只能监听组件
+beforeRouteEnter(to, from, next) {next(vm=>{vm.from=from;})}只能监听当前组件，跳转到下一级就监听不到了
