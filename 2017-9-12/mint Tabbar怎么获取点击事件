@@ -1,0 +1,36 @@
+
+
+<mt-tabbar v-model="selected">
+官方文档已经说明了，tabbar 有 value属性是 选中的项的id值
+
+选中的id：{{selected}}
+
+<mt-tabbar v-model="selected">
+  <mt-tab-item id="外卖">
+    <img slot="icon" src="../assets/100x100.png">
+    外卖
+  </mt-tab-item>
+  <mt-tab-item id="订单">
+    <img slot="icon" src="../assets/100x100.png">
+    订单
+  </mt-tab-item>
+  <mt-tab-item id="发现">
+    <img slot="icon" src="../assets/100x100.png">
+    发现
+  </mt-tab-item>
+  <mt-tab-item id="我的">
+    <img slot="icon" src="../assets/100x100.png">
+    我的
+  </mt-tab-item>
+</mt-tabbar>
+
+
+data(){
+    return { selected: '外卖'}
+},
+watch: {
+    selected: function (val, oldVal) {
+        // 这里就可以通过 val 的值变更来确定
+        console.log(val)
+    }
+}
