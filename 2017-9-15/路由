@@ -1,0 +1,5 @@
+<router-link to="/account-detail/home">
+
+to里边要写全路径
+
+path里边不用加/，例如子路 直接写path："home"
