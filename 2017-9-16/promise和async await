@@ -1,0 +1,105 @@
+promise和async/await的异步调用方法
+
+  promise和async/await都是异步方案，promise是es6的新特性，而async/await是es7新出的特性。
+
+  想必大家对promise有所见过，他是一个对象，可以实现链式的写法来实现同步异步操作，一般我们可以这样写：
+
+1
+2
+3
+var pro = new promise (function(resolve,reject){
+   resolve()
+})
+同时他有三种状态：pending(进行中)，resolved(已完成)，rejected(已失败)；如上面代码所示，resolve里面表示完成后的操作，reject表示失败够所要执行的代码。但同时我们也可以通过简易的代码来表示，如：
+
+1
+2
+3
+var somePromise = function(){
+    return Promise.resolve('bar');
+  }
+当我们第一个promise对象执行完后执行下一个promise时，我们可以通过链式写法：then()...catch()...，then表示上一个promise执行完后执行，如果出现错误就会在catch里面显示：
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+var newPromise = function(){
+    return Promise.resolve('foo').then(somePromise).then(function(result){
+      console.log("111",result);
+    }).catch(function(err){console.log("err",err)});
+  }
+  var somePromise = function(){
+    return Promise.resolve('bar');
+  }
+  newPromise();
+then方法的出现可以帮助我们实现闭包的问题，因为他是在promise执行完后执行：
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+function timeout(ms) {
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, ms, 'done');
+      });
+    }
+     
+    timeout(100).then((value) => {
+      console.log(value);
+    });
+　　此外，then()是期望获得一个函数，如果是非函数形式的就会显示then(null)；
+
+而对于async/await来说是基于promise的，他可以让我们更加优雅的写出代码，而替代then()的写法，例如：
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+const f = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(234);
+    }, 2000);
+  });
+};
+ 
+const testAsync = async () => {
+  try {
+    const t = await f();
+    console.log(t);
+  } catch (err) {
+    console.log(err);
+  }
+};
+ 
+testAsync();
+　　在上述代码中，同样实现了代码的先后滞留执行问题；需要注意的是await必须写在async的作用域内；如果promise函数里是reject，那就会在catch里面执行代码；在上述代码中，我们是在async里面先执行promisr代码，然后再执行下面的代码，所以我们也可以用他来很好的执行for循环的逐一显示问题。
+
+promise和async/await都是实现异步的好方法，虽然现在还有兼容性的问题，但我们可以使用babel来转换es6和es7。
+
+　　
