@@ -2,4 +2,4 @@
 
 to里边要写全路径
 
-path里边不用加/，例如子路 直接写path："home"
+只有子路由里的path才可以不用加/，例如子路 直接写path："userName"
