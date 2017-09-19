@@ -1,0 +1,25 @@
+vue文件中《--
+    //发送数据 然后接收回调
+    footerSendDate() {           
+        self['MG_GET_KING_LIST'](params).then(list => {
+                                self.goodsList = list
+        })
+    },
+    //发送请求
+    ...mapActions(['MG_GET_KING_LIST']) // 获取商品列表（所有）
+--》
+
+js文件中《--
+    //异步请求 然后返回结果
+    api.MG_GET_KING_LIST = function ({state, commit, rootState}, params) {
+        return new Promise((resolve, reject) => {
+            rootState.axios.get(rootState.CONSTANTS.APISpecial + 'topicClass/getClassGoodsList', {params}).then(res => {
+            res = res.body.data;
+            resolve(res)
+            }, () => {
+            console.error('王者荣耀活动页请求错误 (╯‵□′)╯︵┻━┻')
+            resolve([])
+            })
+        })
+    }
+--》

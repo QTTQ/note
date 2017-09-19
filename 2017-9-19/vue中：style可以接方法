@@ -1,0 +1,1 @@
+<li class="fl" :style="getWidth()" v-for="item in tabList" :class="{'listActive':item.id==liActive}" @click="kingSendRequest(item.id)">{{item.classDesc}}</li>

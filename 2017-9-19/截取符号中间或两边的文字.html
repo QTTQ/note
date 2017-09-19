@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        window.onload = function () {
+            // var str = "呵呵aaabbbcccdddeeefff";
+            // // var str = "aaabbbcV【ccddde】eefff";            
+            // str = str.match(/(\S*)/)[1];            
+            // // str = str.match(/【(\S*)】/)[1];
+            // // 当[0]时截取左边的内容
+            // // 当[1]时截取中间的内容
+            // // 当[2]时截取右边的内容            
+            // alert(str);
+            var str = "Welcome to Microsoft! "
+            str = str + "We are proud to announce that Microsoft has "
+            str = str + "one of the largest Web Developers sites in the world."
+            document.write(str.replace(/Microsoft/g, ""))
+
+        }
+//高晨的   这个感觉不错
+// var str='sdsd321321321【5173】';
+		// var regex=/【】/g;
+		// var a=regex.test(str);
+// 		var str1 = str.indexOf('【');
+// 		if(str.indexOf('【')==0){
+// 			alert(str.substring(str.indexOf('】')+1,str.length));
+// 		}else{
+// 			alert(str.substring(0,str1)+str.substring(str.indexOf('】')+1,str.length))
+// 		}
+
+// filters: {
+//     goodsfilterName(str) {
+//         let str1 = str.indexOf('【');
+//         if (str.indexOf('【') == 0) {
+//             return (str.substring(str.indexOf('】') + 1, str.length));
+//         } else {
+//             return (str.substring(0, str1) + str.substring(str.indexOf('】') + 1, str.length))
+//         }
+//     }
+// }
+
+
+    </script>
+
+</body>
+
+</html>
