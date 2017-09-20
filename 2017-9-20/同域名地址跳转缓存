@@ -1,0 +1,59 @@
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.fromName = from.name || 'list'
+            vm.init()
+        })
+    },
+    //离开时缓存数据
+    beforeDestroy() {
+        let save = {
+            mapList: this.mapList,
+            liActive: this.liActive,
+            tabList: this.tabList,
+            footerMore: this.footerMore,
+            goodsList: this.goodsList,
+            indexNavFixed: this.indexNavFixed,
+            scrollTop: this.scrollTop
+        }
+        this.$store.commit('saveListData', save)//  缓存事件推送
+        window.removeEventListener('scroll', this.scroll) // 销毁滚动监听
+    },
+    methods:{
+        init() {
+            this.saveListData = this.$store.state.mobileGame.saveListData
+            /* 所有初始化需要的数据，或是需要执行的方法 放置在此处 */
+            this.$store.commit('clearSaveListData')
+            /* 回归数据 */
+            if (this.saveListData && (this.fromName === 'MGAccountDetail')) {
+                for (let key in this.saveListData) {
+                    this[key] = this.saveListData[key]
+                }
+                this.$nextTick(function() {
+                    let self = this
+                    setTimeout(function() {
+                        document.body.scrollTop = Number(self.saveListData.scrollTop)
+                    }, 1)
+                })
+            } else {
+                this.initAjax();//初始ajax
+            }
+            this.indexNavTop = Number(this.$refs.indexNav.offsetTop) // 获取菜单栏离屏幕顶部的距离
+            window.addEventListener('scroll', this.scroll);
+        },
+        gameDetailedDescription(goodsUrl, goodsId) {//点击跳转到详细信息
+            //判断地址是m站还是主站
+           // m站缓存 主站不缓存
+            if (goodsUrl.indexOf(location.hostname) > 0) {
+                this.$router.push({
+                    name: 'MGAccountDetail',
+                    params: {
+                        goodsId: goodsId,
+                        goods_source_type: '0'
+                    }
+                })
+            } else {
+                location.href = goodsUrl
+            }
+
+        },
+    }
