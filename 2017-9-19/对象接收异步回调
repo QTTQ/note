@@ -11,6 +11,7 @@ vue文件中《--
 
 js文件中《--
     //异步请求 然后返回结果
+    const api={}
     api.MG_GET_KING_LIST = function ({state, commit, rootState}, params) {
         return new Promise((resolve, reject) => {
             rootState.axios.get(rootState.CONSTANTS.APISpecial + 'topicClass/getClassGoodsList', {params}).then(res => {
@@ -21,5 +22,8 @@ js文件中《--
             resolve([])
             })
         })
+    }
+    export default{
+        ...api
     }
 --》
