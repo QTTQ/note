@@ -1,0 +1,76 @@
+http://www.cnblogs.com/jasonwang2y60/p/6433082.html
+
+
+其实我感觉这TM不就是单一组件通信吗
+
+【一、获取store中的数据】
+    在main.js文件中注册store
+
+        import Vue from 'vue'
+        import App from './App'
+        import router from './router'
+        import store from './../store/index'
+
+        /* eslint-disable no-new */
+        new Vue({
+            el: '#app',
+            router,
+            store,
+            template: '<App/>',
+            components: { App }
+        })
+
+    这样简单的第一步就完成了，你可以再任意组件中使用store中的数据，使用方法也很简单，
+    就是使用计算属性返回store中的数据到一个新属性上，然后在你模板中则可以使用这个属性值了：
+    
+    任意组件中：
+        export default {
+            ...
+            computed: {
+                bankName() {
+                return this.$store.state.bankInf.bankName;
+                }
+            },
+            ...
+        }
+
+【二、在组件中修改store中的状态 】
+
+    在任意组件中添加html模板
+
+    <div class="bank">
+        <list-header :headerData="bankName"></list-header>
+        04银行详情页面
+        <input  name="" v-model="textValue">
+        <button type="button" name="获取数据" @click="newBankName"></button>
+    </div>
+    然后组件中提交mutation
+
+    export default {
+    ...
+    computed: {
+        bankName() {
+        return this.$store.state.bankInf.bankName;
+        }
+    },
+    methods: {
+        newBankName: function() {
+        this.$store.commit('newBankName', this.textValue)
+        }
+    }
+    ...   
+    }
+    在store中的index.js中添加mutations：
+
+    const store = new Vuex.Store({
+    state: {
+        // 放置初始状态 app启动的时候的全局的初始值
+        bankInf: {"name":"我是vuex的第一个数据","id":100,"bankName":"中国银行"},
+        count:0
+    },
+    mutations: {
+        newBankName(state,msg) {
+        state.bankInf.bankName = msg;
+        }
+    }
+    })

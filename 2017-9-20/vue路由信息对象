@@ -16,3 +16,21 @@
 完成解析后的 URL，包含查询参数和 hash 的完整路径。
 7.$route.matched
 一个数组，包含当前路由的所有嵌套路径片段的 路由记录 。路由记录就是 routes 配置数组中的对象副本（还有在 children 数组）。
+
+
+使用路径名称
+
+在定义路径规则的时候，如果你给它提供了一个name属性，则可以在后续使用这条路径规则的时候，直接引用。
+
+router.map({
+  '/user/:userId': {
+       name: 'user',
+    component: {...}
+  }
+});
+在v-link中使用
+
+<a v-link="{name: 'user', params: {userId: 1}">This is a user whose id is 1</a>
+还可以使用router.go()
+
+router.go({name: 'user', params: {userId: 1}});

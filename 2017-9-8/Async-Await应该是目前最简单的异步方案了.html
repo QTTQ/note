@@ -13,7 +13,6 @@
         // await等待的虽然是promise对象，但不必写.then(..) ，直接可以得到返回值。
 
         var sleep = function (time) {
-
             return new Promise(function (resolve, reject) {
                 setTimeout(function () {
                     // 返回 ‘ok’

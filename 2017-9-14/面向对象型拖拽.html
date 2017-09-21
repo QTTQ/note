@@ -1,130 +1,180 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<style type="text/css">
-			.calculator {
-				position: absolute;
-				/*设置绝对定位，脱离文档流，便于拖拽*/
-				display: block;
-				width: 218px;
-				height: 280px;
-				cursor: move;
-				/*鼠标呈拖拽状*/
-				border: 1px solid red;
-			}
-			
-			#box2 {
-				width: 300px;
-				height: 300px;
-				line-height: 300px;
-				text-align: center;
-				background-color: #62B6F4;
-				clear: both;
-				float: left;
-			}
-		</style>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		.calculator {
+			position: absolute;
+			/*设置绝对定位，脱离文档流，便于拖拽*/
+			display: block;
+			width: 218px;
+			height: 280px;
+			cursor: move;
+			/*鼠标呈拖拽状*/
+			border: 1px solid red;
+		}
 
-	<body>
-		<!--<div class="calculator" id="drag">
+		#box2 {
+			width: 300px;
+			height: 300px;
+			line-height: 300px;
+			text-align: center;
+			background-color: #62B6F4;
+			clear: both;
+			float: left;
+		}
+	</style>
+</head>
+
+<body>
+	<!--<div class="calculator" id="drag">
 			aaaa
 		</div>-->
-		<div id="box2">
-			sasdasd
-		</div>
-		<script type="text/javascript">
-			//			window.onload = function() {
-			//				let drag = document.getElementById("drag");
-			//				drag.addEventListener("mousedown", function(ev) {
-			//					let e = ev || window.event;
-			//					let diffX = e.clientX - drag.offsetLeft;
-			//					let diffY = e.clientY - drag.offsetTop;
-			//					drag.addEventListener("mousemove", function(ev) {
-			//						let l = ev.clientX - diffX;
-			//						let t = ev.clientY - diffY;
-			//
-			//						if(l <= 0) {
-			//							l = 0;
-			//						} else if(l > window.innerWidth - drag.offsetWidth) {
-			//							l = window.innerWidth - drag.offsetWidth;
-			//						}
-			//						if(t <= 0) {
-			//							t = 0;
-			//						} else if(t > window.innerHeight - drag.offsetHeight) {
-			//							t = window.innerHeight - drag.offsetHeight;
-			//						}
-			//						drag.style.left = l + "px";
-			//						drag.style.top = t + "px";
-			//
-			//					});
-			//					document.addEventListener("mouseup", function(e) {
-			//						document.onmousedown = null;
-			//						document.onmousemove = null;
-			//						document.onmouseup = null; //预防鼠标弹起来后还会循环（即预防鼠标放上去的时候还会移动）  
-			//
-			//					})
-			//
-			//				})
-			//			}
-			function test() {
-				var drag = new Drag('box2');
-				drag.init();
-			}
+	<div id="box2">
+		sasdasd
+	</div>
+	<script type="text/javascript">
+		//			window.onload = function() {
+		//				let drag = document.getElementById("drag");
+		//				drag.addEventListener("mousedown", function(ev) {
+		//					let e = ev || window.event;
+		//					let diffX = e.clientX - drag.offsetLeft;
+		//					let diffY = e.clientY - drag.offsetTop;
+		//					drag.addEventListener("mousemove", function(ev) {
+		//						let l = ev.clientX - diffX;
+		//						let t = ev.clientY - diffY;
+		//
+		//						if(l <= 0) {
+		//							l = 0;
+		//						} else if(l > window.innerWidth - drag.offsetWidth) {
+		//							l = window.innerWidth - drag.offsetWidth;
+		//						}
+		//						if(t <= 0) {
+		//							t = 0;
+		//						} else if(t > window.innerHeight - drag.offsetHeight) {
+		//							t = window.innerHeight - drag.offsetHeight;
+		//						}
+		//						drag.style.left = l + "px";
+		//						drag.style.top = t + "px";
+		//
+		//					});
+		//					document.addEventListener("mouseup", function(e) {
+		//						document.onmousedown = null;
+		//						document.onmousemove = null;
+		//						document.onmouseup = null; //预防鼠标弹起来后还会循环（即预防鼠标放上去的时候还会移动）  
+		//
+		//					})
+		//
+		//				})
+		//			}
+		function test() {
+			var drag = new Drag('box2');
+			drag.init();
+		}
 
-			function Drag(id) {
-				this.obj = document.getElementById(id);
-				this.disx;
-				this.disy;
-			};
-			Drag.prototype.init = function() {
-				var me = this;
-				this.obj.onmousedown = function(e) {
-					var e = e || event;
-					me.mouseDown(e);
-					return false;
-				};
-			}
-			Drag.prototype.mouseDown = function(e) {
-				var me = this;
-				this.disx = e.clientX - this.obj.offsetLeft;
-				this.disy = e.clientY - this.obj.offsetTop;
-				document.onmousemove = function(e) {
-					var e = e || event;
-					me.mouseMove(e);
+		// function Drag(id) {
+		// 	this.obj = document.getElementById(id);
+		// 	this.disx;
+		// 	this.disy;
+		// };
+		// Drag.prototype.init = function() {
+		// 	var me = this;
+		// 	this.obj.onmousedown = function(e) {
+		// 		var e = e || event;
+		// 		me.mouseDown(e);
+		// 		return false;
+		// 	};
+		// }
+		// Drag.prototype.mouseDown = function(e) {
+		// 	var me = this;
+		// 	this.disx = e.clientX - this.obj.offsetLeft;
+		// 	this.disy = e.clientY - this.obj.offsetTop;
+		// 	document.onmousemove = function(e) {
+		// 		var e = e || event;
+		// 		me.mouseMove(e);
 
-				};
-				document.onmouseup = function(e) {
-					var e = e || event;
-					me.mouseup(e);
-				}
-			};
-			Drag.prototype.mouseMove = function(e) {
-				let l = e.clientX - this.disx;
-				let t = e.clientY - this.disy;
-				if(l <= 0) {
-					l = 0
-				} else if(l > window.innerWidth - this.obj.offsetWidth) {
-					l = window.innerWidth - this.obj.offsetWidth;
-				}
-				if(t <= 0) {
-					t = 0
-				} else if(t > window.innerHeight - this.obj.offsetHeight) {
-					t = window.innerHeight - this.obj.offsetHeight;
-				}
-				this.obj.style.marginLeft = l + 'px';
-				this.obj.style.marginTop = t + 'px';
-			};
-			Drag.prototype.mouseup = function(e) {
-				document.onmousedown = null;
-				document.onmousemove = null;
-				document.onmouseup = null;
-				return false;
-			}
-			test();
-		</script>
-	</body>
+		// 	};
+		// 	document.onmouseup = function(e) {
+		// 		var e = e || event;
+		// 		me.mouseup(e);
+		// 	}
+		// };
+		// Drag.prototype.mouseMove = function(e) {
+		// 	let l = e.clientX - this.disx;
+		// 	let t = e.clientY - this.disy;
+		// 	if(l <= 0) {
+		// 		l = 0
+		// 	} else if(l > window.innerWidth - this.obj.offsetWidth) {
+		// 		l = window.innerWidth - this.obj.offsetWidth;
+		// 	}
+		// 	if(t <= 0) {
+		// 		t = 0
+		// 	} else if(t > window.innerHeight - this.obj.offsetHeight) {
+		// 		t = window.innerHeight - this.obj.offsetHeight;
+		// 	}
+		// 	this.obj.style.marginLeft = l + 'px';
+		// 	this.obj.style.marginTop = t + 'px';
+		// };
+		// Drag.prototype.mouseup = function(e) {
+		// 	document.onmousedown = null;
+		// 	document.onmousemove = null;
+		// 	document.onmouseup = null;
+		// 	return false;
+		// }
+
+		// function Drag(id) {
+		// 	this.obj = document.getElementById(id);
+		// 	this.disx;
+		// 	this.disy;
+		// };
+		// Drag.prototype = {
+		// 	init() {
+		// 		this.obj.onmousedown = (e) => {
+		// 			var e = e || event;
+		// 			this.mouseDown(e);
+		// 			return false;
+		// 		};
+		// 	},
+		// 	mouseDown(e) {
+		// 		this.disx = e.clientX - this.obj.offsetLeft;
+		// 		this.disy = e.clientY - this.obj.offsetTop;
+		// 		document.onmousemove = (e) => {
+		// 			var e = e || event;
+		// 			this.mouseMove(e);
+
+		// 		};
+		// 		document.onmouseup = (e) => {
+		// 			var e = e || event;
+		// 			this.mouseup(e);
+		// 		}
+		// 	},
+		// 	mouseMove(e) {
+		// 		let l = e.clientX - this.disx;
+		// 		let t = e.clientY - this.disy;
+		// 		if (l <= 0) {
+		// 			l = 0
+		// 		} else if (l > window.innerWidth - this.obj.offsetWidth) {
+		// 			l = window.innerWidth - this.obj.offsetWidth;
+		// 		}
+		// 		if (t <= 0) {
+		// 			t = 0
+		// 		} else if (t > window.innerHeight - this.obj.offsetHeight) {
+		// 			t = window.innerHeight - this.obj.offsetHeight;
+		// 		}
+		// 		this.obj.style.marginLeft = l + 'px';
+		// 		this.obj.style.marginTop = t + 'px';
+		// 	},
+		// 	mouseup(e) {
+		// 		document.onmousedown = null;
+		// 		document.onmousemove = null;
+		// 		document.onmouseup = null;
+		// 		return false;
+		// 	}
+		// }
+		// test();
+	</script>
+</body>
 
 </html>

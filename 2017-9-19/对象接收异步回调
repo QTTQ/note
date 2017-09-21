@@ -1,8 +1,8 @@
 vue文件中《--
     //发送数据 然后接收回调
-    footerSendDate() {           
+    footerSendData() {           
         self['MG_GET_KING_LIST'](params).then(list => {
-                                self.goodsList = list
+                self.goodsList = list
         })
     },
     //发送请求
