@@ -1,0 +1,18 @@
+路由信息对象
+
+路由对象，即$router会被注入每个组件中，可以利用它进行一些信息的获取
+
+1.$route.path
+字符串，对应当前路由的路径，总是解析为绝对路径，如 "/foo/bar"。
+2.$route.params
+一个 key/value 对象，包含了 动态片段 和 全匹配片段，如果没有路由参数，就是一个空对象。
+3.$route.query
+一个 key/value 对象，表示 URL 查询参数。例如，对于路径 /foo?user=1，则有 $route.query.user == 1，如果没有查询参数，则是个空对象。
+4.$route.hash
+当前路由的 hash 值 (不带 #) ，如果没有 hash 值，则为空字符串。
+5.$route.router	
+所属路由器以及所属组件信息
+6.$route.fullPath
+完成解析后的 URL，包含查询参数和 hash 的完整路径。
+7.$route.matched
+一个数组，包含当前路由的所有嵌套路径片段的 路由记录 。路由记录就是 routes 配置数组中的对象副本（还有在 children 数组）。

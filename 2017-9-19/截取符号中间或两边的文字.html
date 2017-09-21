@@ -19,10 +19,19 @@
             // // 当[1]时截取中间的内容
             // // 当[2]时截取右边的内容            
             // alert(str);
-            var str = "Welcome to Microsoft! "
-            str = str + "We are proud to announce that Microsoft has "
-            str = str + "one of the largest Web Developers sites in the world."
-            document.write(str.replace(/Microsoft/g, ""))
+
+
+            // var str = "Welcome to Microsoft! "
+            // str = str + "We are proud to announce that Microsoft has "
+            // str = str + "one of the largest Web Developers sites in the world."
+            // document.write(str.replace(/Microsoft/g, ""))
+
+
+            let reg = /【\S*】/g;
+            return text.replace(reg, '');
+
+
+
 
         }
 //高晨的   这个感觉不错

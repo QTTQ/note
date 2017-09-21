@@ -20,8 +20,9 @@
     },
     methods:{
         init() {
-            this.saveListData = this.$store.state.mobileGame.saveListData
             /* 所有初始化需要的数据，或是需要执行的方法 放置在此处 */
+            this.saveListData = this.$store.state.mobileGame.saveListData
+            /*清空vuex中的数据事件*/
             this.$store.commit('clearSaveListData')
             /* 回归数据 */
             if (this.saveListData && (this.fromName === 'MGAccountDetail')) {

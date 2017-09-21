@@ -1,0 +1,36 @@
+在***.vue中提交方法比如：
+  let save = {
+            mapList: this.mapList,
+            liActive: this.liActive,
+            tabList: this.tabList,
+            footerMore: this.footerMore,
+            goodsList: this.goodsList,
+            indexNavFixed: this.indexNavFixed,
+            scrollTop: this.scrollTop,
+            page: this.page
+        }
+  this.$store.commit('saveListData', save)
+
+
+
+
+//mutations中接收
+  export default  {
+    state: {
+      saveListData: null, // 存储手游列表相关数据
+      _games: {},  // 游戏列表（端游和手游）
+      _sell_games: {}, // 我要卖手游列表
+      _goods_types: {list: [], id: ''}, // 游戏商品类型
+    },
+    mutations: {
+      clearSaveListData (state, t) {state.saveListData = null },
+      saveListData (state, t) {state.saveListData = t },
+      [typeList.setSellGames] (state, {k, d}) { state._sell_games[k] = d }, // 设置游戏 列表
+      [typeList.setGames] (state, {k, d}) { state._games[k] = d }, // 设置游戏 列表
+    },
+    actions : {
+      ...mgData
+    }
+  }
+
+
