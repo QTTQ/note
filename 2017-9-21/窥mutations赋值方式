@@ -9,10 +9,11 @@
             scrollTop: this.scrollTop,
             page: this.page
         }
+  //事件推送
   this.$store.commit('saveListData', save)
-
-
-
+  //事件接收
+  //在this对象下声明变量对象接收储存到state中的数据
+  this.saveListData = this.$store.state.mobileGame.saveListData
 
 //mutations中接收
   export default  {
