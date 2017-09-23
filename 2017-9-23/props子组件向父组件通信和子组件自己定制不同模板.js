@@ -38,6 +38,7 @@ new Vue({
     //     <c-h bt-n="hhahah"></c-h>
     //     <c-h bt-n="sdasdas"></c-h>
     // </div>
+    
         let cH = {
             props: ['btN'],
             template: `<div>
