@@ -1,0 +1,26 @@
+
+//过滤的时候有三种情况 all finished unfinished
+
+var filter = {
+	all: function (list) {
+		return list;
+	},
+	finished: function (list) {
+		return list.filter(function (item) {
+			return item.isChecked;
+		})
+	},
+	unfinished: function (list) {
+		return list.filter(function (item) {
+			return !item.isChecked;
+		})
+	}
+}
+
+//在computed中监控   不用if做判断了 
+	computed: {
+		filteredList: function () {
+			//找到了过滤函数，就返回过滤后的数据；如果没有返回所有数据
+			return filter[this.visibility] ? filter[this.visibility](list) : list;
+		}
+	},
