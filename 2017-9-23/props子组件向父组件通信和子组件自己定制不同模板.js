@@ -34,7 +34,6 @@ new Vue({
 
 {/* 定制一样模板 不同显示数据 */}
 
-<body>
     <div id="app">
         <c-h bt-n="hhahah"></c-h>
         <c-h bt-n="sdasdas"></c-h>
@@ -60,4 +59,3 @@ new Vue({
             }
         })
     </script>
-</body>
