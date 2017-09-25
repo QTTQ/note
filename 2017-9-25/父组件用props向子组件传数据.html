@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript" src="vue.js"></script>
+    <meta charset="UTF-8">
+    <title>vue的props实现父组件变化子组件一起变化</title>
+</head>
+
+<body>
+    <div id="app1">
+        <div>
+            <div>父组件</div>
+            <input type="button" value="按钮" @click="addD">
+            <child :message="parentMsg"></child>
+        </div>
+
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        let child = {
+            template: `<div>
+        <div>{{message}}(子组件)</div>
+        <div v-for='item in message'>{{item}}(子组件)</div>        
+    </div>`,
+            // props: {
+            //     message: String
+            // },
+            props: ['message'],
+            data() {
+                return {}
+            }
+        }
+        var vm = new Vue({
+            el: '#app1',
+            data() {
+                return {
+                    parentMsg: [1,2,3,34,5,56,6,6,7,7]  //在data中定义需要传入的值
+                }
+            },
+            components: {
+                child
+            },
+            methods: {
+                addD() {
+                    this.parentMsg.push(1);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

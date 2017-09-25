@@ -57,3 +57,46 @@ new Vue({
                 cH
             }
         })
+
+
+        /**
+         * 父组件向子组件传值
+         */
+        <div>
+            <div>父组件</div>
+            <input type="button" value="按钮" @click="addD">
+            <child :message="parentMsg"></child>
+        </div>
+
+    <script src="../note/vue.js"></script>
+    <script>
+        let child = {
+            template: `<div>
+        <div>{{message}}(子组件)</div>
+        <div v-for='item in message'>{{item}}(子组件)</div>        
+    </div>`,
+            // props: {
+            //     message: String
+            // },
+            props:['message'],
+            data() {
+                return {}
+            }
+        }
+        var vm = new Vue({
+            el: '#app1',
+            data() {
+                return {
+                    parentMsg: []  //在data中定义需要传入的值
+                }
+            },
+            components: {
+                child
+            },
+            methods: {
+                addD(){
+                    this.parentMsg.push(1);
+                }
+            }
+        });
+    </script>
