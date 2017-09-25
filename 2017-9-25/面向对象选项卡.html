@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #contain {
+            width: 600px;
+            height: 400px;
+            margin: 20px auto;
+        }
+
+        #top {
+            width: 600px;
+            height: 50px;
+            float: left;
+            background-color: #9CF;
+        }
+
+        #top div {
+            width: 198px;
+            height: 50px;
+            ;
+            border: #000 1px solid;
+            float: left;
+        }
+
+        .active {
+            background-color: #F99;
+        }
+
+        #bottom {
+            width: 600px;
+            height: 350px;
+            float: left;
+            margin-top: 3px;
+        }
+
+        #bottom div {
+            width: 600px;
+            height: 350px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="contain">
+        <div id="top" class="top">
+            <div style="background:red">aaa</div>
+            <div>bbb</div>
+            <div>ccc</div>
+        </div>
+        <div id="bottom" class="bottom">
+            <div style="display:block;background-color:#0c3">aaa</div>
+            <div style="display:none;background-color:#9ff">bbb</div>
+            <div style="display:none;background-color:#ff3">ccc</div>
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+            let tabPage = new TabPage();
+            tabPage.init()
+        }
+        function TabPage() {
+        }
+        TabPage.prototype = {
+            init() {
+                let self = this;
+                let oDivTop = document.getElementById("top")
+                this.aDivTop = document.querySelectorAll("#top div");
+                this.aDivBottom = document.querySelectorAll("#bottom div");
+                for (let i = 0; i < this.aDivTop.length; i++) {
+                    this.aDivTop[i].index = i;
+                    this.aDivTop[i].onclick = function () {
+                        self.fnClick(this.index);
+                    }
+                    this.aDivTop[i].onmouseover = function () {
+                        self.fnMouseOver(this);
+                    }
+                }
+            },
+            fnMouseOver(obtn) {
+                for (let j = 0; j < this.aDivTop.length; j++) {
+                    this.aDivTop[j].className = "";
+                }
+                obtn.className = "active"
+            },
+            fnClick(index) {
+                for (let j = 0; j < this.aDivBottom.length; j++) {
+                    this.aDivBottom[j].style.display = "none";
+                    this.aDivTop[j].style.backgroundColor = "";
+                }
+                this.aDivBottom[index].style.display = "block";
+                this.aDivTop[index].style.backgroundColor = "red"
+            }
+        }
+    </script>
+
+</body>
+
+</html>
