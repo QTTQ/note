@@ -1,0 +1,3162 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico"> -->
+    <link rel="stylesheet" href="./favicon.ico">
+    <title>CSGO饰品_H1Z1饰品_PUBG饰品_stmbuy中国电竞steam饰品交易平台_stmbuy</title>
+    <meta name="keywords" content="CSGO饰品交易,H1Z1饰品交易,绝地求生饰品交易,steam饰品交易,游戏饰品,饰品价格查询,饰品查询." />
+    <meta name="description" content="Stmbuy中国电竞steam饰品交易平台,提供全球范围CSGO,H1Z1,PUBG,绝地求生多个游戏饰品交易,快速,诚信,安全,为您提供100%的交易保障！" />
+    <!-- <link type="text/css" rel="stylesheet" href="/static/css/index_2.css" /> -->
+    <link rel="stylesheet" href="./index2.css">
+    <!-- <script type="text/javascript" src="/static/js/jquery_last.min-v2-comm.js"></script> -->
+    <script src="./jq-comm.js"></script>
+    <!-- <script src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js"></script> -->
+    
+    <!--commJs-->
+    <script>
+        //隐私模式判断
+        try {
+            window.localStorage.privateTest = "privateTest";
+        } catch (_) {
+            alert("为正常使用STMBUY服务，请关闭浏览器隐私(无痕)模式");
+        }
+        //定义项目类并初始化
+        var stmbuy = new (
+            v.classd(function () {
+                this.accountData = {};
+                this.apiaddr = location.protocol + '//' + 'api.stmbuy.com';
+                this.csrfToken = 'csrf1ff5d0ghyeef';
+                this.tixianData = JSON.parse('{"pc_extract_fee_max_limit_per_day":"1000000","pc_extract_fee_min_limit":"10000","pc_extract_fee_max_limit_per_time":"500000","pc_extract_poundage_rate":"1","pc_extract_poundage_min_limit":"200","pc_extract_poundage_max_limit":"2500"}');//提现数据
+                this.sellCost = '0';//销售手续费
+                this.buyCost = '0';//购买手续费
+                this.seekMinRate = 50;//求购价最低比率
+                this.seekField = ["market_price", "best_price"];//求购价依据
+                this.sellMinRate = .5;//销售价最低比率
+                this.sellMaxRate = 3;//销售价最高比率
+                this.endTimer;
+                this.telRight = false; this.telHead = '+86'; this.allowCode = true;
+
+                //消息弹框
+                this.alertMsg = function (msg, matchWordsArr, linkElesObj) {
+                    if (v.isObject(msg)) {
+                        for (var key in msg.responseJSON.message) {
+                            msg = msg.responseJSON.message[key];
+                        }
+                    }
+                    if (arguments[1]) {
+                        matchWordsArr.forEach(function (matchWord) {
+                            if (msg.indexOf(matchWord) > 0) msg += linkElesObj[matchWord];
+                        });
+                    }
+                    $('.alert .msg-content p').html(msg);
+                    $('.alert,.pop-bg').addClass('visible');
+                };
+
+                this.showError = function (msg, errorBox) {
+                    var showText = msg;
+                    if (v.isObject(msg)) {
+                        for (var key in msg.responseJSON.message) {
+                            showText = msg.responseJSON.message[key];
+                        }
+                    }
+                    errorBox.finish().slideDown(300).text(showText);
+                    errorBox.finish().delay(3000).slideUp(500);
+                };
+
+                //检测是否登录
+                this.checkLogin = function (loginCallback, ctx) {
+                    if ($('.to-login').length > 0) {
+                        $('.login-pop,.pop-bg').addClass('visible');
+                    } else {
+                        var linkHref = $(ctx).attr('href');
+                        linkHref ? window.location.href = linkHref : loginCallback();
+                    }
+                };
+
+                //重置弹框表单
+                this.resetForm = function (popForm) {
+                    if (popForm.length > 0) {
+                        popForm[0].reset();
+                        popForm.find('input').removeAttr('style');
+                        popForm.find('.error').hide();
+                    }
+                };
+
+                //获取Xhr对象的错误message
+                this.getXhrValue = function (xhr) {
+                    for (var key in xhr.responseJSON.message) {
+                        return xhr.responseJSON.message[key];
+                    }
+                };
+
+                this.getCookie = function (c_name) {
+                    if (document.cookie.length > 0) {
+                        c_start = document.cookie.indexOf(c_name + "=");
+                        if (c_start != -1) {
+                            c_start = c_start + c_name.length + 1;
+                            c_end = document.cookie.indexOf(";", c_start);
+                            if (c_end == -1) c_end = document.cookie.length;
+                            return unescape(document.cookie.substring(c_start, c_end));
+                        }
+                    }
+                    return ""
+                };
+
+                //数字前补零
+                this.fixedNumber = function (num, number) {
+                    return (Array(num).join(0) + Number(number)).slice(-num);
+                };
+
+                this.resetFoot = function () {
+                    $('.comm-footer').removeAttr('style');//初始化
+                    $('.comm-footer').css('position', $('body')[0].scrollHeight > $('html')[0].clientHeight ? 'static' : 'fixed');
+                };
+            })
+        );
+
+    </script>
+</head>
+
+<body class="" style="">
+    <!-- 头部 -->
+    <div class="comm-top">
+        <div class="w-response">
+            <div class="fl">
+                <a href="http://www.stmbuy.com/downapp.html">
+                <i class="icon icon-phone"></i>
+                手机APP
+            </a>
+                <a href="/help/yhxy">
+                <i class="icon icon-xieyi"></i>
+                协议与申明
+            </a>
+            </div>
+
+            <div class="logined" style="display: none;">
+                <div class="drop-down">
+                    <a class="top" href="/my">
+                    <img class="user-img" src="">
+                    <span class="user-name"></span>
+                    <i class="icon icon-dropdown fr"></i>
+                </a>
+                    <div class="content">
+                        <p class="balance">余额：<strong>¥ <span></span></strong><br>
+                            <a class="" href="/my/recharge">充值</a>
+                            <a class="" href="/my/money">提现</a>
+                        </p>
+                        <p class="steam-id">Steam ID<br>
+                            <span></span>
+                        </p>
+                        <a class="logout" href="/logout">退出登录</a>
+                    </div>
+                </div>
+                <a class="msg-btn" href="/my/msg">
+                <span>0</span>
+                <i class="icon icon-msg"></i>
+            </a>
+                <div class="right-btns">
+                    <a href="/my/money">
+                    <i class="icon icon-wallet"></i>
+                    我的钱包
+                </a>
+                    <a href="/my/backpack">出售饰品</a>
+                    <a href="/my/seek">求购饰品</a>
+                </div>
+            </div>
+            <a class="to-login" style="display: none;">QQ账号登录</a>
+
+            <span class="right-btns">
+<!--            <a class="a cart" href="" target="_blank">-->
+<!--                <i class="icon icon-cart"></i>-->
+<!--                购物车-->
+<!--            </a>-->
+<!--            <a class="a" href="">我的订单</a>-->
+            <a class="" href="/help/guide">帮助中心</a>
+        </span>
+        </div>
+    </div>
+    <!-- 导航搜索 -->
+    <div class="comm-header">
+        <div class="system-notice">
+            <p><i></i><a class="notice-msg" href="/notice/1fetc92olvda">机器人因优化与升级，26日上午9点至12点将暂停存取</a></p>
+            <button class="notice-close"></button>
+        </div>
+        <div class="w-response">
+            <img class="menu-btn fl" src="/static/img/sm_menu_btn.png" alt="menu-btn">
+            <a class="logo" href="/">
+                <h1>Stmbuy中国电竞交易平台</h1>
+            </a>
+            <ul class="menu">
+                <li class="on"><a href="/">首页</a></li>
+                <li>
+                    <div class="drop-down">
+                        <div class="cf">
+                            <span class="top fl">饰品交易</span>
+                        </div>
+                        <ul class="content">
+                            <li data-appid="578080">
+                                <a href="/pubg">
+                                    <img src="/static/img/pubg_sm.png"
+                                         alt="绝地求生PUBG">
+                                    <span>绝地求生PUBG</span>
+                                </a>
+                            </li>
+                            <li data-appid="433850">
+                                <a href="/h1z1">
+                                    <img src="/static/img/h1z1_sm.png"
+                                         alt="h1z1">
+                                    <span>H1Z1</span>
+                                </a>
+                            </li>
+                            <li data-appid="730">
+                                <a href="/csgo">
+                                    <img src="/static/img/csgo_sm.png"
+                                         alt="CS:GO">
+                                    <span>CS:GO</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class=""><a href="/news">游戏资讯</a></li>
+                <li class=""><a href="/help/guide">新手指南</a></li>
+                <li class="extend"><a href="http://game.stmbuy.com" target="_blank">游戏推广</a></li>
+            </ul>
+            <form class="search fr" action="/pubg">
+                <div class="drop-down">
+                    <div class="cf">
+                        <a class="top fl">
+            <img src="/static/img/pubg_sm.png"
+                 alt="pubg">
+            <span>绝地求生PUBG</span>
+        </a>
+                        <i class="icon icon-dropdown fr"></i>
+                    </div>
+                    <ul class="content">
+
+                        <li data-appid="578080">
+                            <a href="/pubg">
+                    <img src="/static/img/pubg_sm.png"
+                         alt="绝地求生PUBG">
+                    <span>绝地求生PUBG</span>
+                </a>
+                        </li>
+
+                        <li data-appid="433850">
+                            <a href="/h1z1">
+                    <img src="/static/img/h1z1_sm.png"
+                         alt="h1z1">
+                    <span>H1Z1</span>
+                </a>
+                        </li>
+
+                        <li data-appid="730">
+                            <a href="/csgo">
+                    <img src="/static/img/csgo_sm.png"
+                         alt="CS:GO">
+                    <span>CS:GO</span>
+                </a>
+                        </li>
+                    </ul>
+                </div> <input type="text" autocomplete="off" name="keywords" value="">
+                <button type="submit"><i class="icon icon-search"></i></button>
+            </form>
+        </div>
+    </div>
+    <script>
+        $(function () {
+
+            //设置cookie 判断公告是否已读
+            if (!stmbuy.getCookie('readed')) {
+                document.cookie = "readed=false";
+            }
+
+            //已读则隐藏
+            if (stmbuy.getCookie('readed') == 'false') {
+                $('.system-notice').slideDown();
+            }
+
+            //点击公告或关闭 设置已读cookie及10min过期时间
+            $('.system-notice').on('click', '.notice-close', function (event) {
+                v.stopEvent(event);
+                $('.system-notice').slideUp('slow');
+                var dateNow = new Date();
+                dateNow.setTime(dateNow.getTime() + 10 * 60 * 1000);
+                var expireTime = dateNow.toGMTString();
+                document.cookie = "readed=true; expires=" + expireTime;
+            })
+        });
+
+    </script>
+
+    <div class="advertisement">
+        <button class="adv-close"></button>
+        <ul class="adv-left">
+            <li>
+                <img src="/static/img/wb_code.jpg" alt="微博二维码"><span>官方微博</span>
+            </li>
+            <li>
+                <img src="/static/img/wx_code.jpg" alt="微信公众号二维码"><span>微信公众号</span>
+            </li>
+        </ul>
+        <div class="adv-right">
+            <p style="">既然看到了，就是缘分，加入我们，让我们更懂你。</p>
+            <ul>
+                <li><a href="http://shang.qq.com/wpa/qunwpa?idkey=39d5ae6a746431c5b3e336ae9a44d62a6c286aaf8e8891a9880becd25ed0347c"
+                        target="_blank" alt="StmBuy-官方交流群" title="StmBuy-官方交流群"><i class="icon icon-share-qq"></i><span>官方交流群</span></a></li>
+                <li><a href="http://shang.qq.com/wpa/qunwpa?idkey=cfb5c90037b2b19bf163dfa126f79e9a5608fec1a4f53bcaf63c4e9a56feb5e9"
+                        target="_blank" alt="StmBuy-PUBG交流群" title="StmBuy-PUBG交流群"><i class="icon icon-pubg-sm"></i><span>绝地求生交流群</span></a></li>
+                <li><a href="http://shang.qq.com/wpa/qunwpa?idkey=cb3a409c91f2e7f0402c9f046569111999776267f42349637c39faf24616d2c5"
+                        target="_blank" alt="StmBuy-H1Z1交流群" title="StmBuy-H1Z1交流群"><i class="icon icon-h1z1-sm"></i><span>H1Z1交流群</span></a></li>
+                <li><a href="http://shang.qq.com/wpa/qunwpa?idkey=2c67f30d7a2cda3c92d3fdc4dabddf7f6c17dd935f2b3fd07f7d8a59152d3cc4"
+                        target="_blank" alt="StmBuy-CS:GO交流群" title="StmBuy-CS:GO交流群"><i class="icon icon-csgo-sm"></i><span>CS:GO交流群</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner w-response cf">
+        <div class="slider" data-slideshow="v2ui" data-options="rollel:.roller; handel:.slider-btn;">
+            <ul class="roller">
+                <li>
+                    <a href="http://www.stmbuy.com/notice/1ecb8mebyem0" target="_blank">
+                    <img src="/static/upload/bannerpic/59c4d8eda0e1d.jpg" alt="">
+                </a>
+                </li>
+                <li>
+                    <a href="http://www.stmbuy.com/downapp.html" target="_blank">
+                    <img src="/static/upload/bannerpic/59bb64c9342ae.jpg" alt="">
+                </a>
+                </li>
+            </ul>
+            <div class="slider-btn">
+                <a href=""></a>
+            </div>
+        </div>
+        <div class="nav">
+            <h2><i class="icon icon-game"></i>游戏专场</h2>
+            <ul>
+                <!--            -->
+                <li>
+                    <a href="http://www.stmbuy.com/csgo" target="_blank">
+        <img src="/static/upload/bannerpic/5981a6631c6c9.jpg"
+             alt="CSGO">
+        <p>CSGO</p>
+    </a>
+                </li>
+                <!--            -->
+                <li>
+                    <a href="http://www.stmbuy.com/h1z1" target="_blank">
+        <img src="/static/upload/bannerpic/5981a68d0042f.jpg"
+             alt="H1Z1">
+        <p>H1Z1</p>
+    </a>
+                </li>
+                <!--            -->
+                <li>
+                    <a href="http://www.stmbuy.com/pubg" target="_blank">
+        <img src="/static/upload/bannerpic/59a2833cc683a.jpg"
+             alt="绝地求生PUBG">
+        <p>绝地求生PUBG</p>
+    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="side-bar">
+            <h2><i class="icon icon-fire"></i>人气推荐</h2>
+            <div class="goods-item">
+                <div class="goods-img">
+                    <a href="http://www.stmbuy.com/h1z1/item-741015416">
+                <img src="/static/upload/bannerpic/59a11cc650f36.png" alt="H1Z1 Nemesis AR-15">
+            </a>
+                </div>
+                <p class="tit">H1Z1 Nemesis AR-15</p>
+            </div>
+            <div class="notice-box">
+                <h3>公告栏
+                    <a href="/notice.html?type=system" target="_blank" class="fr">更多</a>
+                </h3>
+                <ul>
+                    <li><a href="/notice/1fetc92olvda" target="_blank">机器人因优化与升级，26日上午9点至12点将暂停存取</a></li>
+                    <li><a href="/notice/1eugqggw5sh7" target="_blank">APP 安卓版正式上线</a></li>
+                    <li><a href="/notice/1ecb8mebyem0" target="_blank">全额赔付，STMBUY的诚意不止这一点</a></li>
+                    <li><a href="/notice/1e38pc0ng4j2" target="_blank">Steam服务器接口不稳定情况查询</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="floors w-response">
+
+        <div class="floor hot-goods" data-slideshow="v2ui" data-options="rollel:.goods-list; autosec:0; nextel:.hander-next; prevel:.hander-prev;">
+            <div class="floor-head">
+                <h2>热门饰品<span>火爆人气</span></h2>
+                <button class="hander-next">></button>
+                <button class="hander-prev"><</button>
+                <ul>
+                    <li class="on"><a href="pubg"><i class="icon icon-pubg-sm"></i>绝地求生PUBG</a></li>
+                    <li class=""><a href="h1z1"><i class="icon icon-h1z1-sm"></i>h1z1</a></li>
+                    <li class=""><a href="csgo"><i class="icon icon-csgo-sm"></i>CS:GO</a></li>
+                </ul>
+                <a href="/pubg" class="fr">进入专题</a>
+            </div>
+
+            <div class="lists-wrap">
+                <!--        <div class="floor-list">-->
+                <!--            <ul class="goods-list">-->
+                <!--                -->
+                <!--                    -->
+                <!--                -->
+                <!--            </ul>-->
+                <!--        </div>-->
+                <div class="floor-list" style="display: block">
+                    <div class="floorhead-img">
+                        <a href="/pubg" target="_blank">
+                        <img src="/static/upload/bannerpic/59a044479f667.jpg"
+                             alt="floor-tit-img">
+                    </a>
+                        <ul>
+                            <li>
+                                <a href="/pubg/yanjing">眼镜</a>
+                            </li>
+                            <li>
+                                <a href="/pubg/xiezi">鞋子</a>
+                            </li>
+                            <li>
+                                <a href="/pubg/kuzi">裤子</a>
+                            </li>
+                            <li>
+                                <a href="/pubg/shoutao">手套</a>
+                            </li>
+                            <li>
+                                <a href="/pubg/yifu">衣服</a>
+                            </li>
+                            <li>
+                                <a href="/pubg/maozi">帽子</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="goods-list">
+                        <li>
+                            <a href="/pubg/item-2451526758" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e56eu1ct83s.png" alt="GAMESCOM INVITATIONAL CRATE">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #" title="GAMESCOM INVITATIONAL CRATE">GAMESCOM INVITATIONAL CRATE</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>1089</span></p>
+
+                                    <i class="icon icon-pubg-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>14.02</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pubg/item-2451373801" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e57f85r45kw.png" alt="GAMESCOM INVITATIONAL KEY">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #" title="GAMESCOM INVITATIONAL KEY">GAMESCOM INVITATIONAL KEY</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>300</span></p>
+
+                                    <i class="icon icon-pubg-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>14.09</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pubg/item-2451625240" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e58s7bpd6uq.png" alt="Tracksuit Pants (Yellow)">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #" title="Tracksuit Pants (Yellow)">Tracksuit Pants (Yellow)</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>76</span></p>
+
+                                    <i class="icon icon-pubg-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>61.98</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pubg/item-2447592015" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e5cti15f67a.png" alt="Tracksuit Top (Yellow)">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #" title="Tracksuit Top (Yellow)">Tracksuit Top (Yellow)</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>70</span></p>
+
+                                    <i class="icon icon-pubg-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>62.58</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="floor-list" style="display: none">
+                    <div class="floorhead-img">
+                        <a href="/h1z1" target="_blank">
+                        <img src="/static/upload/bannerpic/59a0445162699.jpg"
+                             alt="floor-tit-img">
+                    </a>
+                        <ul>
+                            <li>
+                                <a href="/h1z1/maozi">帽子</a>
+                            </li>
+                            <li>
+                                <a href="/h1z1/kuzi">裤子</a>
+                            </li>
+                            <li>
+                                <a href="/h1z1/yifu">衣服</a>
+                            </li>
+                            <li>
+                                <a href="/h1z1/qiangxie">枪械</a>
+                            </li>
+                            <li>
+                                <a href="/h1z1/mianju">面具</a>
+                            </li>
+                            <li>
+                                <a href="/h1z1/xiangzi">箱子</a>
+                            </li>
+                            <li>
+                                <a href="/h1z1/beibao">背包</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="goods-list">
+                        <li>
+                            <a href="/h1z1/item-977063326" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e56tei1wb67.png" alt="Anarchy Leather Pants">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #4b69ff" title="Anarchy Leather Pants">Anarchy Leather Pants</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>17</span></p>
+
+                                    <i class="icon icon-h1z1-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>61.50</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/h1z1/item-3410857402" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e5hntif3sm1.png" alt="Digital Camo Pants">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #1b723f" title="Digital Camo Pants">Digital Camo Pants</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>8</span></p>
+
+                                    <i class="icon icon-h1z1-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>16.89</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/h1z1/item-783919629" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e57mdi72h0u.png" alt="Pwny Express Military Backpack">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #692dd7" title="Pwny Express Military Backpack">Pwny Express Military Backpack</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>10</span></p>
+
+                                    <i class="icon icon-h1z1-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>46.45</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/h1z1/item-1691863160" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e57z18954w8.png" alt="Red Bone Full Helmet">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #692dd7" title="Red Bone Full Helmet">Red Bone Full Helmet</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>19</span></p>
+
+                                    <i class="icon icon-h1z1-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>87.97</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="floor-list" style="display: none">
+                    <div class="floorhead-img">
+                        <a href="/csgo" target="_blank">
+                        <img src="/static/upload/bannerpic/59a0445ad59e1.jpg"
+                             alt="floor-tit-img">
+                    </a>
+                        <ul>
+                            <li>
+                                <a href="/csgo/jiqiang">机枪</a>
+                            </li>
+                            <li>
+                                <a href="/csgo/shouqiang">手枪</a>
+                            </li>
+                            <li>
+                                <a href="/csgo/weixingchongfengqiang">微型冲锋枪</a>
+                            </li>
+                            <li>
+                                <a href="/csgo/buqiang">步枪</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="goods-list">
+                        <li>
+                            <a href="/csgo/item-2931413232" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e55u77jrm6a.png" alt="光谱武器箱钥匙">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #D2D2D2" title="光谱武器箱钥匙">光谱武器箱钥匙</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>2</span></p>
+
+                                    <i class="icon icon-csgo-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>18.91</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/csgo/item-2151568372" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="/static/steampic/1e6biwesl4rt.png" alt="“九头蛇大行动”武器箱钥匙">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #D2D2D2" title="“九头蛇大行动”武器箱钥匙">“九头蛇大行动”武器箱钥匙</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>8</span></p>
+
+                                    <i class="icon icon-csgo-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>15.49</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/csgo/item-3599007741" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXX7gNTPcUxuxpJSXPbQv2S0M7eXlxLd0pS7uijLQRl0qXKdG8QtdjmkNHdxPOsZ-yDw2hS7cEk0r7Fp9733gLi5QMyNJeNnHRE"
+                                            alt="伽玛 2 号武器箱钥匙">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #D2D2D2" title="伽玛 2 号武器箱钥匙">伽玛 2 号武器箱钥匙</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>45</span></p>
+
+                                    <i class="icon icon-csgo-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>14.00</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/csgo/item-215671409" target="_blank">
+                                <div class="goods-item">
+                                    <div class="goods-img">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXX7gNTPcUxuxpJSXPbQv2S1MDeXkh6LBBOiev2ZVBkgafOdW9Hu9jgwYXbxKP2Z7mCw28HucZ1j7mR9tvxjlfk-UY9ZW_tZNjClU49oyY"
+                                            alt="伽玛武器箱钥匙">
+                                        <div class="special-icon">
+                                        </div>
+                                    </div>
+                                    <p class="tit" style="color: #D2D2D2" title="伽玛武器箱钥匙">伽玛武器箱钥匙</p>
+
+                                    &nbsp;
+
+                                    <p class="sec-tit">在售数：<span>54</span></p>
+
+                                    <i class="icon icon-csgo-sm"></i>
+                                </div>
+                                <div class="goods-bottom">
+                                    <p class="">
+                                        <span>最低价</span>
+                                        <span>
+                    ¥                                            <strong>14.49</strong>
+                                    </span>
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="floor hot-seek" data-slideshow="v2ui" data-options="rollel:.goods-list; autosec:0; nextel:.hander-next; prevel:.hander-prev;">
+            <div class="floor-head">
+                <h2>热门求购<span>心仪饰品</span></h2>
+                <button class="hander-next">&gt;</button>
+                <button class="hander-prev">&lt;</button>
+                <ul>
+                    <li class="on"><a href="on"><i class="icon icon-pubg-sm"></i>绝地求生PUBG</a></li>
+                    <li class=""><a href=""><i class="icon icon-h1z1-sm"></i>h1z1</a></li>
+                    <li class=""><a href=""><i class="icon icon-csgo-sm"></i>CS:GO</a></li>
+                </ul>
+                <a href="/pubg" class="fr">进入专题</a>
+            </div>
+            <!--    <div class="floor-list">-->
+            <!--        <ul class="goods-list">-->
+            <!--            -->
+            <!--                -->
+            <!--                    -->
+            <!--                -->
+            <!--            -->
+            <!--        </ul>-->
+            <!--    </div>-->
+            <div class="floor-list" style="display: block">
+                <ul class="goods-list">
+                    <li>
+                        <a href="/pubg/item-2451550530" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e56eo8ve7nw.png" alt="WANDERER CRATE">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="WANDERER CRATE">WANDERER CRATE</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>138</span></p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>3.21</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2225518546" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5aubf6vnc1.png" alt="Fingerless Gloves (Leather)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Fingerless Gloves (Leather)">Fingerless Gloves (Leather)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>118</span></p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>1.76</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2225518290" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5vw6flw49a.png" alt="Sunglasses">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Sunglasses">Sunglasses</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>112</span></p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>5.71</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2225520546" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5ip33v0hko.png" alt="Rimless Sunglasses">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Rimless Sunglasses">Rimless Sunglasses</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>111</span></p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>3.82</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2451526758" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e56eu1ct83s.png" alt="GAMESCOM INVITATIONAL CRATE">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="GAMESCOM INVITATIONAL CRATE">GAMESCOM INVITATIONAL CRATE</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>111</span></p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>13.61</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2451578971" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5vanib3iq2.png" alt="Slacks (Black)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Slacks (Black)">Slacks (Black)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>101</span></p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>1.18</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="floor-list" style="display: none">
+                <ul class="goods-list">
+                    <li>
+                        <a href="/h1z1/item-3119684870" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1cyxud1z7kxf.png" alt="Marauder Crate">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #1b723f" title="Marauder Crate">Marauder Crate</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>100</span></p>
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>7.50</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-2472781951" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e6gqr1hasge.png" alt="Showdown Crate">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #1b723f" title="Showdown Crate">Showdown Crate</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>72</span></p>
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>0.20</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-621747418" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1edqoafxvef6.png" alt="2017 Invitational Crate">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #1b723f" title="2017 Invitational Crate">2017 Invitational Crate</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>49</span></p>
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>0.10</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-3093021476" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e68p600rc4o.png" alt="Mercenary Crate">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #1b723f" title="Mercenary Crate">Mercenary Crate</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>48</span></p>
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>0.51</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-1080567708" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5nwwai9fu5.png" alt="2016 Invitational Crate">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #1b723f" title="2016 Invitational Crate">2016 Invitational Crate</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>20</span></p>
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>0.17</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-3565182715" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1ef6ef26m6t7.png" alt="Gotaga Tanktop">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #4b69ff" title="Gotaga Tanktop">Gotaga Tanktop</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>20</span></p>
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>0.53</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="floor-list" style="display: none">
+                <ul class="goods-list">
+                    <li>
+                        <a href="/csgo/item-493221728" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1ev2ke4fz7vg.png" alt="光谱 2 号武器箱">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="光谱 2 号武器箱">光谱 2 号武器箱</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>30</span></p>
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>9.00</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-1399408252" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf2PLacDBA5ciJl5W0nPbmMrbuhX9e5sBmi_rJyoD8j1yg5RJoZj2ld4HBIAM5YVuD-FLrl-26gJG_v8uamnYyvXIgtHaPyRPjhhtSLrs4nA9BIsA"
+                                        alt="爪子刀（★） | 黑色层压板">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #8650AC" title="爪子刀（★） | 黑色层压板">爪子刀（★） | 黑色层压板</p>
+
+                                <p class="special-tag">
+                                    <span class="WearCategory0">崭新出厂</span>
+                                </p>
+
+
+                                <p class="sec-tit">求购数：<span>7</span></p>
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>7.00</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-992240386" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf3qr3czxb49KzgL-Djsj7ML7QmFRa5sx3j9aYpbP5gVO8v11rMGr3LdSRelBoZlGFqFS3wLu-1JG4vcyfn3Vr6yB35XfbyUDm0BwYcKUx0svthHBc"
+                                        alt="M9 刺刀（★） | 澄澈之水">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #8650AC" title="M9 刺刀（★） | 澄澈之水">M9 刺刀（★） | 澄澈之水</p>
+
+                                <p class="special-tag">
+                                    <span class="WearCategory0">崭新出厂</span>
+                                </p>
+
+
+                                <p class="sec-tit">求购数：<span>5</span></p>
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>0.02</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-2852274864" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou-jxcjhz3MzDdCRB49C5hpO0m_7zO6-flG0B7sAjiLzFoI6giwLh-EZkZmj6cdTEJ1NrNV6Eq1a8we3t18C47oOJlyVYUbyKnQ"
+                                        alt="M249 | 冲击钻">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="M249 | 冲击钻">M249 | 冲击钻</p>
+
+                                <p class="special-tag">
+                                    <span class="WearCategory0">崭新出厂</span>
+                                </p>
+
+
+                                <p class="sec-tit">求购数：<span>4</span></p>
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>1.32</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-3351609903" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e55v6anktgh.png" alt="M4A1 消音版 | 北方森林">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="M4A1 消音版 | 北方森林">M4A1 消音版 | 北方森林</p>
+
+                                <p class="special-tag">
+                                    <span class="WearCategory2">久经沙场</span>
+                                </p>
+
+
+                                <p class="sec-tit">求购数：<span>4</span></p>
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>0.68</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-3742873297" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e67r9kcfil4.png" alt="“九头蛇大行动”武器箱">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="“九头蛇大行动”武器箱">“九头蛇大行动”武器箱</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">求购数：<span>4</span></p>
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="seekbuy">
+                                    <span>求购价</span>
+                                    <span>
+                    ¥                                            <strong>1.30</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--最新上架-->
+        <div class="floor new-arrival" data-slideshow="v2ui" data-options="rollel:.goods-list; autosec:0; nextel:.hander-next; prevel:.hander-prev;">
+            <div class="floor-head">
+                <h2>最新上架<span>游戏饰品</span></h2>
+                <button class="hander-next">&gt;</button>
+                <button class="hander-prev">&lt;</button>
+            </div>
+            <div class="floor-list">
+                <ul class="goods-list">
+                    <li>
+                        <a href="/pubg/item-2225518133" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e59l2jumkj0.png" alt="T-shirt (Red)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="T-shirt (Red)">T-shirt (Red)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>226</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.18</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2225519078" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5fz5b90xsp.png" alt="Dirty Tank-top (Grey)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Dirty Tank-top (Grey)">Dirty Tank-top (Grey)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>85</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>1.60</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2225518663" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e6gzdc057lv.png" alt="Combat Pants (White)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Combat Pants (White)">Combat Pants (White)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>235</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.11</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2225518136" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5quffkcj0u.png" alt="Vintage Baseball Hat (White)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Vintage Baseball Hat (White)">Vintage Baseball Hat (White)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>526</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.10</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2225520609" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e59l3a91xg1.png" alt="Baseball cap">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Baseball cap">Baseball cap</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>150</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.13</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2225518132" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5pk7e8ooj4.png" alt="Combat Pants (Blue)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Combat Pants (Blue)">Combat Pants (Blue)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>213</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.11</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2451623345" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5c2gfhwgjp.png" alt="Vintage Baseball Hat (Black)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Vintage Baseball Hat (Black)">Vintage Baseball Hat (Black)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>68</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.55</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2451623750" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5ipbhzer5k.png" alt="Cargo Pants (Beige)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Cargo Pants (Beige)">Cargo Pants (Beige)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>76</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.23</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2451575418" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e6ulud4xa1c.png" alt="Cargo Pants (Blue)">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Cargo Pants (Blue)">Cargo Pants (Blue)</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>27</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.44</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pubg/item-2451623744" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e6c4h60jaxz.png" alt="Beanie ">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #" title="Beanie ">Beanie </p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>192</span></p>
+
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>2.86</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-2978083622" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5de732buxh.png" alt="Day of the Dead Zeds">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #1b723f" title="Day of the Dead Zeds">Day of the Dead Zeds</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>6</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>2.22</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-3065455349" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5e3achk4y6.png" alt="Desert Warfare Makeshift Armor">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #4b69ff" title="Desert Warfare Makeshift Armor">Desert Warfare Makeshift Armor</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>15</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>2.94</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-3589684965" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5dl05vrroo.png" alt="Golden Dragon Warmup Pants">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #4b69ff" title="Golden Dragon Warmup Pants">Golden Dragon Warmup Pants</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>12</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>2.17</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-888895500" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e6nqm17khjl.png" alt="Golden Eagle Padded Gloves">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #4b69ff" title="Golden Eagle Padded Gloves">Golden Eagle Padded Gloves</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>13</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>1.90</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-992556288" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5dbo20rbf4.png" alt="Heavy Assault Full Helmet">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #692dd7" title="Heavy Assault Full Helmet">Heavy Assault Full Helmet</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>15</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>7.00</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-2703961001" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e6lar96kbc6.png" alt="Pinstripe Suit Jacket">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #4b69ff" title="Pinstripe Suit Jacket">Pinstripe Suit Jacket</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>8</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>1.27</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-2640598468" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e5816j8vdb8.png" alt="Dark Blue Skinny Jeans">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #ffffff" title="Dark Blue Skinny Jeans">Dark Blue Skinny Jeans</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>30</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.40</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-318823223" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e74pi1cpvas.png" alt="Purple Boots">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #1b723f" title="Purple Boots">Purple Boots</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>5</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>1.08</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-4056480376" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e55fd7eyxzy.png" alt="Neko-chan 12GA Pump Shotgun">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #e5a330" title="Neko-chan 12GA Pump Shotgun">Neko-chan 12GA Pump Shotgun</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>6</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>44.50</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/h1z1/item-368412711" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e56h0a3fyk9.png" alt="Red Bone Body Armor">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #4b69ff" title="Red Bone Body Armor">Red Bone Body Armor</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>25</span></p>
+
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>6.18</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-493221728" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1ev2ke4fz7vg.png" alt="光谱 2 号武器箱">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="光谱 2 号武器箱">光谱 2 号武器箱</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>3</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>11.99</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-3742873297" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e67r9kcfil4.png" alt="“九头蛇大行动”武器箱">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="“九头蛇大行动”武器箱">“九头蛇大行动”武器箱</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>241</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>1.76</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-4120000734" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e55v3cj0eqf.png" alt="光谱武器箱">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="光谱武器箱">光谱武器箱</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>5</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>1.40</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-3276671442" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e650735w04z.png" alt="手套武器箱">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="手套武器箱">手套武器箱</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>353</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>0.11</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-950374658" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo7e1f1Jf0Ob3ZDBSuImJgZCZmPbmDLfYkWNFppUlie2Zod-n2Ffg-ERsMTqmcIeRIwU3aVGC-gS_xe-808C6u8iawXp9-n51mEUNdNg"
+                                        alt="UMP-45 | 暴乱">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="UMP-45 | 暴乱">UMP-45 | 暴乱</p>
+
+                                <p class="special-tag">
+                                    <span class="WearCategory1">略有磨损</span>
+                                </p>
+
+
+                                <p class="sec-tit">在售数：<span>0</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>1.02</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-603062117" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e55uraf3dba.png" alt="手套武器箱钥匙">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="手套武器箱钥匙">手套武器箱钥匙</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>27</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>13.28</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-1584676341" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpotaDyfgZf0v73cidUvuO7kr-HnvD8J_XUzzJV7MAj07rEoNrz3gWw_ERlY2GhLIWXdFI8MFDZ-1S7wubmgp6_ot2Xnh9O--Qm"
+                                        alt="CZ75 自动手枪 | 聚合物">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="CZ75 自动手枪 | 聚合物">CZ75 自动手枪 | 聚合物</p>
+
+                                <p class="special-tag">
+                                    <span class="WearCategory1">略有磨损</span>
+                                </p>
+
+
+                                <p class="sec-tit">在售数：<span>3</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>1.36</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-2608515228" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpopamie19f1OD3Yi5FvISJlZKGlvT7Ib7ummJW4NE_2r2Sptin0ALtqEVoNmiiJI6UcgE-ZF2B_gS_k-3sh8fotc7Oz3Ewuj5iuygoy1B0ow"
+                                        alt="SSG 08 | 幽灵战士">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="SSG 08 | 幽灵战士">SSG 08 | 幽灵战士</p>
+
+                                <p class="special-tag">
+                                    <span class="WearCategory1">略有磨损</span>
+                                </p>
+
+
+                                <p class="sec-tit">在售数：<span>3</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>5.00</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-3469350986" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXX7gNTPcUxuxpJSXPbQv2S1MDeXkh6LBBOiev0ZVZl1vGQcGUTv9mww4bfwvOmZO_TzjwCv5Qm2-iYoN2j31Kx_xA4Yj3tZNjCXJdubss"
+                                        alt="“野火大行动”武器箱钥匙">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="“野火大行动”武器箱钥匙">“野火大行动”武器箱钥匙</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>45</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>13.00</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/csgo/item-2931413232" target="_blank">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/steampic/1e55u77jrm6a.png" alt="光谱武器箱钥匙">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit" style="color: #D2D2D2" title="光谱武器箱钥匙">光谱武器箱钥匙</p>
+
+                                &nbsp;
+
+                                <p class="sec-tit">在售数：<span>2</span></p>
+
+                                <i class="icon icon-csgo-sm"></i>
+                            </div>
+                            <div class="goods-bottom">
+                                <p class="">
+                                    <span>最低价</span>
+                                    <span>
+                    ¥                                            <strong>18.91</strong>
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--成交记录-->
+        <div class="floor container trade-history" data-slideshow="v2ui" data-options="rollel:.goods-list; autosec:0; nextel:.hander-next; prevel:.hander-prev;">
+            <div class="main-content">
+                <div class="floor-head">
+                    <h2>最近成交<span>饰品记录</span></h2>
+                    <button class="hander-next">&gt;</button>
+                    <button class="hander-prev">&lt;</button>
+                </div>
+                <div class="floor-list">
+                    <ul class="goods-list">
+                        <li>
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <a href="/pubg/item-2225519078" title="Dirty Tank-top (Grey)">Dirty Tank-top (Grey)">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQtrmh23qr2oo4kS6_xD0mdkg"
+                                             alt="Code Blue Scrubs Pants">
+                                    </a>
+                                </div>
+                                <a class="tit" href="/pubg/item-2225519078" title="Dirty Tank-top (Grey)">Dirty Tank-top (Grey)</a>
+                                <p class="sec-tit">购买用户：<a href="/user/1f9hhya7p4sp/selling">757771314</a>
+                                </p>
+                                <p class="sec-tit">
+                                    成交价格：<strong>¥ 1.60</strong></p>
+                                <p class="sec-tit">交易时间：14时53分</p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <a href="/h1z1/item-318823223" title="Purple Boots">Purple Boots">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/iGm5OjgdO5r8OoJ7TJjS39tTyGCTzzQwmWl1QPRXu8oaf69-NOHLAbqw_23aLe8AcRQ8-3uyKA7_CGvsJYds9U65FMF7i6APVz5sAh6O8VB_YOKZEKDysyfEySrn9xwBgTXWXfRDaw"
+                                             alt="Code Blue Scrubs Pants">
+                                    </a>
+                                </div>
+                                <a class="tit" href="/h1z1/item-318823223" title="Purple Boots">Purple Boots</a>
+                                <p class="sec-tit">购买用户：<a href="/user/1du4m88we25n/selling">1799416791</a>
+                                </p>
+                                <p class="sec-tit">
+                                    成交价格：<strong>¥ 1.00</strong></p>
+                                <p class="sec-tit">交易时间：14时52分</p>
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <a href="/h1z1/item-3589684965" title="Golden Dragon Warmup Pants">Golden Dragon Warmup Pants">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/iGm5OjgdO5r8OoJ7TJjS39tTyGCTzzQwmWl1QPRXu8oaf69-NOHLAbqw_23aLe8AcRQ8-3uyKA7_CGvsJYds9U65FMF7i6AbXTJ8PDm57EliZdK7KLPuuh3SyS_myWIQgSYt-8qx89hJk4qboNvhUWKzAUgsebIaww"
+                                             alt="Code Blue Scrubs Pants">
+                                    </a>
+                                </div>
+                                <a class="tit" href="/h1z1/item-3589684965" title="Golden Dragon Warmup Pants">Golden Dragon Warmup Pants</a>
+                                <p class="sec-tit">购买用户：<a href="/user/1etf56ioumeh/selling">影嗳菌丶</a>
+                                </p>
+                                <p class="sec-tit">
+                                    成交价格：<strong>¥ 2.16</strong></p>
+                                <p class="sec-tit">交易时间：14时52分</p>
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <a href="/h1z1/item-2850862654" title="Green Splatter Boots">Green Splatter Boots">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/iGm5OjgdO5r8OoJ7TJjS39tTyGCTzzQwmWl1QPRXu8oaf69-NOHLAbqw_23aLe8AcRQ8-3uyKA7_CGvsJYds9U65FMF7i6APVz5sAh6O8VB_YOKFDL_nnS7_zyPKxUYUjj9w1PO3zZj4_Pw"
+                                             alt="Code Blue Scrubs Pants">
+                                    </a>
+                                </div>
+                                <a class="tit" href="/h1z1/item-2850862654" title="Green Splatter Boots">Green Splatter Boots</a>
+                                <p class="sec-tit">购买用户：<a href="/user/1du4m88we25n/selling">1799416791</a>
+                                </p>
+                                <p class="sec-tit">
+                                    成交价格：<strong>¥ 1.00</strong></p>
+                                <p class="sec-tit">交易时间：14时52分</p>
+                                <i class="icon icon-h1z1-sm"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <a href="/pubg/item-2225518720" title="Glasses (Punk)">Glasses (Punk)">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQtrmh_3qr2q44kS6_61TKMAA"
+                                             alt="Code Blue Scrubs Pants">
+                                    </a>
+                                </div>
+                                <a class="tit" href="/pubg/item-2225518720" title="Glasses (Punk)">Glasses (Punk)</a>
+                                <p class="sec-tit">购买用户：<a href="/user/1ff4ll2sj0kk/selling">417310472</a>
+                                </p>
+                                <p class="sec-tit">
+                                    成交价格：<strong>¥ 1.89</strong></p>
+                                <p class="sec-tit">交易时间：14时52分</p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <a href="/pubg/item-2225518712" title="Shirt (White)">Shirt (White)">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQtrmh23qr2qI4kS6_lj-3_RQ"
+                                             alt="Code Blue Scrubs Pants">
+                                    </a>
+                                </div>
+                                <a class="tit" href="/pubg/item-2225518712" title="Shirt (White)">Shirt (White)</a>
+                                <p class="sec-tit">购买用户：<a href="/user/1ff3sfd2jygo/selling">13205713927</a>
+                                </p>
+                                <p class="sec-tit">
+                                    成交价格：<strong>¥ 3.80</strong></p>
+                                <p class="sec-tit">交易时间：14时52分</p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <a href="/pubg/item-2225518662" title="Boots (Punk)">Boots (Punk)">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQtrmh03qr2ro4kS6_uYYfxqg"
+                                             alt="Code Blue Scrubs Pants">
+                                    </a>
+                                </div>
+                                <a class="tit" href="/pubg/item-2225518662" title="Boots (Punk)">Boots (Punk)</a>
+                                <p class="sec-tit">购买用户：<a href="/user/1ff3sfd2jygo/selling">13205713927</a>
+                                </p>
+                                <p class="sec-tit">
+                                    成交价格：<strong>¥ 1.00</strong></p>
+                                <p class="sec-tit">交易时间：14时52分</p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <a href="/pubg/item-2447592016" title="Velcro Trainers">Velcro Trainers">
+                                        <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQvrmh03qr2ro4kS6-AZgH75Q"
+                                             alt="Code Blue Scrubs Pants">
+                                    </a>
+                                </div>
+                                <a class="tit" href="/pubg/item-2447592016" title="Velcro Trainers">Velcro Trainers</a>
+                                <p class="sec-tit">购买用户：<a href="/user/1ff538gfw00t/selling">912935668</a>
+                                </p>
+                                <p class="sec-tit">
+                                    成交价格：<strong>¥ 1.90</strong></p>
+                                <p class="sec-tit">交易时间：14时52分</p>
+                                <i class="icon icon-pubg-sm"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <aside class="related">
+                <div>
+                    <div class="list-tit">
+                        <h2>历史成交数</h2>
+                    </div>
+                    <ul class="list-content">
+                        <li>
+                            <a href="/pubg/item-2451526758">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQvq2h33qr2q44kS69Gqf74MQ"
+                                        alt="">
+                                </div>
+                                <div class="sell-info">
+                                    <p class="tit">GAMESCOM INVITATI...</p>
+                                    <p class="sec-tit">
+                                        <strong>¥ 14.02</strong>
+                                    </p>
+                                    <p class="sec-tit">已成交：<strong style="color: white;">10169</strong> 件</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pubg/item-2451373801">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQvqml33qr2q44kS6_YX7Y4Kw"
+                                        alt="">
+                                </div>
+                                <div class="sell-info">
+                                    <p class="tit">GAMESCOM INVITATI...</p>
+                                    <p class="sec-tit">
+                                        <strong>¥ 14.09</strong>
+                                    </p>
+                                    <p class="sec-tit">已成交：<strong style="color: white;">9001</strong> 件</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/h1z1/item-846102158">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/iGm5OjgdO5r8OoJ7TJjS39tTyGCTzzQwmWl1QPRXu8oaf69-NOHLAbqw_23aLe8AcRQ8-3uyKA7_CGvsJYds9U65FMF7i6APSjJ6BjX9qmBYZ9ioCPzysSUZEpitKg"
+                                        alt="">
+                                </div>
+                                <div class="sell-info">
+                                    <p class="tit">Frostbite Crate</p>
+                                    <p class="sec-tit">
+                                        <strong>¥ 0.09</strong>
+                                    </p>
+                                    <p class="sec-tit">已成交：<strong style="color: white;">6381</strong> 件</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pubg/item-2451550530">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQtq2h33qr2q44kS69BkQoWDQ"
+                                        alt="">
+                                </div>
+                                <div class="sell-info">
+                                    <p class="tit">WANDERER CRATE</p>
+                                    <p class="sec-tit">
+                                        <strong>¥ 3.34</strong>
+                                    </p>
+                                    <p class="sec-tit">已成交：<strong style="color: white;">5378</strong> 件</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pubg/item-2451547145">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQtq2h33qr2qI4kS681JkrzvA"
+                                        alt="">
+                                </div>
+                                <div class="sell-info">
+                                    <p class="tit">SURVIVOR CRATE</p>
+                                    <p class="sec-tit">
+                                        <strong>¥ 4.15</strong>
+                                    </p>
+                                    <p class="sec-tit">已成交：<strong style="color: white;">4980</strong> 件</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/pubg/item-2225518712">
+                                <div class="goods-img">
+                                    <img src="http://steamcommunity-a.akamaihd.net/economy/image/8HAGSsiO9OXk0bu4o76O6xabNUY8RRLf00e56zWT3IZUH8Flab9goIFna_837oFuZVQtrmh23qr2qI4kS6_lj-3_RQ"
+                                        alt="">
+                                </div>
+                                <div class="sell-info">
+                                    <p class="tit">Shirt (White)</p>
+                                    <p class="sec-tit">
+                                        <strong>¥ 3.80</strong>
+                                    </p>
+                                    <p class="sec-tit">已成交：<strong style="color: white;">3275</strong> 件</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
+        <!--游戏资讯-->
+        <div class="floor news">
+            <div class="floor-head">
+                <h2>游戏资讯<span></span></h2>
+                <a href="/news">攻略新闻</a>
+            </div>
+            <div class="floor-list">
+                <ul class="goods-list">
+                    <li>
+                        <a href="/news/item-1ff3iycb2djo">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/upload/news/59c9f01a8c121.png" alt="Code Blue Scrubs Pants">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit">CSGO国服对外挂零容忍 &ldquo;大牛&rdquo;制作者已伏法_STMB..</p>
+                                <p class="special-tag"><span class="color-1dsgj0ffdwiy">游戏资讯</span></p>
+                                <p class="sec-tit">
+                                    <span>Stmbuy资讯</span> 09-26 14时</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/news/item-1fexavdk44q7">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/upload/news/59c9d0979a4f0.png" alt="Code Blue Scrubs Pants">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit">H1Z1大逃杀新武器更新抢先看 未来更新会有大改动_STMBUY..</p>
+                                <p class="special-tag"><span class="color-1dsksbdfpuoj">市场动态</span></p>
+                                <p class="sec-tit">
+                                    <span>Stmbuy资讯</span> 09-26 11时</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/news/item-1fetk717vod9">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/upload/news/59c9bda70dbf7.png" alt="Code Blue Scrubs Pants">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit">绝地求生制作人又画饼 或将加入可破坏系统_STMBUY..</p>
+                                <p class="special-tag"><span class="color-1dsgj0ffdwiy">游戏资讯</span></p>
+                                <p class="sec-tit">
+                                    <span>Stmbuy资讯</span> 09-26 10时</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/news/item-1fdhzq2g82z8">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/upload/news/59c8ccd61bc8e.png" alt="Code Blue Scrubs Pants">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit">STMBUY盘点CSGO最贵饰品 是什么让万千玩家为之疯狂..</p>
+                                <p class="special-tag"><span class="color-1dsgihcw8z6v">饰品专题</span></p>
+                                <p class="sec-tit">
+                                    <span>Stmbuy资讯</span> 09-25 17时</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/news/item-1fdcuv1hcomo">
+                            <div class="goods-item">
+                                <div class="goods-img">
+                                    <img src="/static/upload/news/59c8b2d710c08.png" alt="Code Blue Scrubs Pants">
+                                    <div class="special-icon">
+                                    </div>
+                                </div>
+                                <p class="tit">STMBUY小贴士&mdash;CSGO萌新进阶神枪手必备技巧</p>
+                                <p class="special-tag"><span class="color-1dsghy4p0joo">游戏攻略</span></p>
+                                <p class="sec-tit">
+                                    <span>Stmbuy资讯</span> 09-25 15时</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $('.floor-head ul li').on('click', function (event) {
+                v.stopEvent(event);
+                var thisLists = $(this).closest('.floor').find('.floor-list');
+
+                $(this).addClass('on').siblings().removeClass('on');
+                $(this).closest('ul').next('a').attr('href', $(this).find('a').attr('href'));
+                thisLists.hide();
+                thisLists.eq($(this).index()).show();
+            });
+
+
+            //广告是否显示 session保存状态
+            var advStatus = sessionStorage.getItem('advShow') || true;
+
+            if (advStatus === true) {
+                $('.advertisement').animate({
+                    left: '0'
+                }, 800)
+            }
+
+            $('.adv-close').on('click', function (event) {
+                v.stopEvent(event);
+                $('.advertisement').animate({
+                    left: '-9.5rem',
+                    opacity: 0
+                }, 500);
+                sessionStorage.setItem('advShow', false)
+            })
+
+        });
+
+    </script>
+
+    <!-- 脚部 -->
+    <div class="comm-footer">
+        <div class="w-response">
+            <ul class="trademark">
+                <li>
+                    <p class="tit">
+                        <i class="icon icon-tianp"></i> 诚信认证平台
+                    </p>
+                </li>
+                <li>
+                    <p class="tit">
+                        <i class="icon icon-zhengp"></i> 欺诈赔偿
+                    </p>
+                </li>
+                <li>
+                    <p class="tit">
+                        <i class="icon icon-bfb"></i> 100%交易保障
+                    </p>
+                </li>
+                <li>
+                    <p class="tit">
+                        <i class="icon icon-feiji"></i> 安全支付
+                    </p>
+                </li>
+                <li>
+                    <p class="tit">
+                        <i class="icon icon-dianhua"></i> 7x12客户服务
+                    </p>
+                </li>
+            </ul>
+            <ul class="help">
+                <li>
+                    <p class="tit">我是买家</p>
+                    <a href="/help/gmmysdsp">购买后没有收到饰品</a>
+                    <a href="/help/jyckkbjwp">交易仓库没饰品</a>
+                    <a href="/help/jybjsb">报价发送失败</a>
+                </li>
+                <li>
+                    <p class="tit">我是卖家</p>
+                    <a href="/help/rhqh">如何取回饰品</a>
+                    <a href="/help/wfqhsp">无法取回饰品</a>
+                    <a href="/help/spwfcr">饰品无法存入</a>
+                </li>
+                <li>
+                    <p class="tit">账户设置</p>
+                    <a href="/help/zhbd">Steam账号绑定</a>
+                    <a href="/help/lrjylj">录入交易链接</a>
+                    <a href="/help/ydjyzg">遇到交易暂挂</a>
+                </li>
+                <li>
+                    <p class="tit">STMBUY平台简介</p>
+                    <p>STMBUY主要致力于做全国最专业的PUBG、CS:GO、H1Z1饰品交易平台，让千万用户拥有更好的Steam饰品交易体验</p>
+                    <a href="/help/gsjs" class="fr">了解更多</a>
+                </li>
+                <li>
+                    <div>
+                        <span>
+                        <strong>400-926-0166</strong>
+                        平台服务电话
+                    </span>
+                        <span>
+                        <a href="http://b.qq.com/webc.htm?new=0&sid=800198977&o=stmbuy&q=7" target="_blank"><i class="icon icon-zixun"></i>在线咨询</a>
+                    </span>
+                    </div>
+                </li>
+            </ul>
+            <div class="friend-links">
+
+                <span>友情链接：</span>
+                <span>
+                                    <a href="http://www.PUBGcn.com" target="_blank">
+                        <img class="fl-icon" src="http://www.PUBGcn.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        绝地求生中文网                    </a>
+                                    <a href="http://www.csgocn.com" target="_blank">
+                        <img class="fl-icon" src="http://www.csgocn.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        CSGO中文网                    </a>
+                                    <a href="https://steamcommunity.com/" target="_blank">
+                        <img class="fl-icon" src="https://steamcommunity.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        steam官网                    </a>
+                                    <a href="https://www.qto.com" target="_blank">
+                        <img class="fl-icon" src="https://www.qto.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        QTO网游加速器                    </a>
+                                    <a href="http://www.wca.com.cn" target="_blank">
+                        <img class="fl-icon" src="http://www.wca.com.cn/favicon.ico" onerror="this.style.display='none'" alt="">
+                        WCA电竞                    </a>
+                                    <a href="http://www.xingame.net" target="_blank">
+                        <img class="fl-icon" src="http://www.xingame.net/favicon.ico" onerror="this.style.display='none'" alt="">
+                        星游戏                    </a>
+                                    <a href="http://www.zhaohuan.cn" target="_blank">
+                        <img class="fl-icon" src="http://www.zhaohuan.cn/images/index/top_logo.ico" onerror="this.style.display='none'" alt="">
+                        绿化大师                    </a>
+                                    <a href="http://www.coobar.com" target="_blank">
+                        <img class="fl-icon" src="http://www.coobar.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        营销大师                    </a>
+                                    <a href="http://www.nmenu.cn" target="_blank">
+                        <img class="fl-icon" src="http://www.nmenu.cn/favicon.ico" onerror="this.style.display='none'" alt="">
+                        方格子                    </a>
+                                    <a href="http://www.glzy8.com/" target="_blank">
+                        <img class="fl-icon" src="http://www.glzy8.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        管理资源吧                    </a>
+                                    <a href="http://top.aizhan.com" target="_blank">
+                        <img class="fl-icon" src="http://top.aizhan.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        爱站TOP                    </a>
+                                    <a href="http://www.83yo.com/" target="_blank">
+                        <img class="fl-icon" src="http://www.83yo.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        83yo手游网                    </a>
+                                    <a href="http://www.ruan8.com/" target="_blank">
+                        <img class="fl-icon" src="http://www.ruan8.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        手机软件                    </a>
+                                    <a href="http://v.3dmgame.com/" target="_blank">
+                        <img class="fl-icon" src="http://v.3dmgame.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        游戏视频                    </a>
+                                    <a href="http://www.3234.com/" target="_blank">
+                        <img class="fl-icon" src="http://www.3234.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        3234游戏网                    </a>
+                                    <a href="http://www.45575.com/" target="_blank">
+                        <img class="fl-icon" src="http://www.45575.com/favicon.ico" onerror="this.style.display='none'" alt="">
+                        45575小游戏                    </a>
+                                    <a href="http://www.youjidi.net/" target="_blank">
+                        <img class="fl-icon" src="http://www.youjidi.net/favicon.ico" onerror="this.style.display='none'" alt="">
+                        手机软件下载                    </a>
+                            </span>
+
+            </div>
+            <div class="copyright">
+                <div class="fl">
+                    <div class="img">
+                        <img src="../../static/img/stmbuy42.png" alt="">
+                    </div>
+                    <div class="construct">
+                        <p style="height: .17rem;line-height: .17rem">Copyright 2016 - 2017 四川众聚云购电子商务有限公司运营及版权所有</p>
+                        <p style="height: .13rem;line-height: .13rem">蜀ICP备16012474号-3 | ICP证川B2-20160171</p>
+                    </div>
+                </div>
+                <iframe scrolling="no" style="height: 40px;width:100%;position: absolute;left: 0" src="/trust"></iframe>
+            </div>
+        </div>
+    </div>
+    <!-- 侧边栏 -->
+    <!--side Tools-->
+    <button class="right-smallmenu-btn">菜单</button>
+    <ul class="side-tools">
+        <li class="cart">
+            <a href="/shopcart">
+            <i class="icon icon-cart2"></i>
+            <span style="display: none;"></span>
+        </a>
+        </li>
+        <li>
+            <a href="/help/cjwt" target="_blank">
+            <i class="icon icon-help"></i>
+            帮助
+        </a>
+        </li>
+        <li>
+            <a href="http://b.qq.com/webc.htm?new=0&sid=800198977&o=stmbuy&q=7" target="_blank">
+            <i class="icon icon-zixun2"></i>
+            咨询
+        </a>
+        </li>
+        <!--        <li>-->
+        <!--            <a href="-->
+        <!--">-->
+        <!--                <i class="icon icon-feedback"></i>-->
+        <!--                建议-->
+        <!--            </a>-->
+        <!--        </li>-->
+        <li>
+            <a href="http://shang.qq.com/wpa/qunwpa?idkey=39d5ae6a746431c5b3e336ae9a44d62a6c286aaf8e8891a9880becd25ed0347c">
+            <i class="icon icon-qqqun"></i>
+            QQ群
+        </a>
+            <div class="hover-pop left">
+                <ul>
+                    <li><a href="http://shang.qq.com/wpa/qunwpa?idkey=39d5ae6a746431c5b3e336ae9a44d62a6c286aaf8e8891a9880becd25ed0347c"
+                            target="_blank" alt="StmBuy-官方交流群" title="StmBuy-官方交流群"><i class="icon icon-qunhead"></i><span>官方交流群</span></a></li>
+                    <li><a href="http://shang.qq.com/wpa/qunwpa?idkey=cfb5c90037b2b19bf163dfa126f79e9a5608fec1a4f53bcaf63c4e9a56feb5e9"
+                            target="_blank" alt="StmBuy-PUBG交流群" title="StmBuy-PUBG交流群"><i class="icon icon-pubg-sm"></i><span>绝地求生交流群</span></a></li>
+                    <li><a href="http://shang.qq.com/wpa/qunwpa?idkey=cb3a409c91f2e7f0402c9f046569111999776267f42349637c39faf24616d2c5"
+                            target="_blank" alt="StmBuy-H1Z1交流群" title="StmBuy-H1Z1交流群"><i class="icon icon-h1z1-sm"></i><span>H1Z1交流群</span></a></li>
+                    <li><a href="http://shang.qq.com/wpa/qunwpa?idkey=2c67f30d7a2cda3c92d3fdc4dabddf7f6c17dd935f2b3fd07f7d8a59152d3cc4"
+                            target="_blank" alt="StmBuy-CS:GO交流群" title="StmBuy-CS:GO交流群"><i class="icon icon-csgo-sm"></i><span>CS:GO交流群</span></a></li>
+                </ul>
+            </div>
+        </li>
+        <li>
+            <a>
+            <i class="icon icon-share"></i>
+            分享
+        </a>
+            <div class="hover-pop left">
+                <ul class="share">
+                    <li><a class="jiathis_button_weixin"><i class="icon icon-share-wechart"></i> 微信分享</a></li>
+                    <li><a class="jiathis_button_cqq"><i class="icon icon-share-qq"></i> QQ分享</a></li>
+                    <li><a class="jiathis_button_tsina"><i class="icon icon-share-sina"></i> 新浪微博分享</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li>
+            <a href="http://www.stmbuy.com/downapp.html">
+            <i class="icon icon-newapp"></i>
+            <i class="icon icon-phone2"></i>
+            APP
+        </a>
+            <div class="hover-pop left">
+                <img src="/static/./img/downapp_code.jpg" alt="下载App二维码">
+            </div>
+        </li>
+    </ul>
+    <button class="go-top"><i class="icon icon-dropup"></i>TOP</button>
+    <!--small menu-->
+    <div class="pop-bg"></div>
+    <div class="small-menu-bg"></div>
+    <div class="small-menu">
+        <ul>
+            <li>
+                <div class="logined" href="">
+                    <a href="/my">
+                    <img class="user-img" src="">
+                    <span class="user-name"></span>
+                </a>
+                    <a class="cart" href="/shopcart" target="_blank">
+                    <i class="icon icon-cart"></i>
+                    购物车(
+                    <span>0</span>
+                    )
+                </a>
+                </div>
+                <a class="to-login" href="">登录</a>
+            </li>
+            <li><a href="/index">首页</a></li>
+            <li class="has-sub">
+                <p>交易市场</p>
+                <div>
+
+                    <a href="/pubg">绝地求生PUBG</a>
+                    <a href="/h1z1">H1Z1</a>
+                    <a href="/csgo">CS:GO</a>
+                </div>
+            </li>
+            <li class="smallmenu-sell"><a href="/my/backpack">我要出售</a></li>
+            <li><a href="/news">游戏资讯</a></li>
+            <li><a href="/notice.html?type=system">通知</a></li>
+            <li><a href="/help/cjwt">帮助中心</a></li>
+            <li class="smallmenu-logout"><a href="/logout">退出登录</a></li>
+        </ul>
+        <div class="footer">
+            <img src="/static/img/logo.png" alt="">
+            <p>Copyright 2010 - 2016 四川众聚云购电子商务有限公司运营及版权所有 蜀ICP备16012474号 | ICP证川B2-20160171</p>
+        </div>
+    </div>
+
+    <!--公共弹框-->
+    <div class="pop login-pop">
+        <button class="icon pop-close"></button>
+        <div class="tit">QQ账号登录</div>
+        <div class="content">
+            <div class="login-btn">
+                <a href="/login.json"><i class="icon icon-qq"></i></a>
+            </div>
+            <p>QQ登录</p>
+            <p>
+                <label class="checkbox">
+                <input type="checkbox" checked>
+                <i></i>
+            </label> 我已阅读并同意
+                <a href="/help/yhxy">《STMBUY用户协议》</a>，愿承担交易风险
+            </p>
+        </div>
+    </div>
+
+
+    <div class="pop-wrap">
+        <div class="pop fixmsg-pop">
+            <form class="content">
+                <h3><i class="icon icon-safe"></i>完善账号资料</h3>
+                <p>为了您的资金和交易安全，请完善以下资料</p>
+                <ul>
+                    <li class="steam-link">
+                        <div class="msg-tit">
+                            <span class="left">Steam交易链接</span>
+                            <span class="right">未设置STEAM交易链接，马上购买心仪商品</span>
+                            <i class="icon icon-dropdown"></i>
+                        </div>
+                        <div class="msg-content">
+                            <label>
+                            <input type="text" placeholder="请输入您的Steam交易链接">
+                        </label>
+                            <button class="save-tradelink">保存</button>
+                            <p class="error"></p>
+                            <a class="to-getlink" target="_blank" href="https://steamcommunity.com/profiles/{steamid}/tradeoffers/privacy#trade_offer_access_url">获取Steam交易链接
+                            &gt;&gt;</a>
+                        </div>
+                    </li>
+                    <li class="connect-way">
+                        <div class="msg-tit">
+                            <span class="left">绑定手机号码</span>
+                            <span class="right">若未设置，交易安全无法为您保障</span>
+                            <i class="icon icon-dropdown"></i>
+                        </div>
+                        <div class="msg-content">
+                            <div class="input-group no-mobile" style="">
+                                <span>手机号</span>
+                                <input class="tel-head" type="text" value="+86" placeholder="">
+                                <input class="tel now-tel" type="text" placeholder="">
+                            </div>
+                            <p class="error"></p>
+                            <div class="input-group code">
+                                <span>验证码</span>
+                                <input type="text">
+                                <button class="get-code">获取</button>
+                            </div>
+                            <p class="error"></p>
+                            <button class="save-tel">保存</button>
+                            <p class="error"></p>
+                        </div>
+                    </li>
+                </ul>
+                <button class="hide-fixmsg" data-sessionname="hidefixmsg">我想下次再完善</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="pop-wrap">
+        <div class="pop bindsteam-pop">
+            <button class="icon pop-close"></button>
+            <form class="content">
+                <h3><i class="icon icon-safe"></i>绑定Steam账号</h3>
+                <p>为了您有更好的体验，请绑定Steam账号，否则无法进行下一步操作</p>
+                <a class="bind-steam" href="/bind.json">前往绑定Steam账号</a>
+                <br>
+                <button class="hide-bindsteam" data-sessionname="hidebindsteam">我想下次再完善</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="pop msg-pop to-bindsteam">
+        <button class="icon pop-close"></button>
+        <div class="content">
+            <div class="msg-tit">
+                <h3>请先绑定Steam账号后设置交易链接</h3>
+            </div>
+            <div class="msg-content">
+                <p>您尚未绑定Steam账号，无法获取到交易链接，请先绑定Steam账户</p>
+            </div>
+            <div class="msg-bottom">
+                <a href="/bind.json" target="_blank">前往绑定</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop tixian-pop">
+        <button class="icon pop-close"></button>
+        <div class="tit">提现</div>
+        <form class="content">
+            <label class="input-info">
+            <span>支付宝账号</span>
+            <p><span class="account"></span></p>
+        </label>
+            <p class="error"></p>
+            <label class="input-info">
+            <span>真实姓名</span>
+            <p><span class="name"></span></p>
+        </label>
+            <p class="error"></p>
+            <label class="input-info">
+            <span>账户余额</span>
+            <p><strong class="balance"><sub>¥ </sub><span></span></strong></p>
+        </label>
+            <p class="error"></p>
+            <label class="input-group">
+            <span>提现金额</span>
+            <input style="width: 1.5rem" class="tixian-amount amount-limit float2"
+                   data-min="100"
+                   data-max="5000" type="text"
+                   placeholder="提现金额100~5000">
+            <sub> 元</sub>
+        </label>
+            <p class="error"></p>
+            <label class="input-group youhui">
+            <span>使用优惠券</span>
+            <div class="drop-down click" style="width: auto; min-width: 1.5rem">
+                <div class="cf">
+                    <a class="top fl"></a>
+                    <i class="icon icon-dropdown fr"></i>
+                </div>
+                <ul class="content"></ul>
+            </div>
+        </label>
+            <label class="input-info">
+            <span>提现手续费</span>
+            <p>¥ <span class="tixian-cost" data-cost="0">0</span>（提现金额的1                %，单次上限25                元，最低2元）</p>
+        </label>
+            <label class="input-info">
+            <span>实际到账</span>
+            <p>¥ <span class="tixian-real">0</span></p>
+        </label>
+            <button class="tixian-btn">确定</button>
+            <p class="error"></p>
+        </form>
+        <p class="tixian-tip">提现说明：手续费向上取整（例如手续费1.2元向上取整为2元），每日最高限额50000元</p>
+    </div>
+
+    <div class="pop bindtel-pop">
+        <button class="icon pop-close"></button>
+        <div class="tit">绑定手机号</div>
+        <form class="content">
+            <label class="input-group has-mobile" style="display: none;">
+            <span>原手机号</span>
+            <input class="tel-head" type="text" value="+86">
+            <input class="tel old-tel" type="text" placeholder="输入原手机号">
+        </label>
+            <p class="error"></p>
+            <label class="input-group login-pass">
+            <span>登录密码</span>
+            <input type="password" placeholder="输入登录密码">
+        </label>
+            <p class="error"></p>
+            <label class="input-group no-mobile" style="display: none;">
+            <span>新手机号</span>
+            <input class="tel-head" type="text" value="+86">
+            <input class="tel now-tel" type="text" placeholder="输入新手机号">
+        </label>
+            <p class="error"></p>
+            <label class="input-group code">
+            <span>验证码</span>
+            <input type="text">
+            <button class="get-code">获取</button>
+        </label>
+            <p class="error"></p>
+            <button class="save-tel">保存</button>
+            <p class="error"></p>
+        </form>
+    </div>
+
+    <div class="pop bindalipay-pop">
+        <button class="icon pop-close"></button>
+        <div class="tit">绑定支付宝</div>
+        <form class="content">
+            <label class="input-group no-mobile">
+            <span>手机号码</span>
+            <input class="tel-head" type="text" value="+86">
+            <input class="tel" type="text" placeholder="输入手机号">
+        </label>
+            <p class="error"></p>
+            <label class="input-info has-mobile">
+            <span>绑定手机号</span>
+            <p><span class="mobile"></span>
+                <button class="edite-phone fr">修改号码</button>
+            </p>
+        </label>
+            <p class="error"></p>
+            <label class="input-group code">
+            <span>验证码</span>
+            <input type="text">
+            <button class="get-code">获取</button>
+        </label>
+            <p class="error"></p>
+            <label class="input-group">
+            <span>支付宝账号</span>
+            <input class="account" type="text" maxlength="32">
+        </label>
+            <p class="error"></p>
+            <label class="input-group">
+            <span>真实姓名</span>
+            <input class="name" type="text" maxlength="15">
+        </label>
+            <p class="error"></p>
+            <button class="savealipay-btn">保存</button>
+            <p class="error"></p>
+        </form>
+    </div>
+
+    <div class="pop pay-pop">
+        <button class="icon pop-close"></button>
+        <div class="tit"></div>
+        <div class="content">
+            <h3>应付款金额 : <strong></strong> 元</h3>
+            <img src="" alt="">
+            <p>请使用<span></span><strong>“扫一扫”</strong>完成支付</p>
+        </div>
+    </div>
+
+    <div class="pop recharge-pop">
+        <button class="icon pop-close"></button>
+        <div class="tit">账户充值</div>
+        <div class="recharge-wrap">
+            <div class="recharge-content">
+                <p class="recharge-tip"> *支付套现、虚假交易等属违法行为，如经检测发现，一律冻结账户并提供资料交由相关支付渠道核实（核实时间15个工作日） </p>
+                <p class="balance">账户余额 : <strong><sub> ¥ </sub><span></span></strong></p>
+                <form>
+                    <p>充值金额 :</p>
+                    <ul class="recharge-amount">
+                        <li>10元</li>
+                        <li>25元</li>
+                        <li>50元</li>
+                        <li>100元</li>
+                        <li>500元</li>
+                        <li>1000元</li>
+                    </ul>
+                    <label class="recharge-amount">
+            <input type="text" placeholder="其他金额">
+            <span>元</span>
+        </label>
+                    <p>支付方式 :</p>
+                    <ul class="pay-way">
+                        <li class="on" data-paytype="alipay" data-payas="2" data-payname="支付宝">
+                            <i class="icon icon-alipay"></i>支付宝
+                        </li>
+                        <li class="wechat-pay" data-paytype="wtfpay" data-payas="1" data-payname="微信">
+                            <i class="icon icon-wxpay"></i>微信支付
+                        </li>
+                        <!--    <li data-paytype="" data-payas="" data-payname="QQ">-->
+                        <!--        <i class="icon icon-qqpay"></i>QQ钱包-->
+                        <!--    </li>-->
+                    </ul>
+
+                    <script>
+                        $(function () {
+                            $('.pay-way li').on('click', function () {
+                                $(this).addClass('on').siblings().removeClass('on');
+                            });
+                            $('.pay-way li:first').click();
+                        });
+
+                    </script>
+                </form>
+                <button class="recharge-btn">确认支付</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop msg-pop popmsg-pop">
+        <div class="content">
+            <div class="msg-tit">
+                <h3></h3>
+            </div>
+            <div class="msg-content">
+                <p></p>
+            </div>
+            <div class="msg-bottom">
+                <button class="close reload">知道了</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop alert">
+        <button class="icon pop-close close"></button>
+        <div class="msg-content">
+            <p></p>
+        </div>
+        <div class="msg-bottom">
+            <button class="close">确定</button>
+        </div>
+    </div>
+
+    <div class="loader" style="display: none;">
+        <div class="loader-inner line-spin-fade-loader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!--移动端APP底部框-->
+    <div class="downapp-tip">
+        <button class="close"></button>
+        <a href="http://www.stmbuy.com/downapp.html" class="down">下载APP</a>
+    </div>
+
+    <script>
+                        $(function () {
+                            if (/Android/i.test(navigator.userAgent) && !localStorage['hideDownapptip']) {
+                                $('.downapp-tip').addClass('show');
+                            }
+                            $('.downapp-tip .close').on('click', function () {
+                                localStorage.setItem('hideDownapptip', 'true');
+                                $('.downapp-tip').remove();
+                            });
+                        });
+
+    </script>
+    <script type="text/javascript" src="/static/js/slideshow.js"></script>
+    <!--分页JS-->
+    <script>
+        $('.page-btns').children().length == 0 ? $('.page').hide() : $('.page').show();
+        $('body').on('click', 'a[data-url]', function (event) {
+            event.preventDefault();
+            var ajaxUrl = $(this).attr('data-url');
+            if (ajaxUrl.length > 0) {
+                $(this).addClass('on').siblings().removeClass('on');
+                $(this).parent('li').addClass('on');
+                $(this).parent('li').siblings().removeClass('on');
+                $.ajax({
+                    url: ajaxUrl,
+                    headers: { 'X-Requested-With': "XMLHttpRequest" },
+                    crossDomain: false,
+                    success: function (data) {
+                        $(this).closest('div.pagenation').parent().html(data);
+
+                        if ($(this).closest('div.pagenation').hasClass('keep-record') && history.pushState) {
+                            var filterStr = decodeURIComponent(location.search),
+                                filterData = {},
+                                clickPage = v.qrsUrl('page', ajaxUrl);
+
+                            if (filterStr) {
+                                filterStr.split('&').forEach(function (value, index) {
+                                    filterData[value.split('=')[0]] = value.split('=')[1];
+                                });
+                                filterData.page = clickPage;
+                                history.pushState(filterData, null, (filterStr.replace(/[&]*page=\d+/, '') + '&page=' + clickPage).replace('?&', '?'));
+                            } else {
+                                history.pushState(filterData, null, '?page=' + clickPage);
+                            }
+
+                        }
+                    }.bind(this)
+                });
+            }
+        });
+
+    </script>
+    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2141618" charset="utf-8"></script>
+    <script name="baidu-koubei-verification" src="//ikoubei.baidu.com/embed/7d68092fc57dbc2f191fb188d6a1ff5b"></script>
+    <script type="text/javascript">
+        <!--分享-->
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            v.load('http://v3.jiathis.com/code/jiathis_m.js?uid=2141618');
+        } else {
+            v.load('http://v3.jiathis.com/code/jia.js?uid=2141618');
+        }
+
+        //统计
+        var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cspan id='cnzz_stat_icon_1263263488'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "w.cnzz.com/c.php%3Fid%3D1263263488' type='text/javascript'%3E%3C/script%3E"));
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?9fa25625cfedf0974d032c99c64dbcb5";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+
+        (function () {
+            var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?ff76f2beccf87014823caa4495151337" : "https://jspassport.ssl.qhimg.com/11.0.1.js?ff76f2beccf87014823caa4495151337";
+            document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+
+    </script>
+</body>
+
+</html>

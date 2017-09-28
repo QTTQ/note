@@ -1,0 +1,136 @@
+　localStorage 和 sessionStorage 只能存储字符串的数据，对于JS中常用的数组或对象却不能直接存储。
+
+   var obj = { name:'Jim' };
+
+    var str = JSON.stringify(obj);
+
+
+    //存入
+
+    sessionStorage.obj = str;
+
+    //读取
+
+    str = sessionStorage.obj;
+
+    //重新转换为对象
+
+    obj = JSON.parse(str);
+
+    
+
+    localStorage也一样，只是和sessionStorage的存储时间不一样。
+
+    需要注意的是，JS中的数组本质上也是对象类型，所以上面的代码对数组也是适用的。
+
+    
+
+    var arra=[1,2,3,4];
+
+    localStorage.setItem('key',JSON.stringify(arra));
+
+    var read=JSON.parse(localStorage.getItem('key'));
+
+    console.log(read,read.length);
+
+
+
+
+
+　　客户端存储数据的两个对象为：
+
+localStorage - 没有时间限制的数据存储
+sessionStorage - 针对一个 session 的数据存储（关闭窗口，存储的数据清空）
+　　了解完sessionStorage之后是不是很符合我们的需求呢？将数据存到 session中，管你前进后退还是刷新，数据依然在，关闭窗口后再进页面才会清空数据，那么完全符合需求啊，看到这玩意简直激动快要泪奔了！！！
+
+　　再理一下实现思路，①页面滚动，将滚动位置存到session中 → ②再次进到页面中，到session中取出上次保存的浏览位置 → ③滚动到对应位置
+
+　　这家伙简直好玩到嗷嗷叫啊，睁大眼睛看重点咯！
+
+　　这里只介绍setItem和getItem，当然还有什么removeItem删除key、clear清除所有的key/value操作。
+
+　　setItem存储value
+　　用途：将value存储到key字段
+　　用法：.setItem( key, value)
+　　代码示例：
+
+   sessionStorage.setItem("key", "value"); 	localStorage.setItem("site", "js8.in");
+　　getItem获取value
+　　用途：获取指定key本地存储的值
+　　用法：.getItem(key)
+　　代码示例：
+
+  var value = sessionStorage.getItem("key"); 	var site = localStorage.getItem("site");
+
+//滚动时保存滚动位置
+$(window).scroll(function(){
+if($(document).scrollTop()!=0){
+　　　　sessionStorage.setItem("offsetTop", $(window).scrollTop());//保存滚动位置
+　　　} 
+});
+//onload时，取出并滚动到上次保存位置
+
+window.onload = function()
+{
+　　var _offset = sessionStorage.getItem("offsetTop");
+  if(_offset!=0){
+　　$(document).scrollTop(offsetTop);
+  }
+};
+
+
+
+//===========================================================
+localStorage - 没有时间限制的数据存储,第二天、第二周或下一年之后，数据依然可用。
+如何创建和访问 localStorage：
+<script type="text/javascript">
+localStorage.lastname="Smith";
+document.write(localStorage.lastname);
+</script>
+下面的例子对用户访问页面的次数进行计数：
+
+<script type="text/javascript">
+if (localStorage.pagecount){
+  localStorage.pagecount=Number(localStorage.pagecount) +1;
+  }
+else{
+  localStorage.pagecount=1;
+  }
+document.write("Visits "+ localStorage.pagecount + " time(s).");
+</script>
+ 
+
+sessionStorage - 针对一个 session 的数据存储,当用户关闭浏览器窗口后，数据会被删除。
+创建并访问一个 sessionStorage：
+<script type="text/javascript">
+  sessionStorage.lastname="Smith";
+  document.write(sessionStorage.lastname);
+</script>
+下面的例子对用户在当前 session 中访问页面的次数进行计数：
+
+<script type="text/javascript">
+if (sessionStorage.pagecount){
+  sessionStorage.pagecount=Number(sessionStorage.pagecount) +1;
+  }
+else{
+  sessionStorage.pagecount=1;
+  }
+document.write("Visits "+sessionStorage.pagecount+" time(s) this session.");
+</script>
+ 
+ //+++++++++++++++++++++++++++++++++++++++
+
+ 1.cookie在浏览器和服务器端来回传递数据，而localStorage和sessionStorage不会自动把数据发送给服务器，仅会保存在本地。cookie会在浏览器请求头或者ajax请求头中发送cookie内容。
+
+2.cookie可以设置过期日期，sessionStorage是会话级的数据，浏览器窗口关闭即清楚，localStorage是永久性的数据，一旦赋值，不管多长时间这值都是存在的，除非手动清除。
+
+3.cookie的存储大小受限制，一般不超过4k，而localStorage和sessionStorage的存储大小一般不超过5M，大大提高了存储的体积。
+
+4.sessionStorage不跨窗口，在另外一个窗口打开sessionStorage就不存在了，它只在当前窗口有效，而cookie和localStorage都是跨窗口的，即使浏览器的窗口关闭，这两个值还是存在的。
+使用场景：
+
+localStorage可以用来统计页面访问次数。
+
+sessionStorage可以用来统计当前页面元素的点击次数。
+
+cookie一般存储用户名密码相关信息，一般使用escape转义编码后存储。
