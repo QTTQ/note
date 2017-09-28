@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+            <!-- 导航栏 -->
+        <!-- <div class="border cf">
+            <ul>
+                <li><a href="javascript:void(0);" @click="toggleTabs(tab01Text);">{{tab01Text}}</a></li>
+                <li><a href="javascript:void(0);" @click="toggleTabs(tab02Text);">{{tab02Text}}</a></li>
+                <li><a href="javascript:void(0);" @click="toggleTabs(tab03Text);">{{tab03Text}}</a></li>
+            </ul>
+        </div>
+        <div class="border" style="height: 100px;">
+            <component :is="currentView" keep-alive></component>
+        </div> -->
+        <component :is="currentView">
+            <!-- 组件在 vm.currentview 变化时改变！ -->
+        </component>
+    </div>
+</body>
+<script src="../vue.js"></script>
+<script>
+    //扩展组件tab01
+
+    let tab01 = {
+        template: `<div>111111</div>`
+    }
+    let tab02 = {
+        template: `<div>222222</div>`
+    }
+    let tab03 = {
+        template: `<div>3333</div>`
+    }
+
+
+    //新建vue实例
+    var dr01 = new Vue({
+        el: "#app",
+        data: {
+            currentView: 'tab01', //默认选中的导航栏
+        },
+        //局部注册组件
+        components: {
+            tab01: { tab01, tab02, tab03 },
+            tab02: tab02,
+            tab03: tab03,
+        },
+        methods: {
+            //绑定tab的切换事件
+            // toggleTabs: function (tabText) {
+            //     this.currentView = tabText;
+            // }
+        }
+    });
+
+</script>
+
+</html>

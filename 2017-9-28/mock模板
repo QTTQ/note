@@ -1,0 +1,46 @@
+相信有很多小伙伴在开发的时候遇到过这样的问题：静态页面写好了，就等后端给数据了！WTF?我刚写好代码你告诉我后端的接口又变了！什么破网啊根本访问不到服务器啊…
+
+这个时候就需要前端神器Mock.js了(妈妈再也不怕我和后端撕逼了)
+
+安装
+
+$npm install mock.js
+1
+模拟数据
+
+Mock.mock(template)
+
+Mock.mock(rurl,function(options))
+
+Mock.mock(rurl,rtype,template)
+
+Mock.mock(rurl,rtype,function(options))
+1
+2
+3
+4
+5
+6
+7
+template表示数据模板，可以是{'data|1-10':[{}]}也可以是’@EMAIL’
+rurl表示要拦截的地址，可以使普通的url如http://c.cn，也可以是url正则表达式/\.json/
+rtype表示需要拦截的 Ajax 请求类型。例如 GET、POST、PUT、DELETE 等。
+funtion(options)表示用于生成响应数据的函数。
+举个栗子：
+
+
+//<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+//<script src="http://mockjs.com/dist/mock.js"></script>
+Mock.mock(/\.json/, {
+    'list|1-10': [{
+        'id|+1': 1,
+        'email': '@EMAIL'
+    }]
+})
+
+$.ajax({
+    url: 'hello.json',
+    dataType: 'json'
+}).done(function (data, status, jqXHR) {
+    console.table(data)
+})
