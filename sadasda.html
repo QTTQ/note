@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--注意这里用的是el表达式取值，如果是普通字符串'参数'即可。-->
+    <a onclick="seeDetail('${people.name}');">
+        people.name
+        </a>
+    <script>
+        function seeDetail(name) {
+            var url = "/findPeople?name=" + name;
+            var target = "target";
+            var winWidth = $(top.document).width() - 500;
+            var winHeight = $(top.document).height() - 300;
+            var popwin = window.open(url, target, "scrollbars=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,resizable=no,width=" + winWidth + ",height=" + winHeight + ",left=" + (screen.width - winWidth) / 2 + ",top=" + (screen.height - winHeight - 100) / 2);
+            popwin.focus();
+        }
+    </script>
+    打开页面的返回按钮可以更改为
+    <input id="btnClose" type="button" value="关闭页面" onclick="window.close();">
+
+</body>
+
+</html>
