@@ -28,8 +28,7 @@ rtype表示需要拦截的 Ajax 请求类型。例如 GET、POST、PUT、DELETE 
 funtion(options)表示用于生成响应数据的函数。
 举个栗子：
 
-
-//<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+//<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 //<script src="http://mockjs.com/dist/mock.js"></script>
 Mock.mock(/\.json/, {
     'list|1-10': [{

@@ -9,23 +9,39 @@
 </head>
 
 <body>
-    <!--注意这里用的是el表达式取值，如果是普通字符串'参数'即可。-->
-    <a onclick="seeDetail('${people.name}');">
-        people.name
-        </a>
-    <script>
-        function seeDetail(name) {
-            var url = "/findPeople?name=" + name;
-            var target = "target";
-            var winWidth = $(top.document).width() - 500;
-            var winHeight = $(top.document).height() - 300;
-            var popwin = window.open(url, target, "scrollbars=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,resizable=no,width=" + winWidth + ",height=" + winHeight + ",left=" + (screen.width - winWidth) / 2 + ",top=" + (screen.height - winHeight - 100) / 2);
-            popwin.focus();
-        }
-    </script>
-    打开页面的返回按钮可以更改为
-    <input id="btnClose" type="button" value="关闭页面" onclick="window.close();">
+    <!-- <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+     -->
+    <!-- <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script> -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 
+    <script src="http://mockjs.com/dist/mock.js"></script>
+    <script>
+        Mock.mock(/\.json/, {
+            'list|1-10': [{
+                'id|+1': 1,
+                'email': '@EMAIL'
+            }]
+        })
+
+        function fnCB(fn1, fn2) {
+            return f1(f2)
+        }
+
+        function f1(cb) {
+            $.ajax({
+                url: 'hello.json',
+                dataType: 'json'
+            }).done(function (data, status, jqXHR) {
+                cb(data)
+            })
+
+        }
+        function f2(data) {
+            console.log(data);
+        }
+        // f1(f2)
+        fnCB(f1, f2)
+    </script>
 </body>
 
 </html>

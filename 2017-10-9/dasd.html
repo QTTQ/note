@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // function splat(fn){
+        //     return function (array){
+        //         console.log(array);
+        //         return fn.apply(null,arra);
+        //         // return fn.call(null,array);
+        //         // return fn(array);
+        //     }
+        // }
+        // // const addArrayElements=splat((x,y)=>x+y);
+        // let fn=(x,y)=>x+y
+        // const addArrayElements=splat(fn);        
+        // console.log(addArrayElements([1,2]));
+        // const filter1 = (array, fn) => {
+        //     return array.filter(fn);
+        // };
+
+        // const isNumber = value => {
+        //     return typeof value === 'number';
+        // };
+
+        // const arr = ['a', 1, 'b', 2];
+        // // filter(arr, isNumber);  // [1, 2]
+        // console.log(filter1(arr, isNumber))
+        const add = x => y => z => x + y + z;
+        console.log(add(2)(1)(4))
+    </script>
+</body>
+
+</html>
