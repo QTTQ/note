@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // function unsplat(fn) {
+        //     debugger
+        //     return (...args) => fn.call(null, args);
+        // }
+        // const joinElement = unsplat(args => args.join(' '));
+        // // joinElement(1, 2, 3);  // 1 2 3
+        // // joinElement('a', 'b', 'c');  // a b c
+
+        // console.log(joinElement('a', 'b', 'c'))
+
+
+        function splat(fn) {
+            return function (array) {
+                return fn.apply(null, array);
+            };
+        }
+        const addArrayElements = splat((x, y) => x + y);
+        // addArrayElements([1, 2]); // 3
+        console.log(addArrayElements([1,2]))
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+发送事件  this.$store.commit('goback',data)
+
+存储事件   const state = {
+                data: null,
+            }
+            const mutations = {
+                goback(state, data)=> {
+                    state.data=data;
+                },
+            }
+
+接收事件   this.$store.state.data
+
