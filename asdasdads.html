@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var longen = {
+            name: 'yunxi'
+        };
+        var longen2 = {
+            name: '我叫涂根华'
+        };
+        var longen3 = [
+            "name", '我叫涂根华'
+        ];
+        var name = "我是来测试的";
+        var getName = function () {
+            if (this.name) {
+                
+            return this.name;
+            }else{
+
+            return this[0];            
+            }
+        };
+        console.log(getName()); // 打印 "我是来测试的";
+        console.log(getName.call(longen)); // 打印 yunxi
+        console.log(getName.call(longen2)); // 打印 "我叫涂根华"
+        console.log(getName.call(longen3)); // 打印 "我叫涂根华"        
+    </script>
+</body>
+
+</html>
