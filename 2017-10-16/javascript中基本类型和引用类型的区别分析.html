@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //     常见的五种基本数据类型是：
+        // Undifined、Null、Boolean、Number和String。这五种基本数据类型可以直接操作保存在变量中的实际值。
+        // 看下面例子：
+
+        var a = 10;
+        var b = a;
+        b = 20;
+        console.log(a); // 10
+
+        var bl = true;
+        var bl1 = bl;
+        bl1 = false;
+        console.log(bl); // true
+        // 上面，b获取值是a值的一份拷贝，虽然，两个变量的值是相等，但是两个变量保存两不同的基本数据类型值。b只是保存了a复制的一个副本。所以，当b的值改变时，a的值依然是10;
+        // 下面，两个Boolean变量bl和bl1同样是基本数据类型，同样保存两个不同的基本数据据类型值，bl1保存bl复制的一个副本。
+        // 下图演示了这种基本数据类型赋值的过程：
+
+        // 下面看一下引用类型数据：
+        // javascript引用数据类型是保存在堆内存中的对象，与其它语言不同的是，你不可以直接访问堆内存空间中的位置和操作堆内存空间。只能通过操作对象的在栈内存中的引用地址。所以引用类型的数据，在栈内存中保存的实际上是对象在堆内存中的引用地址。通过这个引用地址可以快速查找到保存在堆内存中的对象。
+        // 看下下面的例子：
+
+        var obj1 = new Object();
+        var obj2 = obj1;
+        obj2.name = "我有名字了";
+        console.log(obj1.name); // 我有名字了
+        // 由上面例子，我们声明了一个引用数据类型变量obj1，并把它赋值给了另外一个引用数据类型变量obj2。当我们obj2添加了一个name属性并赋值"我有名字了"。obj1同样拥有了和obj2一样的name属性。说明这两个引用数据类型变量指向同一个堆内存对象。obj1赋值给obj2，实际只是把这个堆内存对象在栈内存的引用地址复制了一份给了obj2，但它们本质上共同指向了同一个堆内存对象。
+        // 下面我们来演示这个引用数据类型赋值过程：
+
+        // 自然，给obj2添加name属性，实际上是给堆内存中的对象添加了name属性，obj2和obj1在栈内存中保存的只是堆内存对象的引用地址，虽然也是拷贝了一份，但指向的对象却是同一个。故而改变obj2引起了obj1的改变。
+        //  一般而言，基本数据类型是有固定数目的字节组成，这些字节可以在解析器的较底层进行操作比如Number和Boolean；而引用数据类型，可以包含任意数目的属性和元素，因此它们无法像基本数据类型那样很容易的操作。由于，引用数据类型的值是会发生变化的，所以通过跟基本数据类型一样的值传递方式，也就没什么意义了，因为会牵涉到大量的内存的复制和比较，效率太低。所以引用数据类型是通过引用传递方式，实际传递的只是对象的一个地址。比如Array和Function因为它们都是特殊的对象所以它都是引用类型。另外，引用类型是可以添加属性，基本类型虽然也可以添加属性，也不会报错，经测试添加完之后却是无法访问的。
+        // 看下面代码：
+
+        var a = 12;
+        a.name = "myname";
+        console.log(a.name); // undefined
+        //  String一个特殊的基本数据类型
+        // 在很多语言中，String是以对象的形式表示的，但在ECMAScript里没有沿用这种传统，String是当作一种基本数据类型，但它是一个比较特殊的基本类型。
+        // 看上去好像String应该做为一个引用类型，可实际上它不是，因为它不是对象。那么看起来它应该是基本数据类型，应该是通值传递的方式来操作。
+        // 看下面例子：
+
+        var stra = "这是一个字符串";
+        var strb = stra;
+        stra = "这是另外一个字符串";
+        console.log(strb); // 这是一个字符串
+        //  上面例子我们看到，仿佛stra通过值传递的方式复制了一份给了strb。当stra改变的时候，strb并没有改变，似乎我们已经可以下结论，String就是个基本数据类型。
+        // 可是，因为String是可以任意长度的，通过值传递，一个一个的复制字节显示效率依然很低，看起来String也可以当作引用类型。
+        // 看下面例子：
+
+        var a = "myobject";
+        a.name = "myname";
+        console.log(a.name); // undefined
+        // 显示String无法当作一个对象来处理。实际上，javascript里的String是不可以改变的，javascript也没有提供任何一个改变字符串的方法和语法。
+
+        var a = "myobject";
+        a = a.substring(3, 5)
+        console.log(a); // bj
+// 记住这样做，就没有改变String字符串"myobject",只a引用了另一个字符串"bj","myobject"被回收了。
+// 所以可以这样讲，String实际上并不符合上面两种数据类型分类。它是具有两方面属性介于两都之间的一种特殊类型。
+    </script>
+</body>
+
+</html>

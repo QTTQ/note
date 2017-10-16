@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 经典的闭包实列如下：
+        function f(x) {              //外部函数
+            var a = x;              // 外部函数的局部变量，并传递参数
+            var b = function () {     // 内部函数 
+                return a;     //返回的是a的地址      // 访问外部函数中的局部变量
+            };
+            console.log(typeof b);
+            //******* return 的是a的地址  b是个函数 不是基本类型
+            a++;                    // 访问后，动态更新外部函数的变量                
+            return b;               // 返回内部函数
+        }
+        var c = f(5);               // 调用外部函数并且赋值
+        console.log(c());           // 调用内部函数，返回外部函数更新后的值为6
+        
+        // 首先在a函数内定义了2个变量，1个是存储参数，另外一个是闭包结构，在闭包结构中保存着b函数内的a变量，
+        // 默认情况下，当a函数调用完之后a变量会自动销毁的，但是由于闭包的影响，闭包中使用了外界的变量，
+        // 因此a变量会一直保存在内存当中，因此变量a参数没有随着a函数销毁而被释放，因此引申出闭包的缺点是：
+        // 过多的使用闭包会占有内存资源，或内存溢出等肯能性；
+    </script>
+</body>
+
+</html>

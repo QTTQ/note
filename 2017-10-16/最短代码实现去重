@@ -1,0 +1,38 @@
+[...new Set([1, "1", 2, 1, 1, 3])]; // [1, "1", 2, 3]
+
+
+用最短的代码实现一个长度为m(6)且值都n(8)的数组
+
+Array(6).fill(8); // [8, 8, 8, 8, 8, 8]
+将argruments对象转换成数组
+
+var argArray = Array.prototype.slice.call(arguments);
+
+// ES6：
+var argArray = Array.from(arguments)
+
+// or
+var argArray = [...arguments];
+
+使用~x.indexOf('y')来简化x.indexOf('y') > -1
+
+var str = 'hello world';
+if (str.indexOf('lo') > -1) {
+  // ...
+}
+
+if (~str.indexOf('lo')) {
+  // ...
+}
+
+浮点数取整
+
+const x = 123.4545;
+x >> 0; // 123
+~~x; // 123
+x | 0; // 123
+Math.floor(x); // 123
+ 注意：前三种方法只适用于32个位整数，对于负数的处理上和Math.floor是不同的。
+
+Math.floor(-12.53); // -13
+-12.53 | 0; // -12
