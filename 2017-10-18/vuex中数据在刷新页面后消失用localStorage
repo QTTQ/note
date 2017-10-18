@@ -1,0 +1,44 @@
+作者：小虫虫
+链接：https://www.zhihu.com/question/54164220/answer/200586675
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+//store.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  // 定义状态
+  state: {
+    navTabIndex:0//切换顶部导航栏序号
+  },
+  mutations:{
+    navTab(state,index){
+        state.navTabIndex = index;
+        window.localStorage.setItem('navTabIndex',index);
+    }
+  }
+})
+
+export default store
+//HeaderBar.vue:用于输出store的navTabIndex一个vue组件
+<template>
+     <div>{{navTabIndex}}</div>
+</template>
+<script>
+import {mapState} from 'vuex';
+import store from './store'
+export default{
+     computed: mapState({
+		    navTabIndex: function(state){//箭头函数会有this的问题
+		    	let localData = window.localStorage.getItem('navTabIndex')
+		    	if(state.navTabIndex===0&&localData){
+		    		this.$store.commit('navTab',localData)//同步操作
+		    	}
+		    	return state.navTabIndex
+		    }
+		})
+}
+</script>
