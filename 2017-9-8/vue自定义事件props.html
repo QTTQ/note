@@ -11,63 +11,7 @@
 
     </style>
     <script src="../vue.js"></script>
-    <script>
-        window.onload = function () {
-            // new Vue({
-            //     el: '#box',
-            //     data: {
-            //         a: '我是父组件数据'
-            //     },
-            //     components: {
-            //         'child-com': {
-            //             props: ['msg'],
-            //             template: '#child',
-            //             methods: {
-            //                 change() {
-            //                     this.msg = '被更改了'
-            //                 }
-            //             }
-            //         }
-            //     }
-            // });
-            let child = {
-                template: ` <div>
-                                <span>我是子组件</span>
-                                <input type="button" value="按钮" @click="change">
-                                <strong>{{mg}}</strong>
-                            </div>`,
-                props: ['msg'],
-                data() {
-                    return {
-                        mg: "我是子组件信息"
-                    }
-                },
-                methods: {
-                    change() {
-                        this.mg = this.msg
-                        this.$emit("change", "子组件信息");
-                    }
-                }
-            }
-            new Vue({
-                el: "#box",
-                data: {
-                    a: "我是父组件信息 "
-                },
-                computed: {
-
-                },
-                methods: {
-                    aaaa(e) {
-                        console.log(e);
-                    }
-                },
-                components: {
-                    'child-com': child
-                }
-            })
-        };
-    </script>
+   
 </head>
 
 <body>
@@ -77,8 +21,65 @@
         <child-com :msg.sync="a" @change="aaaa($event)"></child-com>
         <child-com></child-com>
         <child-com @change="aaaa($event)"></child-com>
-
     </div>
+    <script>
+            window.onload = function () {
+                // new Vue({
+                //     el: '#box',
+                //     data: {
+                //         a: '我是父组件数据'
+                //     },
+                //     components: {
+                //         'child-com': {
+                //             props: ['msg'],
+                //             template: '#child',
+                //             methods: {
+                //                 change() {
+                //                     this.msg = '被更改了'
+                //                 }
+                //             }
+                //         }
+                //     }
+                // });
+                let child = {
+                    template: ` <div>
+                                    <span>我是子组件</span>
+                                    <input type="button" value="按钮" @click="change">
+                                    <strong>{{mg}}</strong>
+                                </div>`,
+                    props: ['msg'],
+                    data() {
+                        return {
+                            mg: "我是子组件信息"
+                        }
+                    },
+                    methods: {
+                        change() {
+                            this.mg = this.msg
+                            this.$emit("change", "子组件信息");
+                        }
+                    }
+                }
+                new Vue({
+                    el: "#box",
+                    data: {
+                        a: "我是父组件信息 "
+                    },
+                    computed: {
+    
+                    },
+                    methods: {
+                        aaaa(e) {
+                            alert(e);                            
+                            console.log(e);
+                        }
+                    },
+                    components: {
+                        'child-com': child
+                    }
+                })
+            };
+        </script>
 </body>
 
 </html>

@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
 </head>
 
 <body>
+    <div id="app">
+        <ul v-for="(item,index) in arr">
+            <li>{{item}}-----{{index}}/li>
+        </ul>
+    </div>
     <script>
         window.onload = function () {
             var vm = new Vue({
@@ -26,7 +32,7 @@
                         // 有时你想向已有对象上添加一些属性，例如使用 Object.assign() 或 _.extend() 方法来添加属性。
                         // 但是，添加到对象上的新属性不会触发更新。在这种情况下可以创建一个新的对象，让它包含原对象的属性和新的属性
                         this.arr = Object.assign({}, this.arr, { a: 1, b: 2 });
-                        console.log(this.arr);
+                        console.log(this.arr);//返回的是数组对象 0:"aaa"，1："bbb",2:"ccc",a:"ccc",b:"2"
                     }
                 }
             });

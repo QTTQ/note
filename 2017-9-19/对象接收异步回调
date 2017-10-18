@@ -14,7 +14,7 @@ js文件中《--
 const api={}
 api.MG_GET_KING_LIST = function ({state, commit, rootState}, params) {
     return new Promise((resolve, reject) => {
-        rootState.axios.get(rootState.CONSTANTS.APISpecial + 'topicClass/getClassGoodsList', {params}).then(res => {
+        rootState.axios.get(rootState.CONSTANTS.APISpecial + 'topicClass/getClassGoodsList', {params}).then((res) => {
         res = res.body.data;
         resolve(res)
         }, () => {
