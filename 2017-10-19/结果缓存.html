@@ -72,9 +72,9 @@
         
         function cached(fn) {
             const cache = Object.create(null);
-            return str => {
-                const hit = cache[str];
-                return hit || (cache[str] = fn(str))
+            return param => {
+                const hit = cache[param];
+                return hit || (cache[param] = fn(param))
             }
         }
         /*
