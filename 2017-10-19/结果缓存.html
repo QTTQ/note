@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1、匿名自执行函数
+        // 我们知道所有的变量，如果不加上var关键字，则默认的会添加到全局对象的属性上去，这样的临时变量加入全局对象有很多坏处，
+        // 比如：别的函数可能误用这些变量；造成全局对象过于庞大，影响访问速度(因为变量的取值是需要从原型链上遍历的)。
+        // 除了每次使用变量都是用var关键字外，我们在实际情况下经常遇到这样一种情况，即有的函数只需要执行一次，其内部变量无需维护，
+        var data = {
+            table: [],
+            tree: {}
+        };
+        (function (dm) {
+            for (var i = 0; i < dm.table.rows; i++) {
+                var row = dm.table.rows[i];
+                for (var j = 0; j < row.cells; i++) {
+                    // drawCell(i, j);
+                    console.log(i, j);
+                }
+            }
+        })(data);
+        // 我们创建了一个匿名的函数，并立即执行它，由于外部无法引用它内部的变量，因此在函数执行完后会立刻释放资源，关键是不污染全局对象。
+
+        // 2、结果缓存
+        // 我们开发中会碰到很多情况，设想我们有一个处理过程很耗时的函数对象，每次调用都会花费很长时间，那么我们就需要将计算出来的值存储起来，
+        // 当调用这个函数的时候，首先在缓存中查找，如果找不到，则进行计算，然后更新缓存并返回值，如果找到了，直接返回查找到的值即可。
+        // 闭包正是可以做到这一点，因为它不会释放外部的引用，从而函数内部的值可以得以保留。
+        var CachedSearchBox = (function () {
+            var cache = {},
+                count = [];
+            return {
+                attachSearchBox: function (dsid) {
+                    if (dsid in cache) {//如果结果在缓存中    
+                        return cache[dsid];//直接返回缓存中的对象    
+                    }
+                    // var fsb = new uikit.webctrl.SearchBox(dsid);//新建    
+                    var fsb = dsid;//新建                                                                 
+                    cache[dsid] = fsb;//更新缓存    
+                    if (count.length > 100) {//保正缓存的大小<=100    
+                        delete cache[count.shift()];
+                    }
+                    return fsb;
+                },
+                clearSearchBox: function (dsid) {
+                    if (dsid in cache) {
+                        cache[dsid].clearSelection();
+                    }
+                }
+            };
+        })();
+        // CachedSearchBox.attachSearchBox("input");
+        console.log(CachedSearchBox.attachSearchBox("input"));
+
+        //vue的cached缓存  个人认为这个很屌
+        /**
+        * @param {Function} fn 要缓存的函数
+        * @return {Function} 返回缓存的函数中的字符串或将原函数中的字符串存储进来
+        * @example
+        * 第一次：
+        * app => cache = {app: 'App'}
+        * 第二次：
+        * app => cache = {app: 'App'}，这时候仓库中已经存在 'app' 这个 key，因此调用 cache 中的 key 即可
+        * */
+
+
+        function cached(fn) {
+            const cache = Object.create(null);
+            return str => {
+                const hit = cache[str];
+                return hit || (cache[str] = fn(str))
+            }
+        }
+        /*
+         * Test
+         * */
+        const capitalize = cached(str => str.charAt(0).toUpperCase() + str.slice(1));
+        const capitalize1 = cached(obj => obj.a);
+        m = {a: [1, 2, 3]}
+        console.log(capitalize('app'));  // App
+        console.log(capitalize1(m));  // App     
+
+        //这是项目中的代码
+        let activeIndex = 1
+        const mapObj = {}
+        let data=data;
+        function aaa(id) {
+            mapObj[activeIndex].aaa = {};
+            mapObj[activeIndex].aaa = data
+            if (mapObj[id].aaa) {
+                return mapObj[id].aaa
+            }
+            activeIndex = id;
+            return mapObj[id].aaa = data;
+        }
+   
+//    看了vue的和实际工作中的缓存  感觉自己的这个函数不纯
+//    但不知道vue这个怎么在实际工作中应用
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    // 8.1 链式调用
+
+// 如果你使用过 jQuery，那么你一定对链式调用很喜欢吧。
+
+// 在 JavaScript 内置的 Array.prototype 方法，都是可以链式调用的。
+
+// 我这里举一个例子，现在假设我们要筛选出两个个数组中的数字，然后输出它们的和：
+
+// add([1, 2, 'a'], ['b', 3]) ==> 6
+// 这时，我们就可以用上前面我们所学到的方法啦：
+
+const isNumber = value => typeof value === 'number';
+const multiply = (a, b) => a + b;
+
+function add(array1, array2) {
+    debugger
+  return array1
+    .concat(array2)
+    .filter(n => isNumber(n))
+    .reduce(multiply, 0)
+}
+
+console.log(add([1, 2, 'a'], ['b', 3]));
+// 看到了吗？这就是链式调用的实践，我们应当多多使用 Array 提供的原生的链式调用的方法，这会省去我们不少的烦恼。
+    </script>
+</body>
+</html>
