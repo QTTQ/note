@@ -84,7 +84,11 @@
         const capitalize1 = cached(obj => obj.a);
         m = {a: [1, 2, 3]}
         console.log(capitalize('app'));  // App
-        console.log(capitalize1(m));  // App     
+        console.log(capitalize1(m));  // App   
+
+        // vue这个感觉是函数curry方式执行的
+        // cached(str => str.charAt(0).toUpperCase() + str.slice(1))("app")
+        // 相当于fn(a)(b)  
 
         //这是项目中的代码
         let activeIndex = 1
