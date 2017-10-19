@@ -69,8 +69,7 @@
         * 第二次：
         * app => cache = {app: 'App'}，这时候仓库中已经存在 'app' 这个 key，因此调用 cache 中的 key 即可
         * */
-
-
+        
         function cached(fn) {
             const cache = Object.create(null);
             return str => {
