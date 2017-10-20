@@ -1,0 +1,224 @@
+JS设计模式——5.单体模式(用了这么久，竟全然不知!)
+2014-03-19 09:18 阅读(2167) 评论(4) 编辑 收藏
+单体模式的优势
+用了这么久的单体模式，竟全然不知！用它具体有哪些好处呢？
+
+1.可以用它来划分命名空间(这个就是就是经常用的了)
+
+2.利用分支技术来封装浏览器之间的差异(这个还真没用过，挺新鲜)
+
+3.借助单体模式，可以把代码组织的更为一致，方便阅读与维护(这个也用过了)
+
+最基本的单体模式
+最简单的单体其实就是一个对象字面量。它把一批有一定关联的方法和属性组织在一起。
+
+var Singleton={
+    name: nimei,
+    age: 2,
+    walk: function(){
+        ...
+    },
+    eat: function(){
+        ...
+    }
+}
+这个对象可以被修改。你可以添加属性和方法。你也可以用delete运算符删除现有成员。这实际上违背了面向对象设计的一条原则：类可以被扩展，但不应该被修改。如果某些变量需要保护，那么可以将其定义在闭包中。
+
+对象字面量只是创建单体的方法之一。也并非所有的对象字面量都是单体，那些只是用来模仿关联数组或容纳数据的对象字面量显然不是单体。
+
+用作划分命名空间
+防止全局声明的修改
+
+/*using a namespace*/
+var common = {
+    findProduct: function(){
+
+    },
+    ...
+}
+var findProduct = true;
+这样以来，即使我们在外面声明了相同的变量，也能在一定程度上防止findProduct的被修改。
+
+防止其它来源代码的修改
+
+现在网页上的JavaScript代码往往不止用一个来源，什么库代码、广告代码和徽章代码。为了避免与自己代码的冲突，可以定义一个包含自己所有代码的对象。
+
+var JChen = {};
+JChen.Common = {
+    //A singleton with common methods used by all objects and modules
+}
+JChen.ErrorCodes = {
+    //An object literal used to store data
+}
+JChen.PageHandler = {
+    //A singleton with page specific methods and attributes.
+}
+用作专用代码包装器
+在拥有许多网页的网站中，有些代码是所有网页都要用到的，他们通常被存放在独立的文件中；而有些代码则是某个网页专用的，不会被用到其他地方。最好把这两种代码分别包装在自己的单体对象中。
+
+我们经常要用Javascript为表单添加功能。出于平稳退化方面的考虑，通常先创建一个不依赖于Javascript的、使用普通提交机制完成任务的纯HTML网页。
+
+JChen.RegPage = {
+    FORM_ID: 'reg-form',
+    OUTPUT_ID: 'reg-result',
+
+    handleSubmit: function(e){
+        e.preventDefault(); //stop the normal form submission
+
+        var data = {};
+        var inputs = JChen.RegPage.formEl.getElementByTagName('input');
+
+        for(var i=0, len=inputs.length; i<len; i++){
+            data[inputs[i].name] = inputs[i].value;
+        }
+
+        JChen.RegPage.sendRegistration(data);
+    },
+    sendRegistration: function(data){
+        //make an xhr request and call displayResult() when response is recieved
+        ...
+    },
+    displayResult: function(response){
+        JChen.RegPage.outputEl.innerHTML = response;
+    },
+    init: function(){
+        JChen.RegPage.formEl =$(JChen.RegPage.Form_ID);
+        JChen.RegPage.outputEl = $(JChen.RegPage.OUTPUT_ID);
+        //hijack the form submission
+        addEvent(JChen.RegPage.formEl, 'submit', JChen.RegPage.handleSubmit);
+    }
+}
+//invoke initialization method after the page load
+addLoadEvent(JChen.RegPage.init);
+拥有私有成员的单体
+第3章介绍的创建类的私有成员的做法的缺点在于它们比较耗费内存，因为每个实例都有方法的一份新副本。
+
+不过，由于单体对象只会被实例化一次，因此为其定义私用方法是不必考虑内存方面的问题。
+
+使用下划线表示法
+
+这个方法就不介绍了，太简单了。
+
+使用闭包
+
+JChen.DataParser = (function(){
+    //private members
+    var whitespaceRegex = /\s+/;
+
+    function stripWhitespace(str){
+        return str.replace(whitespaceRegex, '');
+    }
+    function stringSplit(str, delimiter){
+        return str.split(delimiter);
+    }
+
+    return {
+        //public members
+        stringToArray: function(str, delimiter, stripWS){
+            if(stripWS){
+                str = stripWhitespace(str);
+            }
+            var outputArray = stringSplit(str, delimiter);
+            return outputArray;
+        }
+    }
+})();
+这种单体模式又称模块模式，指的是它可以把一批相关的方法和属性组织为模块并起到划分命名空间的作用。
+
+现在这些私用方法和属性可以直接用其名来访问，不必在其前面加上this.或JChen.DataParser，这些前缀只适用于访问单体对象的公用成员。
+
+惰性实例化技术
+前面所讲的单体模式又一个共同点：单体对象都是在脚本加载时被创建出来。对于资源密集的或配置开销甚大的单体，更合理的做法是将其实例化推迟到需要使用他的时候。
+
+这种技术就是惰性加载(lazy loading)。
+
+实现步骤如下：
+
+1.将所有代码移到constructor方法中
+
+2.全权控制调用时机(正是getInstance所要做的)
+
+JChen.lazyLoading = (function(){
+    var uniqInstance;
+
+    function constructor(){
+        var attr = false;
+        function method(){
+
+        }
+
+        return {
+            attrp: true,
+            methodp: function(){
+
+            }
+        }
+    }
+
+    return {
+        getInstance: function(){
+            if(!uniqInstance){
+                uniqInstance = constructor();
+            }
+            return uniqInstance;
+        }
+    }
+})();
+分支技术
+分支是一种用来把浏览器间的差异封装在运行期间进行设置的动态方法中的技术。
+
+比如说，如果网站中要频繁使用xhr，每次调用都要再次运行浏览器嗅探代码，这样会严重缺乏效率。
+
+更有效的做法是在脚本加载时一次性地确定针对浏览器的代码。这正是分支技术所做的事情。
+
+当然，分支技术并不总是更高效的选择，在两个或者多个分支中只有一个分支被用到了，其他分支就占用了内存。
+
+在考虑是否使用分支技术的时候，必须在缩短时间和占用更多内存这一利一弊之间权衡一下。
+
+下面利用分支技术实现XHR：
+
+var XHR = (function(){
+    var standard = {
+        createXhrObj: function(){
+            return new XMLHttpRequest();
+        }
+    };
+    var activeXNew = {
+        createXhrObj: function(){
+            return new ActiveXObject('Msxml2.XMLHTTP');
+        }
+    };
+    var activeXOld = {
+        createXhrObj: function(){
+            return new ActiveXObject('Microsoft.XMLHTTP');
+        }
+    };
+
+    var testObj;
+    try{
+        testObj = standard.createXhrObj();
+        return testObj;
+    }catch(e){
+        try{
+            testObj = activeXNew.createXhrObj();
+            return testObj;
+        }catch(e){
+            try{
+                testObj = activeXOld.createXhrObj();
+                return testObj;
+            }catch(e){
+                throw new Error('No XHR object found in this environment.');
+            }
+        }
+    }
+})();
+单体模式的弊端
+了解了这么多关于单体的知识，我们再来看看它的弊端。
+
+由于单体模式提供的是一种单点访问，所以它有可能导致模块间的强耦合。因此也就不利于单元测试了。
+
+综上，单体还是留给定义命名空间和实现分支型方法这些用途。
+
+
+//js设计模式讲解地址
+http://www.cnblogs.com/tugenhua0707/p/5198407.html

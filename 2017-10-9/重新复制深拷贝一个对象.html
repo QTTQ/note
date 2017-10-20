@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //函数式编程里的拷贝另一个对象
+    const obj = {
+      a: 1
+    };
+
+    function deepClone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    const obj1 = deepClone(obj);
+    obj1.a = 2;
+
+    console.log(obj);  // {a: 1}
+    console.log(obj1);  // {a: 2}
+
+    // 博客里的三种对象拷贝与赋值
+    var obj = {
+      name: 'xiaoming',
+      age: 23
+    };
+    var newObj = obj;
+    newObj.name = 'xiaohua';
+    console.log(obj.name);//xiaohua
+    console.log(newObj.name);//xiaohua
+    // 我们将obj对象赋值给了newObj对象，从而改变newObj的name属性，但是obj对象的name属性也被篡改，这是因为实际上newObj对象获得的只是一个内存地址，而不是真正的拷贝，所以obj对象被篡改。
+
+    var obj = {
+      name: 'xiaoming',
+      age: 23
+    };
+    var newObj = Object.assign({}, obj, { color: 'blue' });
+    newObj.name = 'xiaohua';
+    console.log(obj.name);//xiaoming
+    console.log(newObj.name);//xiaohua
+    console.log(newObj.color);//blue
+    // 利用Object.assign()方法进行对象的深拷贝可以避免源对象被篡改的可能。因为Object.assign()方法可以把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象。
+
+    var obj = {
+      name: 'xiaoming',
+      age: 23
+    };
+    var newObj = Object.create(obj);
+    newObj.name = 'xiaohua';
+    console.log(obj.name);//xiaoming
+    console.log(newObj.name);//xiaohua
+// 我们也可以使用Object.create()方法进行对象的拷贝，Object.create()方法可以创建一个具有指定原型对象和属性的新对象。
+
+  </script>
+</body>
+
+</html>

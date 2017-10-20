@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file">
+    <br>
+    <img src="" height="200" alt="Image preview area..." title="preview-img">
+    <script>
+        var fileInput = document.querySelector('input[type=file]');
+        var previewImg = document.querySelector('img');
+
+        fileInput.addEventListener('change', function () {
+            var file = this.files[0];
+            console.log(file)
+            var reader = new FileReader();
+
+            reader.addEventListener('load', function () {
+                previewImg.src = reader.result;
+            }, false);
+
+            reader.readAsDataURL(file);
+        }, false);
+
+    </script>
+</body>
+
+</html>
