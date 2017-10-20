@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        //     /**
+        //  * @param {Object|Array} list 要转换的列表
+        //  * @param {Number} start 从此索引出开始转换
+        //  * @return {Array} result 返回一个拥有指定索引值开始到结尾的新数组
+        //  *
+        //  * */
+
+        //     function toArray(list, start = 0) {
+        //         let index = list.length - start;
+        //         const result = new Array(index);
+
+        //         while (index--) {
+        //             result[index] = list[index + start];
+        //         }
+
+        //         return result;
+        //     }
+
+        //     /*
+        //      * Test
+        //      * */
+
+        //     const array = [1, 2, 3, 4, 5];
+        //     const real = toArray(array, 2);
+
+        //     console.log(real);  // [3, 4, 5]
+
+
+        /**
+        * @param {Array} array 目标数组
+        * @return {Object} 返回属性混合后的目标对象
+        *
+        * */
+        
+        //自己感觉return型函数利用的都是闭包和作用域，闭包和作用域是很吊的
+
+        // function isObject(array) {
+        //     const result = {};
+
+        //     for (let i = 0; i < array.length; i++) {
+        //         if (array[i]) {
+        //             extend(result, array[i]);
+        //         }
+        //     }
+
+        //     return result;
+        // }
+
+        // function extend(to, from) {
+        //     for (let key in from) {
+        //         to[key] = from[key];
+        //     }
+        //     return to;
+        // }
+        function isObject() {
+            // function extend(to, from) {
+            //     for (let key in from) {
+            //         to[key] = from[key];
+            //     }
+            //     return to;
+            // }
+            let extend = (to, from) => {
+                for (let key in from) {
+                    to[key] = from[key];
+                }
+                return to;
+            }
+            return (array) => {
+                const result = {};
+                for (let i = 0; i < array.length; i++) {
+                    if (array[i]) {
+                        extend(result, array[i]);
+                    }
+                }
+                return result;
+            }
+        }
+        console.log(isObject()([
+            { a: 1 },
+            { b: 2 },
+            { c: 3 },
+        ]))
+
+    </script>
+</body>
+
+</html>
