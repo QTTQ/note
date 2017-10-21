@@ -12,7 +12,8 @@
     <script>
         // 经典的闭包实列如下：
         function f(x) {              //外部函数
-            var a = x;              // 外部函数的局部变量，并传递参数
+            var a = x;  
+            console.log(1,a)            // 外部函数的局部变量，并传递参数
             var b = function () {     // 内部函数 
                 return a;     //返回的是a的地址      // 访问外部函数中的局部变量
             };
