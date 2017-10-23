@@ -427,3 +427,9 @@ index.js
 
 ✖ 5 problems (5 errors, 0 warnings)
 上面代码说明，原文件有五个错误，其中两个是不应该使用var命令，而要使用let或const；一个是定义了变量，却没有使用；另外两个是行首缩进为4个空格，而不是规定的2个空格。
+
+
+/**
+*es6网址------------
+http://es6.ruanyifeng.com/
+**/
