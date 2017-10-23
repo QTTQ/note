@@ -220,5 +220,40 @@ var XHR = (function(){
 综上，单体还是留给定义命名空间和实现分支型方法这些用途。
 
 
+
+单例模式
+单例模式被熟知的原因是因为它限制了类的实例化次数只能一次。在该类的实例不存在的情况下，可以通过一个方法创建该类的实例，如果实例已经存在，它会简单返回该实例对象的引用。
+
+举个例子：
+var mySingleton = (function(){
+    var instance;
+    function init(){
+        function privateMethod(){
+            console.log("method call");
+        }
+        var privateVar = "I am private";
+        return {
+            publicMethod:function(){
+                privateMthod();
+            },
+            publicVar:"I am public",
+            getPrivateVar: function(){
+                return privateVar;
+            }
+        };
+    }
+    return {
+        getInstance: function(){
+            if(!instance){
+                instance = init();
+            }
+            return instance;
+        }
+    }
+})();
+当调用mySingleton.getInstance方法时，由于实例对象instance不存在，因此会调用init方法创建一个实例对象，这时instance引用此实例对象。当第二次调用mySingleton.getInstance方法时，由于instance存在，因此直接返回instance。
+
+在实践中，你的系统需要一个对象来协调其他对象时，单例模式是很有用的。
+
 //js设计模式讲解地址
 http://www.cnblogs.com/tugenhua0707/p/5198407.html

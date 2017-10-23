@@ -22,13 +22,14 @@
 
 
         function splat(fn) {
-            debugger
             return function (array) {
                 return fn.apply(null, array);
             };
         }
         const addArrayElements = splat((x, y) => x + y);
         // addArrayElements([1, 2]); // 3
+        //也可以写成这样
+        // const addArrElements=(fn=>arr=>fn.apply(null,arr))((x,y)=>x+y)
         console.log(addArrayElements([1,2]))
     </script>
 </body>
