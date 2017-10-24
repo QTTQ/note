@@ -1,4 +1,13 @@
-Javascript异步编程的4种方法
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Javascript异步编程的4种方法
 
 你可能知道，Javascript语言的执行环境是"单线程"（single thread）。
 所谓"单线程"，就是指一次只能完成一件任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务，以此类推。
@@ -102,3 +111,37 @@ f1要进行如下改写（这里使用的是jQuery的实现）：
         };
 
         start();
+    
+    
+    //两个then的
+    new Promise(resolve => {
+    resolve("hello");
+    })
+    .then(v => {
+        console.log(v);
+        return Promise.reject();
+        //也可以 throw new Error();
+    })
+    .then(() => {
+        console.log("success");
+    }, () => {
+        console.log("fail");
+    });
+
+    //--------------
+     new Promise((resolve, ret) => {
+        debugger
+        $.ajax({
+            url: 'hello.json',
+            dataType: 'json'
+        }).done(function (data, status, jqXHR) {
+            resolve(data)
+        })
+    }).then(res => {
+        console.log(res)
+        return res.id
+    }).then(res => console.log(res))
+    -->
+
+</body>
+</html>
