@@ -14,7 +14,7 @@
     const obj = {
       a: 1
     };
-
+//深拷贝对象 与源对象完全解耦  别的拷贝没这个彻底
     function deepClone(obj) {
       return JSON.parse(JSON.stringify(obj));
     }

@@ -1,10 +1,12 @@
-1、Vue.directive(id,definition)注册一个全局自定义指令，接收两个参数，指令ID以及定义对象
 
-2、钩子函数：将作用域与DOM进行链接，链接函数用来创建可以操作DOM的指令
+        
+// 1、Vue.directive(id,definition)注册一个全局自定义指令，接收两个参数，指令ID以及定义对象
 
-bind - 只调用一次，在指令第一次绑定到元素上时候调用
-update - 在bind之后立即以初始值为参数第一次调用，之后绑定值变化的时候，参数为新值与旧值
-unbind - 只调用一次，在指令从元素上解绑的时候调用
+// 2、钩子函数：将作用域与DOM进行链接，链接函数用来创建可以操作DOM的指令
+
+// bind - 只调用一次，在指令第一次绑定到元素上时候调用
+// update - 在bind之后立即以初始值为参数第一次调用，之后绑定值变化的时候，参数为新值与旧值
+// unbind - 只调用一次，在指令从元素上解绑的时候调用
 
 Vue.directive('my-directive',{
     bind : function(){
@@ -23,8 +25,8 @@ Vue.directive('my-directive',{
     }
 })
 
-//调用
-<div v-my-directive="someValue"></div>
+//调用 
+        <div v-my-directive="someValue"></div>
 
 //只需要update函数，可以传一个函数替代定义对象
 Vue.directive('my-directive',function(value){})
@@ -48,3 +50,4 @@ Vue.directive('my-directive',function(value){})
 
 
 http://www.cnblogs.com/zhanghuiyun/p/6223179.html
+        

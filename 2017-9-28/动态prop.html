@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<script src="../vue.js"></script>
+    <h3>#动态Props</h3>
+    <div id="dr03">
+        <div>
+            <input v-model="parentMsg" placeholder="please input parentMsg" />
+        </div>
+        <br />
+        <!-- 缩写v-bind-->
+        <child03 :my-message03="parentMsg"></child03>
+    </div>
+    <script>
+        //********************************************************************
+        //动态Props
+        //注册组件myMessage03
+        Vue.component("child03", {
+            // props: ['myMessage03'],
+            props: {'myMessage03':String},
+            
+            template: "<div>myMessage03: {{myMessage03}}</div>"
+        });
+        var dr03 = new Vue({
+            el: "#dr03",
+            data: {
+                parentMsg: "Hello, this is parentMsg!",
+            }
+        });
+    </script>
+</body>
+
+</html>

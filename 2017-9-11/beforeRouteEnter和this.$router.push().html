@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        beforeRouteEnter(to, from, next){
+            //可以监听路由，next是callback函数吧
+            console.log(from.path);
+            next(vm => vm.from = from);
+        }
+
+        //跳转到指定url
+        this.$router.push("/");
+
+        if (self.selectGameType == 1) {
+            self.$router.push({
+                name: "ChooseClass",
+                query: {
+                    gid: item.catagoryId,
+                    mainGid: item.mainCatagoryId,
+                    gname: item.name,
+                    gameType: item.type,
+                    type: 'special'
+                },
+            })
+        }
+        else {
+            if (_hmt) _hmt.push(['_trackPageview', `/vue/mobile-game/goods-list/${item.catagoryId}/${item.name}/2`]);
+            self.$router.push({
+                name: "MobileGameList",
+                params: {
+                    gameId: item.catagoryId,
+                    gameName: item.name,
+                    goodsType: 2
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

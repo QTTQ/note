@@ -30,7 +30,16 @@
             let reg = /【\S*】/g;
             return text.replace(reg, '');
 
-
+            let text = "【asdasd】11111111111";
+            let reg = /【\S*】/g;
+            function aaa() {
+                return text.replace(reg, '');
+            }
+            function aaa1() {
+                return text.match(reg)[0];
+            }
+            console.log(aaa());//111111111111
+            console.log(aaa1());//【asdasd】
 
 
         }

@@ -30,7 +30,7 @@ var vm = new Vue({
 })
 
 计算属性的 setter
-
+ // 注意，不应该使用箭头函数来定义计算属性函数
 计算属性默认只有 getter ，不过在需要时你也可以提供一个 setter ：
 // ...
 computed: {

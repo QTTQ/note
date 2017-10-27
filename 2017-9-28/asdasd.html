@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <!-- 作用域插槽 -->
+            <v-three>
+                <!-- 父组件默认无法使用子组件数据 -->
+                <template scope="props">
+                    asdasd
+                    <p>{{props.text}}</p>
+                    <p v-for="item in props.text">{{item}}</p>
+                </template>
+            </v-three>
+
+            <!-- 渲染结果 -->
+            <!-- <div><p>I am three</p></div> -->
+        </div>
+    </div>
+
+    <!-- 作用域插槽 -->
+    <template id="three">
+        <div>
+            <!-- 把数据传递给slot,这样父组件也可以访问three这个组件的数据 -->
+            <slot :text="threeData"></slot>
+        </div>
+    </template>
+    <script>
+        let three = {
+            template: ` <div>
+            <!-- 把数据传递给slot,这样父组件也可以访问three这个组件的数据 -->
+            <slot :text="threeData"></slot>
+        </div>`,
+            data() {
+                return {
+                    'threeData': {
+                        a: 1,
+                        b: "hhaha"
+                    }
+                }
+            }
+        }
+        new Vue({
+            el: '#app',
+            components: {
+                'v-three': three
+            }
+        });
+    </script>
+</body>
+
+</html>
