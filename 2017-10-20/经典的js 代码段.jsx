@@ -1,35 +1,13 @@
 
 1. 如何重用元素搜索
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
-
-10
-
 var
 
     allItems = $("div.item");
 
 var
 
-    keepList = $("div#container1
- div.item");
+    keepList = $("div#container1div.item");
 
 //现在你可以继续使用这些jQuery对象来工作了。例如，
 
@@ -38,33 +16,11 @@ var
 
         //符合
 
-        <
-        DIV > class names:
-
-        $(formToLookAt
-            + "
- input: checked").each(function()
+ <DIV> class names:$(formToLookAt+ "input: checked").each(function()
  {
-
-                keepList
-                = keepList.filter("."
-
-                    + $(this).attr("name"));
-
-            });
-
-<
-    /DIV>
+     keepList = keepList.filter("."+ $(this).attr("name"));});
+</DIV>
 2. 任何使用has()来检查某个元素是否包含某个类或是元素：
-
-
-1
-
-2
-
-3
-
-4
 
 //jQuery
 1.4.* 包含了对这一has方法的支持。该方法找出
@@ -76,29 +32,10 @@ var
 $("input").has(".email").addClass("email_icon");
 3. 如何使用jQuery来切换样式表
 
-
-1
-
-2
-
 //找出你希望切换的媒体类型（media-type），然后把href设置成新的样式表。
 
-$('link[media='screen']').attr('href',
-    'Alternative.css');
+$('link[media='screen']').attr('href','Alternative.css');
 4. 如何限制选择范围（基于优化目的）：
-
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
 
 //尽可能使用标签名来作为类名的前缀，
 
@@ -110,76 +47,30 @@ $('link[media='screen']').attr('href',
 
 //就越能降低执行和搜索的时间。
 
-var
+varin_stock = $('#shopping_cart_itemsinput.is_in_stock');
 
-    in_stock = $('#shopping_cart_items
- input.is_in_stock');
-
-1
-
-2
-
-3
-
-4
-
-5
-
-        < ul
-
-id = "shopping_cart_items" >
-
+        < ulid = "shopping_cart_items" >
         <li><input
-
             type="radio"
-
             value="Item-X"
-
             name="item"
-
             class="is_in_stock"
-
         /> Item X</li>
 
         <li><input
-
             type="radio"
-
             value="Item-Y"
-
             name="item"
-
             class="3-5_days"
-
         /> Item Y</li>
-
         <li><input
-
             type="radio"
-
             value="Item-Z"
-
             name="item"
-
             class="unknown"
-
         /> Item Z</li>
-
 </ul >
     5. 如何正确地使用ToggleClass：
-
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
 
 //切换（toggle）类允许你根据某个类的
 
@@ -195,148 +86,49 @@ a.hasClass('blueButton')
 
 a.toggleClass('blueButton');
 6. 如何设置IE特有的功能：
-
-
-1
-
-2
-
-3
-
 if
-
 ($.browser.msie) {
-
     //
     Internet Explorer就是个虐待狂
-
 }
 7. 如何使用jQuery来代替一个元素：
-
-
-1
-
 $('#thatdiv').replaceWith('fnuh');
 8. 如何验证某个元素是否为空：
-
-
-1
-
-2
-
-3
-
 if
-
-($('#keks').html() ==
-    null) {
-
+($('#keks').html() ==null) {
     //什么都没有找到;
-
 }
 9. 如何从一个未排序的集合中找出某个元素的索引号
-
-
-1
-
-2
-
-3
-
-$("ul
-    > li").click(function
-
-        () {
-
-        var
-
-index = $(this).prevAll().length;
-
-    });
+$("ul> li").click(function() {
+var index = $(this).prevAll().length;});
 10. 如何把函数绑定到事件上：
-
-
-1
-
-2
-
-3
-
-$('#foo').bind('click',
-    function () {
-
-        alert('User
- clicked on "foo."');
-
-});
+$('#foo').bind('click',function () {alert('Userclicked on "foo."');});
 11. 如何追加或是添加html到元素中：
-
-
-1
-
 $('#lal').append('sometext');
 12. 在创建元素时，如何使用对象字面量（literal）来定义属性
 
-
-1
-
-var
-
-    e = $("",
+var e = $("",
         {
             href: "#",
             class: "a-class
  another-class",
  title: "..."
-
 });
 13. 如何使用多个属性来进行过滤
-
-
-1
-
-2
-
-3
-
 //在使用许多相类似的有着不同类型的input元素时，
 
 //这种基于精确度的方法很有用
 
-var
-
-    elements = $('#someid
+var elements = $('#someid
  input[type = sometype][value = somevalue]').get();
 14. 如何使用jQuery来预加载图像：
 
-
-        1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-jQuery.preloadImages
-        = function () {
-
+jQuery.preloadImages = function () {
             for (var
-
                 i = 0; i < arguments.length; i++) {
-
-                $("<img
-                    /> ").attr('src',
+                $("<img/> ").attr('src',
  arguments[i]);
-
             }
-
         };
 
 //用法
@@ -347,33 +139,6 @@ $.preloadImages('image1.gif',
 15. 如何为任何与选择器相匹配的元素设置事件处理程序：
 
 
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
-
-10
-
-11
-
-12
-
-13
-
-14
 
 $('button.someClass').live('click',
     someFunction);
@@ -423,22 +188,6 @@ $("p.value:contains('thetextvalue')").hide();
 18. 如何自动滚动到页面中的某区域
 
 
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
 jQuery.fn.autoscroll
     = function (selector) {
 
@@ -460,14 +209,6 @@ jQuery.fn.autoscroll
 $('.area_name').autoscroll();
 19. 如何检测各种浏览器：
 
-
-1
-
-2
-
-3
-
-4
 
 检测Safari
     (if (
@@ -492,10 +233,6 @@ $('.area_name').autoscroll();
 20. 如何替换串中的词
 
 
-1
-
-2
-
 var
 
     el = $('#id');
@@ -504,12 +241,6 @@ el.html(el.html().replace(/word/ig,
     ''));
 21. 如何禁用右键单击上下文菜单：
 
-
-1
-
-2
-
-3
 
 $(document).bind('contextmenu', function (e) {
 
@@ -520,24 +251,6 @@ $(document).bind('contextmenu', function (e) {
 });
 22. 如何定义一个定制的选择器
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
 
 $.expr[':'].mycustomselector
     = function (element,
@@ -569,12 +282,6 @@ $('.someClasses:test').doSomething();
 23. 如何检查某个元素是否存在
 
 
-1
-
-2
-
-3
-
 if
 
 ($('#someDiv').length) {
@@ -583,21 +290,6 @@ if
 
 }
 24. 如何使用jQuery来检测右键和左键的鼠标单击两种情况：
-
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
 
 $("#someelement").live('click',
     function (e) {
@@ -622,38 +314,6 @@ $("#someelement").live('click',
     });
 25. 如何显示或是删除input域中的默认值
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
-
-10
-
-11
-
-12
-
-13
-
-14
-
-15
-
-16
 
 //这段代码展示了在用户未输入值时，
 
@@ -695,7 +355,6 @@ $(".swap").each(function (i) {
 
 });
 
-1
 
     < input
 type = "text"
@@ -707,18 +366,6 @@ class="swap"
     />
     26. 如何在一段时间之后自动隐藏或关闭元素（支持1.4版本）：
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
 
 //这是1.3.2中我们使用setTimeout来实现的方式
 
@@ -736,11 +383,6 @@ $(".mydiv").delay(5000).hide('blind',
     {}, 500);
 27. 如何把已创建的元素动态地添加到DOM中：
 
-
-1
-
-2
-
 var
 
     newDiv = $('');
@@ -749,55 +391,6 @@ newDiv.attr('id', 'myNewDiv').appendTo('body');
 28. 如何限制“Text - Area”域中的字符的个数：
 
 
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
-
-10
-
-11
-
-12
-
-13
-
-14
-
-15
-
-16
-
-17
-
-18
-
-19
-
-20
-
-21
-
-22
-
-23
-
-24
-
-25
 
 jQuery.fn.maxLength
     = function (max) {
@@ -883,25 +476,6 @@ jQuery.fn.maxLength
 $('#mytextarea').maxLength(500);
 29. 如何为函数创建一个基本的测试
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
-
 //把测试单独放在模块中
 
 module("Module
@@ -945,11 +519,6 @@ var
 31. 在jQuery中如何测试某个元素是否可见
 
 
-1
-
-2
-
-3
 
 if ($(element).is(':visible')
     == 'true') {
@@ -960,22 +529,6 @@ if ($(element).is(':visible')
 }
 32. 如何把一个元素放在屏幕的中心位置：
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
 
 jQuery.fn.center
     = function
@@ -1004,14 +557,6 @@ $(element).center();
 33. 如何把有着某个特定名称的所有元素的值都放到一个数组中：
 
 
-1
-
-2
-
-3
-
-4
-
 var
 
     arrInputValues = new
@@ -1024,29 +569,6 @@ $("input[name='table[]']").each(function () {
 
 });
 34. 如何从元素中除去html
-
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
-
-10
-
-11
 
     (function ($) {
 
@@ -1085,24 +607,6 @@ $('#searchBox').closest('div');
 36. 如何使用Firebug和Firefox来记录jQuery事件日志：
 
 
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
-
 //
 允许链式日志记录
 
@@ -1135,20 +639,6 @@ jQuery.log
 37. 如何强制在弹出窗口中打开链接：
 
 
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
 jQuery('a.popup').live('click',
     function () {
 
@@ -1169,17 +659,6 @@ jQuery('a.popup').live('click',
     });
 38. 如何强制在新的选项卡中打开链接：
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
 jQuery('a.newTab').live('click',
     function () {
 
@@ -1194,25 +673,6 @@ jQuery('a.newTab').live('click',
 
     });
 39. 在jQuery中如何使用.siblings()来选择同辈元素
-
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-8
-
-9
 
 //
 不这样做
@@ -1237,19 +697,6 @@ $('#nav
 });
 40. 如何切换页面上的所有复选框：
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
 var
 
     tog = false;
@@ -1267,17 +714,6 @@ $('a').click(function () {
 });
 41. 如何基于一些输入文本来过滤一个元素列表：
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
 //如果元素的值和输入的文本相匹配的话
 
 //该元素将被返回
@@ -1292,17 +728,6 @@ $('.someClass').filter(function () {
 })
 42. 如何获得鼠标垫光标位置x和y
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
 $(document).ready(function () {
 
     $(document).mousemove(function (e) {
@@ -1315,15 +740,6 @@ $(document).ready(function () {
 });
 43. 如何把整个的列表元素（List Element，LI）变成可点击的
 
-
-1
-
-2
-
-3
-
-4
-
 $("ul
  li").click(function(){
 
@@ -1334,18 +750,6 @@ return
 false;
 
 });
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
 
     < ul >
 
@@ -1372,19 +776,6 @@ false;
 </ul >
     44. 如何使用jQuery来解析XML（基本的例子）：
 
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
 function
 
 parseXml(xml) {
@@ -1403,12 +794,6 @@ parseXml(xml) {
 45. 如何检查图像是否已经被完全加载进来
 
 
-1
-
-2
-
-3
-
 $('#theImage').attr('src',
     'image.jpg').load(function () {
 
@@ -1417,19 +802,6 @@ $('#theImage').attr('src',
 
 });
 46. 如何使用jQuery来为事件指定命名空间：
-
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
 
 //事件可以这样绑定命名空间
 
