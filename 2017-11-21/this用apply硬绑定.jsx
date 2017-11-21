@@ -5,9 +5,9 @@ function foo(someting) {
 function bind(fn, obj) {
     return function () {
         console.log('====================================');
-        console.log(...arguments);//3
+        console.log(...arguments);//这个arguments 是 3
         console.log('====================================');
-        return fn.apply(obj, arguments);
+        return fn.apply(obj, arguments); //这个arguments 是foo obj 3
     }
 }
 var obj = {
