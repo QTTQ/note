@@ -26,7 +26,25 @@ function foo(someting) {// 这个当参数传递的函数必须有名
 
     return (this.a + someting)
 };
-//arguments必须显示传入  我也不知道为什么  反正不传不好使
+
 const bind = (fn, obj) => (...arguments) => fn.apply(obj, arguments);
+const bind = (fn, obj) => (...argts) => fn.apply(obj, args);
+//arguments必须显示传入  我也不知道为什么  反正不传不好使 
+//此时在箭头函数中的arguments已经不是数组对象了，就是个变量 用什么都可以
+//我感觉应该是箭头函数的原因把函数this指定到父级获取不到arguments 
+//所以的用参数代替arguments传过来
 console.log(bind(foo, obj)(3));
+
+/**
+ *单例模式
+ */
+// 单例模式保证类只有一个实例，并提供一个访问它的全局访问点
+const getSingle = (fn) => {
+    let result;
+    return (...args) => result || (result = fn.apply(this, args))
+}
+function foo(e) {
+    return e;
+};
+console.log(getSingle(foo)(22));
 
