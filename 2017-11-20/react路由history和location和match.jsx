@@ -70,13 +70,10 @@ componentWillReceiveProps(nextProps) {
 }
 可以在不同情境中使用 location：
 
-<Link to={location}
-/>
-    <NaviveLink
-        to={location} />
-    <Redirect
-        to={location />
-            history.push(location)
+<Link to={location}/>
+<NaviveLink to={location} />
+<Redirect to={location />
+history.push(location)
 history.replace(location)
 match
 
@@ -85,7 +82,7 @@ match 对象包含了 < Route path > 如何与 URL 匹配的信息，具有以�
 params: object 路径参数，通过解析 URL 中的动态部分获得键值对
 isExact: bool 为 true 时，整个 URL 都需要匹配
 path: string 用来匹配的路径模式，用于创建嵌套的 < Route >
-    url: string URL 匹配的部分，用于嵌套的 < Link >
+url: string URL 匹配的部分，用于嵌套的 < Link >
         在以下情境中可以获取 match 对象
 
 在 Route component 中，以 this.props.match获取
