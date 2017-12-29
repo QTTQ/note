@@ -10,29 +10,18 @@
 
 <body>
     <script>
-        var longen = {
-            name: 'yunxi'
-        };
-        var longen2 = {
-            name: '我叫涂根华'
-        };
-        var longen3 = [
-            "name", '我叫涂根华'
-        ];
-        var name = "我是来测试的";
-        var getName = function () {
-            if (this.name) {
-                
-            return this.name;
-            }else{
-
-            return this[0];            
-            }
-        };
-        console.log(getName()); // 打印 "我是来测试的";
-        console.log(getName.call(longen)); // 打印 yunxi
-        console.log(getName.call(longen2)); // 打印 "我叫涂根华"
-        console.log(getName.call(longen3)); // 打印 "我叫涂根华"        
+        window.onload = function () {
+            var arr = [1, 3, 4, 5, 7]
+            let aaab = arr.filter((item, i, items) => {
+                let Sign = true
+                items.map(v => {
+                    if ((v - item) * (v - item) == 1) {
+                        Sign = false
+                    }
+                })
+                return Sign
+            })
+        }
     </script>
 </body>
 
