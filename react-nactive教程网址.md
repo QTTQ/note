@@ -1,0 +1,1 @@
+https://react-native.cn/docs/0.40/getting-started.html#content
