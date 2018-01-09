@@ -3,5 +3,5 @@
 记录自己学习es*、vue、react、react-native、node、python的总结笔记 
 
 
-AUTHOR--Arvin
+Arvin in 2017
 
