@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+
+var arr = ['A','B','C'];
+
+function show(arr,num){
+	
+	var resultNum = 0;
+	var iNow = 1;
+	
+	if(num==1){
+		return arr.length;
+	}
+	
+	function change(arr,iNow){
+		debugger
+		for(var i=0;i<arr.length;i++){
+			
+			// var result = arr.concat();
+			let result=Object.assign(arr)
+			console.log('--',result)
+			result.splice(i,1);
+			
+			if( iNow == num ){
+				resultNum += result.length;
+			}
+			else{
+				change(result,iNow+1);
+			}
+			
+		}
+		
+	}
+	change(arr,iNow+1);
+	
+	return resultNum;
+}
+
+console.log(show(arr,2));  
+
+
+/*var arr = ['A','B','C','D'];
+
+function show(arr,num){
+	
+	var resultNum = 0;
+	var resultArr = [];
+	var iNow = 1;
+	
+	if(num==1){
+		arr.push(arr.length);
+		return arr;
+	}
+	
+	function change(arr,iNow,str){
+		
+		for(var i=0;i<arr.length;i++){
+			
+			var result = arr.concat();
+			var strClone = str;
+			strClone += result.splice(i,1);
+			
+			if( iNow == num ){
+				resultNum += result.length;
+				for(var j=0;j<result.length;j++){
+					resultArr.push(strClone + result[j]);
+				}
+				
+			}
+			else{
+				change(result,iNow+1,strClone);
+			}
+			
+		}
+		
+	}
+	change(arr,iNow+1,'');
+	
+	resultArr.push(resultNum);
+	
+	return resultArr;
+}
+
+console.log(show(arr,1)); */ 
+
+
+// function A(m,n){
+// 	return f(m) / f(m-n);
+// }
+
+// function f(num){
+// 	if(num<=1){
+// 		return 1;
+// 	}
+// 	return num * f(num-1);
+// }
+
+// console.log(A(4,2));
+
+</script>
+</head>
+
+<body>
+</body>
+</html>

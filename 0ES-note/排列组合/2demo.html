@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+
+
+
+
+/*var arr = ['A','B','C'];
+
+function show(arr,num){
+
+	var resultArr = [];
+	var iNow = 1;
+	
+	if(num==1){
+		arr.push(arr.length);
+		return arr;
+	}
+	
+	function change(arr,iNow,str){
+		
+		for(var i=0;i<arr.length;i++){
+			
+			var result = arr.concat();
+			var strClone = str;
+			strClone += result.splice(i,1);
+			
+			if( iNow == num ){
+
+				for(var j=0;j<result.length;j++){
+					resultArr.push(strClone + result[j]);
+				}
+				
+			}
+			else{
+				change(result,iNow+1,strClone);
+			}
+			
+		}
+		
+	}
+	change(arr,iNow+1,'');
+	
+	//console.log( resultArr );
+	
+	function unique(arr){
+		for(var i=0;i<arr.length;i++){
+			arr[i] = arr[i].split('').sort().join('');
+		}
+		//console.log(arr);
+		var result = [];
+		var obj = {};
+		for(var i=0;i<arr.length;i++){
+			if( !obj[arr[i]] ){
+				result.push(arr[i]);
+				obj[arr[i]] = 1;
+			}
+		}
+		
+		return result;
+	}
+	resultArr = unique( resultArr );
+	resultArr.push(resultArr.length);
+	return resultArr;
+}
+
+console.log(show(arr,3)); */
+
+
+function C(m,n){
+	return f(m) / ( f(m-n) * f(n) );
+}
+function f(num){
+	if(num<=1){
+		return 1;
+	}
+	return num * f(num-1);
+}
+console.log( C(3,3) );
+</script>
+</head>
+
+<body>
+</body>
+</html>

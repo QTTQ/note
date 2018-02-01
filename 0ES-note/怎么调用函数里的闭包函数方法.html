@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">按钮</button>
+    <script>
+        const _debounce = (f, wait, time) => {
+            let previous = null;
+            let timer = null;
+            return () => {
+                console.log('previous1:', previous)
+                let now = +new Date();
+                if (!previous) {
+                    previous = now
+                }
+                if (now - previous > time) {
+                    clearTimeout(timer);
+                    f()
+                    previous = now;
+                } else {
+                    clearTimeout(timer)
+                    timer = setTimeout(() => {
+                        f()
+                    }, wait)
+                }
+            }
+        }
+        const _log = () => {
+            console.log(111)
+        }
+
+        //----***----底下这两种形式都是调用方法（函数） 第二中正好调用里边返回的闭包
+        // document.getElementById("btn").onclick = () => {}
+        document.getElementById("btn").onclick = _debounce(_log, 500, 1000)
+        console.log(_debounce(_log, 500, 1000))
+        window.onscroll = _debounce(_log, 500, 1000)
+        //函数节流
+        // const _throttle=(f,time)=>{}
+        
+    </script>
+</body>
+
+</html>

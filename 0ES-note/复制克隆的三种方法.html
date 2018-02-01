@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="div">asdas</div>
+    <script>
+        var obj = Object.create({ foo: 1 }, {
+            [Symbol()]: {
+                value: 1,
+                enumerable: false
+            },
+            bar: {
+                value: 2,
+                enumerable: false
+            },
+            [Symbol()]: {
+                value: 3,
+                enumerable: true
+            },
+            baz: {
+                value: 4,
+                enumerable: true
+            }
+        })
+
+  
+
+    </script>
+
+</body>
+
+</html>

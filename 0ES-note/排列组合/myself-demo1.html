@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 排列概念 从m个不同元素中，任取n(n <= arr)个
+        // 元素按照一定 的顺序排成一列，叫做从m个不
+        // 同元素中取出n个 元素的排列。即公式: A(arr, n)
+
+        var arr = ['A', 'B', 'C', 'D'];
+        const sort = (arr, n) => {
+            let layers = 2;
+            let result = 0;
+            (change = (arr, layers_c) => {
+                arr.map((v, i) => {
+                        console.log('v', v)
+                    let layers_arr = [...arr];
+                    layers_arr.splice(i, 1)
+                    if (layers_c == n) {
+                        result += layers_arr.length;
+                    } else {
+                        console.log('layers_arr',layers_arr)
+                        change(layers_arr, layers + 1)
+                    }
+                })
+            })(arr, layers)
+            return result;
+        }
+        console.log(sort(arr,3))
+    </script>
+</body>
+
+</html>
