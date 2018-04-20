@@ -1,0 +1,3 @@
+<template name="wxParseImg$357e308c">
+  <image class="_image data-v-76ec2b56 img {{node.classStr}}" mode="{{node.imageMode}}" data-src="{{node.attr.src}}" src="{{node.attr.src}}" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" style=" {{node.styleStr}}"></image>
+</template>

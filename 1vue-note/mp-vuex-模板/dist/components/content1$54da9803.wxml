@@ -1,0 +1,30 @@
+<import src="type-block$92da10b6" />
+<template name="content1$54da9803">
+  <view class="_div data-v-0de8e118 content">
+    <scroll-view scroll-y style="height:100%" bindscroll="handleProxy" bindscrolltolower="handleProxy" bindscrolltoupper="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_scroll-view data-v-0de8e118">
+      <view class="_div data-v-0de8e118 feed-title">
+        <navigator url="{{'/pages/article1/main?id='+item.id}}" class="_a data-v-0de8e118 feed-li" wx:key="index" key="{{index}}" wx:for="{{list}}" wx:for-index="index" wx:for-item="item">
+          <view class="_div data-v-0de8e118 feed-title">
+            <template data="{{...$root[$kk+'0-'+index], $root}}" is="type-block$92da10b6"></template>
+            <view class="_p data-v-0de8e118">{{item.title}}</view>
+          </view>
+          <view class="_div data-v-0de8e118 feed-content">
+            <avatar user="{{item.aythor}}" class="_avatar data-v-0de8e118"></avatar>
+            <view class="_div data-v-0de8e118 feed-right">
+              <view class="_div data-v-0de8e118 feed-right-top">
+                <view class="_div data-v-0de8e118 avatar-name">{{item.author.loginname}}</view>
+                <view class="_div data-v-0de8e118 count">
+                  <label class="_span data-v-0de8e118">{{item.last_reply_count}}</label>
+                </view>
+              </view>
+              <view class="_div data-v-0de8e118 feed-right-bottom">
+                <view class="_div data-v-0de8e118 feed-time">{{item.createTime}}</view>
+                <view class="_div data-v-0de8e118 feed-pass">{{item.lassReplyTime}}</view>
+              </view>
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </scroll-view>
+  </view>
+</template>

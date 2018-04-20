@@ -1,0 +1,28 @@
+<import src="type-block$92da10b6" />
+<import src="avatar$4ce75ec4" />
+<template name="content$23c4ad9e">
+  <view class="_div data-v-20ce840d content">
+    <scroll-view scroll-y style="height:100%;" bindscroll="handleProxy" bindscrolltolower="handleProxy" bindscrolltoupper="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_scroll-view data-v-20ce840d">
+      <navigator url="{{'/pages/article/main?id='+item.id}}" class="_a data-v-20ce840d feed-li" wx:key="index" key="{{index}}" wx:for="{{list}}" wx:for-index="index" wx:for-item="item">
+        <view class="_div data-v-20ce840d feed-title">
+          <template data="{{...$root[$kk+'0-'+index], $root}}" is="type-block$92da10b6"></template>
+          <view class="_p data-v-20ce840d">{{item.title}}</view>
+        </view>
+        <view class="_div data-v-20ce840d feed-content">
+          <template data="{{...$root[$kk+'1-'+index], $root}}" is="avatar$4ce75ec4"></template>
+          <view class="_div data-v-20ce840d feed-right">
+            <view class="_div data-v-20ce840d feed-right-top">
+              <view class="_div data-v-20ce840d avatar-name"> {{item.author.loginname}} </view>
+              <view class="_div data-v-20ce840d count">
+                <label class="_span data-v-20ce840d">{{item.reply_count}}</label> / {{item.visit_count}} </view>
+            </view>
+            <view class="_div data-v-20ce840d feed-right-bottom">
+              <view class="_div data-v-20ce840d feed-time"> {{item.createTime}} </view>
+              <view class="_div data-v-20ce840d feed-pass"> {{item.lastReplyTime}} </view>
+            </view>
+          </view>
+        </view>
+      </navigator>
+    </scroll-view>
+  </view>
+</template>

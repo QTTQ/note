@@ -1,0 +1,49 @@
+<import src="avatar$4ce75ec4" />
+<import src="type-block$92da10b6" />
+<import src="icon$2eddfab8" />
+<import src="wxParse$e33708f2" />
+<template name="article$e6e80246">
+  <view class="_div data-v-bb7c69d6 article-wrap" wx:if="{{article}}">
+    <view class="_div data-v-bb7c69d6 head-box">
+      <view class="_h2 data-v-bb7c69d6 head-title"> {{article.title}} </view>
+      <view class="_div data-v-bb7c69d6 head-intro">
+        <template data="{{...$root[$kk+'0'], $root}}" is="avatar$4ce75ec4"></template>
+        <view class="_div data-v-bb7c69d6 head-middle">
+          <view class="_div data-v-bb7c69d6 head-middle-top">
+            <template wx:if="{{article}}" data="{{...$root[$kk+'1'], $root}}" is="type-block$92da10b6"></template>
+            <label class="_span data-v-bb7c69d6 head-author-name">jingsam</label>
+          </view>
+          <view class="_div data-v-bb7c69d6 head-middle-bottom"> {{article.createTime}} ·
+            <label class="_span data-v-bb7c69d6">{{article.visit_count}}</label>次预览
+            <view class="_div data-v-bb7c69d6 icon-eye-open"></view>
+          </view>
+        </view>
+        <view class="_div data-v-bb7c69d6 head-right">
+          <template type="heart" data="{{...$root[$kk+undefined], $root}}" is="icon$2eddfab8"></template>
+        </view>
+      </view>
+    </view>
+    <view class="_div data-v-bb7c69d6 content-box">
+      <template wx:if="{{article}}" data="{{...$root[$kk+'2'], $root}}" is="wxParse$e33708f2"></template>
+    </view>
+    <view class="_div data-v-bb7c69d6 comment-box">
+      <view class="_div data-v-bb7c69d6 comment-count"> {{article.reply_count}} 条回复 </view>
+      <view class="_div data-v-bb7c69d6 comment-item" wx:key="index" key="{{index}}" wx:for="{{article.replies}}" wx:for-index="index" wx:for-item="reply">
+        <view class="_div data-v-bb7c69d6 comment-head">
+          <template data="{{...$root[$kk+'3-'+index], $root}}" is="avatar$4ce75ec4"></template>
+          <view class="_div data-v-bb7c69d6 comment-middle">
+            <view class="_div data-v-bb7c69d6 comment-middle-top"> {{reply.author.loginname}} </view>
+            <view class="_div data-v-bb7c69d6 comment-middle-bottom">
+              <label class="_span data-v-bb7c69d6">{{index+1}}</label> 楼· {{reply.createTime}} </view>
+          </view>
+          <view class="_div data-v-bb7c69d6 comment-right">
+            <template type="heart" data="{{...$root[$kk+undefined], $root}}" is="icon$2eddfab8"></template>
+          </view>
+        </view>
+        <view class="_div data-v-bb7c69d6 comment-content">
+          <template data="{{...$root[$kk+'4-'+index], $root}}" is="wxParse$e33708f2"></template>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

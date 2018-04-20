@@ -1,0 +1,97 @@
+@import "/static/css/vendor.wxss";
+
+.user-wrap.data-v-18d9b0c7 {
+  height: 100%;
+}
+.user-wrap .user-head-wrap.data-v-18d9b0c7 {
+  transition: height .6s;
+  overflow: hidden;
+  text-align: center;
+  height: 440rpx;
+  background-size: 100%;
+  background-image: url("http://s3.music.126.net/m/s/img/hot_music_bg_2x.jpg");
+}
+.user-wrap .user-head-wrap .avatar.data-v-18d9b0c7 {
+  margin: 40rpx auto 0;
+  width: 180rpx;
+}
+.user-wrap .user-head-wrap .name-wrap.data-v-18d9b0c7 {
+  text-align: center;
+  color: #fff;
+}
+.user-wrap .user-head-wrap .name-wrap .name.data-v-18d9b0c7 {
+  font-size: 36rpx;
+  margin-top: 16rpx;
+}
+.user-wrap .user-head-wrap .name-wrap .link.data-v-18d9b0c7 {
+  margin-top: 16rpx;
+  text-decoration: underline;
+  color: #999;
+}
+.user-wrap .user-head-wrap .info.data-v-18d9b0c7 {
+  padding: 0 32rpx;
+  position: relative;
+  color: #fff;
+  margin-top: 20rpx;
+  text-align: left;
+  font-size: 28rpx;
+}
+.user-wrap .user-head-wrap .info ._span.data-v-18d9b0c7 {
+  color: #80bd01;
+  right: 32rpx;
+  position: absolute;
+}
+.user-wrap .swiper-box.data-v-18d9b0c7 {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+.user-wrap .swiper-box .swiper-item.data-v-18d9b0c7 {
+  height: 100%;
+  text-align: center;
+  display: block;
+}
+.feed-content.data-v-37fc77f7 {
+  margin-top: 0;
+  display: flex;
+  font-size: 28rpx;
+  padding: 28rpx;
+  align-items: center;
+  border-bottom: 2rpx solid #bcbab6;
+}
+.feed-content .feed-right.data-v-37fc77f7 {
+  flex: 1;
+  min-width: 0;
+  margin-left: 16rpx;
+}
+.feed-content .feed-right .feed-right-top.data-v-37fc77f7 {
+  display: flex;
+  justify-content: space-between;
+}
+.feed-content .feed-right .feed-right-top .feed-title.data-v-37fc77f7 {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.feed-content .feed-right .feed-right-top .feed-title ._p.data-v-37fc77f7 {
+  margin: 0 0 0 16rpx;
+  font-size: 28rpx;
+  line-height: 48rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+.feed-content .feed-right .feed-right-bottom.data-v-37fc77f7 {
+  display: flex;
+  justify-content: space-between;
+}
+.feed-content .feed-right .feed-right-bottom .feed-time.data-v-37fc77f7 {
+  font-size: 24rpx;
+  color: #666;
+  margin-left: 16rpx;
+}
+.feed-content .feed-right .feed-right-bottom .feed-pass.data-v-37fc77f7 {
+  font-size: 26rpx;
+}

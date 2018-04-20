@@ -1,0 +1,84 @@
+@import "/static/css/vendor.wxss";
+
+.article-wrap.data-v-bb7c69d6 {
+  background-color: #f4f4f4;
+  font-size: 28rpx;
+}
+.article-wrap .head-box.data-v-bb7c69d6 {
+  padding: 28rpx;
+  background: #fff;
+}
+.article-wrap .head-box .head-title.data-v-bb7c69d6 {
+  font-size: 36rpx;
+  margin: 0;
+}
+.article-wrap .head-box .head-intro.data-v-bb7c69d6 {
+  display: flex;
+  margin-top: 16rpx;
+  align-items: center;
+}
+.article-wrap .head-box .head-intro .head-middle.data-v-bb7c69d6 {
+  flex: 1;
+  margin-left: 20rpx;
+}
+.article-wrap .head-box .head-intro .head-middle .head-middle-top.data-v-bb7c69d6 {
+  display: flex;
+  align-items: center;
+}
+.article-wrap .head-box .head-intro .head-middle .head-middle-top .head-author-name.data-v-bb7c69d6 {
+  font-size: 28rpx;
+  margin-left: 16rpx;
+}
+.article-wrap .head-box .head-intro .head-middle .head-middle-bottom.data-v-bb7c69d6 {
+  line-height: 40rpx;
+  font-size: 26rpx;
+  color: #666;
+  margin-top: 4rpx;
+}
+.article-wrap .head-box .head-intro .head-right.data-v-bb7c69d6 {
+  width: 72rpx;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 32rpx;
+}
+.article-wrap .content-box.data-v-bb7c69d6 {
+  padding: 0 28rpx;
+  background: #fff;
+  box-shadow: 0 4rpx 4rpx #cecece;
+}
+.article-wrap .comment-box.data-v-bb7c69d6 {
+  margin-top: 16rpx;
+  background: #fff;
+}
+.article-wrap .comment-box .comment-count.data-v-bb7c69d6 {
+  padding: 36rpx 28rpx;
+  position: relative;
+  font-size: 28rpx;
+  font-weight: 100;
+  border-bottom: 2rpx solid #bcbab6;
+}
+.article-wrap .comment-box .comment-item.data-v-bb7c69d6 {
+  position: relative;
+  padding: 28rpx;
+  border-bottom: 2rpx solid #bcbab6;
+}
+.article-wrap .comment-box .comment-item .comment-head.data-v-bb7c69d6 {
+  display: flex;
+}
+.article-wrap .comment-box .comment-item .comment-head .comment-middle.data-v-bb7c69d6 {
+  margin-left: 16rpx;
+  flex: 1;
+}
+.article-wrap .comment-box .comment-item .comment-head .comment-middle .comment-middle-bottom ._span.data-v-bb7c69d6 {
+  color: #80bd01;
+}
+.article-wrap .comment-box .comment-item .comment-head .comment-right.data-v-bb7c69d6 {
+  flex-shrink: 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  color: #666;
+}
+.article-wrap .comment-box .comment-item .comment-content.data-v-bb7c69d6 {
+  margin-top: 16rpx;
+}

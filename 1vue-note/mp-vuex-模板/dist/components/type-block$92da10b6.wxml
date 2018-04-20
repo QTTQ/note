@@ -1,0 +1,5 @@
+<template name="type-block$92da10b6">
+  <view class="_div data-v-1263d6d6 feed-label feed-label-top" wx:if="{{item.top}}"> 置顶 </view>
+  <view class="_div data-v-1263d6d6 feed-label feed-label-top" wx:elif="{{item.good}}"> 精华 </view>
+  <view class="_div data-v-1263d6d6 feed-label feed-label-other" wx:else> {{type}} </view>
+</template>

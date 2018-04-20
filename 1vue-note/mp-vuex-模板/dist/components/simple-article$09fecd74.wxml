@@ -1,0 +1,19 @@
+<import src="avatar$4ce75ec4" />
+<template name="simple-article$09fecd74">
+  <view class="_div data-v-37fc77f7 feed-content" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">
+    <template wx:if="{{article}}" data="{{...$root[$kk+'0'], $root}}" is="avatar$4ce75ec4"></template>
+    <view class="_div data-v-37fc77f7 feed-right">
+      <view class="_div data-v-37fc77f7 feed-right-top">
+        <view class="_div data-v-37fc77f7 feed-title">
+          <view class="_p data-v-37fc77f7">{{article.title}}</view>
+        </view>
+      </view>
+      <view class="_div data-v-37fc77f7 feed-right-bottom" wx:if="{{article}}">
+        <view class="_div data-v-37fc77f7 feed-time">
+          <label class="_span data-v-37fc77f7">{{article.author.loginname}}</label>
+        </view>
+        <view class="_div data-v-37fc77f7 feed-pass"> 1个月前 </view>
+      </view>
+    </view>
+  </view>
+</template>

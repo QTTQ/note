@@ -1,0 +1,28 @@
+<import src="avatar$4ce75ec4" />
+<import src="slider-nav$4cf349bc" />
+<import src="simple-article$09fecd74" />
+<template name="user$07e5c9c9">
+  <view class="_div data-v-18d9b0c7 user-wrap">
+    <view class="_div data-v-18d9b0c7 user-head-wrap" style=" {{'height:' + height + 'px'}}">
+      <view class="_div data-v-18d9b0c7 avatar">
+        <template wx:if="{{author}}" data="{{...$root[$kk+'0'], $root}}" is="avatar$4ce75ec4"></template>
+      </view>
+      <view class="_div data-v-18d9b0c7 name-wrap" wx:if="{{user}}">
+        <view class="_div data-v-18d9b0c7 name"> {{user.loginname}} </view>
+        <view class="_div data-v-18d9b0c7 link"> {{user.githubUsername}}@github.com </view>
+      </view>
+      <view class="_div data-v-18d9b0c7 info" wx:if="{{user}}"> 注册时间：{{user.create_at}}
+        <label class="_span data-v-18d9b0c7">积分：{{user.score}}</label>
+      </view>
+    </view>
+    <template data-eventid="{{'0'}}" data-comkey="{{$k}}" data="{{...$root[$kk+'1'], $root}}" is="slider-nav$4cf349bc"></template>
+    <swiper current="{{currentTab}}" class="_swiper data-v-18d9b0c7 swiper-box" duration="300" bindchange="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}" style=" {{'height:' + contentHeight}}">
+      <swiper-item wx:key="index" key="{{index}}" wx:for="{{navList}}" wx:for-index="index" wx:for-item="item" class="_swiper-item data-v-18d9b0c7">
+        <scroll-view scroll-y style="height:100%;" bindscroll="handleProxy" bindscrolltoupper="handleProxy" wx:if="{{articleList.length}}" data-eventid="{{'1-'+index}}" data-comkey="{{$k}}" class="_scroll-view data-v-18d9b0c7">
+          <template wx:key="i" data="{{...$root[$kk+'2-'+index+'-'+i], $root}}" is="simple-article$09fecd74" wx:for="{{articleList}}" wx:for-index="i" wx:for-item="item"></template>
+        </scroll-view>
+        <view wx:else style="text-align:center" class="_p data-v-18d9b0c7">暂无数据</view>
+      </swiper-item>
+    </swiper>
+  </view>
+</template>

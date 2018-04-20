@@ -1,0 +1,5 @@
+<template name="avatar$4ce75ec4">
+  <view class="_div data-v-d1bd0316 avatar" catchtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" style=" {{style}}">
+    <image src="{{user.avatar_url}}" alt="用户头像" class="_img data-v-d1bd0316"></image>
+  </view>
+</template>

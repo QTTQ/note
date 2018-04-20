@@ -1,0 +1,17 @@
+<import src="slider-list1$7cb0df92" />
+<import src="content1$54da9803" />
+<template name="index$76c96695">
+  <view class="_div data-v-55aa0f8d container">
+    <template data-eventid="{{'0'}}" data-comkey="{{$k}}" data="{{...$root[$kk+'0'], $root}}" is="slider-list1$7cb0df92"></template>
+    <view class="_div data-v-55aa0f8d border-box" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">mapMutations结果：{{indexData}}</view>
+    <view class="_div data-v-55aa0f8d border-box" bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}">mapActions结果：{{indexData}}</view>
+    <view class="_div data-v-55aa0f8d border-box" bindtap="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}">mapActions异步结果：{{indexData1.n}}</view>
+    <view class="_div data-v-55aa0f8d border-box">mapGetters结果：{{count}}
+      <view class="_br data-v-55aa0f8d"></view>mapGetters筛选结果：{{getOdd}}</view>
+    <swiper current="{{currentTab}}" class="_swiper data-v-55aa0f8d swiper-box" duration="300" bindchange="handleProxy" data-eventid="{{'4'}}" data-comkey="{{$k}}" style=" {{'height:' + contentHeight}}">
+      <swiper-item wx:key="index" key="{{index}}" wx:for="{{navList}}" wx:for-index="index" wx:for-item="item" class="_swiper-item data-v-55aa0f8d">
+        <template wx:if="{{index==currentTab}}" data="{{...$root[$kk+'1-'+index], $root}}" is="content1$54da9803"></template>
+      </swiper-item>
+    </swiper>
+  </view>
+</template>

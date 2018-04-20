@@ -1,0 +1,6 @@
+<template name="slider-list1$7cb0df92">
+  <scroll-view class="_scroll-view data-v-27c6b683 swiper-tab" style="width:100%" scroll-x>
+    <view class="_view data-v-27c6b683 swiper-tab-item" wx:key="index" key="{{index}}" data-current="{{index}}" bindtap="handleProxy" data-eventid="{{'0-'+index}}" data-comkey="{{$k}}" wx:for="{{navList}}" wx:for-index="index" wx:for-item="item" style=" {{menuStyle}}">{{item.title}}</view>
+    <view class="_view data-v-27c6b683 block" style=" {{blockStyle}}"></view>
+  </scroll-view>
+</template>
