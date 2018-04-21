@@ -1,0 +1,5 @@
+export const CLICKADD = 'CLICKADD'
+export const LOGIN = 'LOGIN'
+export const SWITCHCONTENTACTION = 'SWITCHCONTENTACTION'
+export const REGISTER = 'REGISTER'
+
