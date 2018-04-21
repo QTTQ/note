@@ -5,14 +5,12 @@ pomelo是网易开源的服务器架构，通讯类型分为四种： request，
 
 一 ChannelService
 ChannelService是由pomelo默认加载组件channel创建的。 可以使用如下方法获得:
-[javascript] view plain copy
 app.get('channelService');  
 
 ChannelService中提供了以下几个常用的方法：
 1 createChannel(name);
 name: channel名
 创建一个指定名称的channel。
-[javascript] view plain copy
 ChannelService.prototype.createChannel = function(name) {  
     if (this.channels[name]) {  
         return this.channels[name];  
@@ -27,7 +25,6 @@ ChannelService.prototype.createChannel = function(name) {
 name: channel名
 create: 如果不存在， 是否创建
 获取一个指定用户名的channel， 如果create为true， 不存在会创建一个。
-[javascript] view plain copy
 ChannelService.prototype.getChannel = function(name, create) {  
     var channel = this.channels[name];  
     if (!channel && !!create) {  
@@ -39,7 +36,6 @@ ChannelService.prototype.getChannel = function(name, create) {
 3 destroyChannel(name);
 name: channel名
 使用name, 销毁一个指定的channel。
-[javascript] view plain copy
 ChannelService.prototype.destroyChannel = function(name) {  
     delete this.channels[name];  
 };  
@@ -56,7 +52,6 @@ uid为session.bind(uid);
 opts: 可选的自定义参数
 cb: callback方法
 给指定uid推送消息。
-[javascript] view plain copy
 ChannelService.prototype.pushMessageByUids = function(route, msg, uids, opts, cb) {  
     if (typeof route !== 'string') {  
         cb = opts;  
@@ -92,7 +87,6 @@ msg: 发送给前端的消息内容
 opts: 可选的自定义参数
 cb: callback方法
 给指定服务器上所有的链接者推送消息。
-[javascript] view plain copy
 ChannelService.prototype.broadcast = function(stype, route, msg, opts, cb) {  
     var app = this.app;  
     var namespace = 'sys';  
@@ -158,7 +152,6 @@ ChannelService.prototype.broadcast = function(stype, route, msg, opts, cb) {
 uid: 前端连接的uid
 sid: 前端连接到的服务器id
 将uid添加到channel中。
-[javascript] view plain copy
 Channel.prototype.add = function(uid, sid) {  
     if (this.state > ST_INITED) {  
         return false;  
@@ -178,7 +171,6 @@ Channel.prototype.add = function(uid, sid) {
 uid: 用户的uid
 sid: 前端连接到的服务器id
 将uid从channel中移除。
-[javascript] view plain copy
 Channel.prototype.leave = function(uid, sid) {  
     if (!uid || !sid) {  
         return false;  
@@ -193,7 +185,6 @@ Channel.prototype.leave = function(uid, sid) {
 
 3 getMembers()
 获取当前channel中所有的用户。
-[javascript] view plain copy
 Channel.prototype.getMembers = function() {  
     var res = [],  
         groups = this.groups;  
@@ -210,14 +201,12 @@ Channel.prototype.getMembers = function() {
 4 getMember(uid)
 uid: 用户的uid
 获取指定用户的uid。
-[javascript] view plain copy
 Channel.prototype.getMember = function(uid) {  
     return this.records[uid];  
 };  
 
 5 destroy()
 销毁channel。
-[javascript] view plain copy
 Channel.prototype.destroy = function() {  
     this.state = ST_DESTROYED;  
     this.__channelService__.destroyChannel(this.name);  
@@ -229,7 +218,6 @@ msg: 发送给前端的消息内容
 opts: 可选的自定义参数
 cb: callback方法
 给当前channel中所有的用户推送消息。
-[javascript] view plain copy
 Channel.prototype.pushMessage = function(route, msg, opts, cb) {  
     if (this.state !== ST_INITED) {  
         utils.invokeCallback(new Error('channel is not running now'));  
@@ -257,7 +245,6 @@ Channel.prototype.pushMessage = function(route, msg, opts, cb) {
 1 匿名Channel
 就是不需要创建Channel， 直接使用channelService.pushMessageByUids和channelService.broadcast推送；
 示例：
-[javascript] view plain copy
 var uidArray = new Array();  
 uidObject.uid = "session uid";  
 uidObject.sid = "connector-server-1";  
@@ -283,7 +270,6 @@ channelService.broadcast('connector', 'onMsg', msg, {
 2 显式Channel
 需要使用channel.createChannel或channel.getChannel先获得一个Channel， 然后使用Chanel.pushMessage推送。
 示例：
-[javascript] view plain copy
 //创建Channel  
 var channelName = 'allPushChannel';  
 var channel = this.channelService.getChannel  
