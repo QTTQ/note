@@ -92,6 +92,7 @@ async function aaa() {
 	return 'ASDASDA'
 
 }
+
 async function bbb() {
 	try {
 		let ccc = await aaa()
