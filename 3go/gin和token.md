@@ -1,0 +1,1 @@
+https://www.bandari.net/blog/23
