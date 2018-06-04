@@ -141,3 +141,8 @@ SELECT * FROM 表名 WHERE name REGEXP '^.{5}$'
 -- 计算你拥有动物的总数目与“在pet表中有多少行?”是同样的问题，因为每个宠物有一个记录。
 -- COUNT(*)函数计算行数，所以计算动物数目的查询应为：
 SELECT COUNT(*) FROM 表格
+
+-- 按种类和性别组合的动物数量： 
+
+SELECT species, sex, COUNT(*) FROM pet GROUP BY species, sex;
+
