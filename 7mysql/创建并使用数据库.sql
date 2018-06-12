@@ -279,7 +279,10 @@ update orders set title='hehe' WHERE id=1;
 -- 语法：INSERT INTO 表名称 (列1, 列2,...) VALUES (值1, 值2,....)
 
 -- 向表 Persons 插入一条字段 LastName = JSLite 字段 Address = shanghai
-INSERT Persons INTO (LastName,Address) VALUES ('AA','ASDAD');
+INSERT Persons INTO (LastName,Address) VALUES ('AA','ASDAD');//这样把 表名放在 into前不好使 不知道为什么这条不记；
+--这种才好使
+INSERT INTO `system_mail` (m_title,m_content) VALUES ("AAA","内容让你日日111日日日日日日日日日"),("AAA","内容让你日日111日日日日日日日日日"),("AAA","内容让你日日111日日日日日日日日日"),("AAA","内容让你日日111日日日日日日日日日"),("AAA","内容让你日日111日日日日日日日日日");
+
 -- 向表 meeting 插入 字段 a=1 和字段 b=2
 INSERT INTO meeting SET a=1,b=2;
 
