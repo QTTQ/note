@@ -1,0 +1,10 @@
+登陆数据库
+mysql -uroot -ppassword；
+
+创建数据库
+CREATE DATABASE ddz；
+
+导入数据表
+use ddz；
+set names utf8；
+source ./opt/doudizhu.sql
