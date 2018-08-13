@@ -1,0 +1,11 @@
+首先先执行
+find / -name mysql.sock
+看有没有.sock目录
+如果没有执行
+mysql -uroot -h 127.0.0.1 -p 
+然后
+service mysql  restart
+service mysqld restart
+再次查找
+find / -name mysql.sock
+发现有.sock文件了  就成功了
