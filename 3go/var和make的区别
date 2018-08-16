@@ -1,0 +1,2 @@
+使用make，而不是直接使用var persons []Person的声明方式。还是有所差别的，使用make的方式，
+当数组切片没有元素的时候，Json会返回[]。如果直接声明，json会返回null。

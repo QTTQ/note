@@ -1,0 +1,2 @@
+用node执行js文件的时候先执行一句export NODE_ENV=production
+然后再node xxx.js
