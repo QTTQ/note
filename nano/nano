@@ -1,0 +1,7 @@
+如果没有withname这种选项, 你必须在前端写RoomManager.Join
+
+withname相当于重命名
+
+withnamefunc可以用来做名字混淆
+
+所有的Option都是With开头的
