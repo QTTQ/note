@@ -1,0 +1,2 @@
+            oldTime.toDateString()//只获取到天的 时间 
+            oldTime.toString()//获取整个时间
