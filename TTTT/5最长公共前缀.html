@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let strs = ["flower", "flow", "flight"]
+        function aaaa(strs) {
+            let langArr = ""
+            let isTrue = true
+
+            let firstStrs = strs[0];
+            let result = '';
+            if (!strs.length) {
+                return result;
+            }
+            let shortValue = strs.sort((a, b) => {
+                return a.length - b.length
+            })[0]
+            for (let i = 0; i < shortValue.length; i++) {
+                strs.map((v, ii) => {
+                    if (isTrue) {
+                        console.log(v.indexOf(shortValue.slice(0, i + 1)) == 0)
+                        if (v.indexOf(shortValue.slice(0, i + 1)) != 0) {
+                            isTrue = false
+                            langArr = shortValue.slice(0, i)
+                            return false
+                        } else {
+                            langArr = shortValue.slice(0, i + 1)
+                        }
+                    }
+                })
+            }
+            return langArr
+        }
+        console.log(aaaa(strs))
+    </script>
+</body>
+
+</html>

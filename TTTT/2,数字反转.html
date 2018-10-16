@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 可以用取余做
+
+        function aaaa(x) {
+            let numStr = ""
+            let n = 1
+            let plus = true
+            function aaa(x) {
+                if (x < 0) {
+                    x = -x
+                    plus = false
+                }
+                let newNums = x
+                let num = x % 10 ** n
+                newNums = x - num
+                numStr = numStr + num / (10 ** (n - 1))
+                n++
+                if (newNums >= Math.pow(2, 31)) {
+                    return 0
+                }
+                if (newNums != 0) {
+                    aaa(newNums)
+                }
+                if (!plus) {
+                    return -parseInt(numStr)
+                }
+                return parseInt(numStr)
+            }
+            return aaa(x)
+        }
+
+
+
+        // 方法分析：
+        // 因为整数不可遍历（not iterable），故先需将整数转换为字符串，从而为可遍历（iterable）对象，然后倒序遍历字符串，依次将值压入（push）结果数组中。
+        // 然后，我们需要判断是否包含符号位。如果有符号位，就将该符号位放入结果数组的头部（head），若无符号位，则将最后一位压入结果数组中。
+        // 将结果数组转换为整数，并判定其是否在指定范围内，若在，则返回该值，否则返回0。
+
+        var reverse = function (x) {
+            var resultArr = [];
+            var intToStr = x.toString();
+            for (var i = intToStr.length - 1; i > 0; i--) {
+                resultArr.push(intToStr[i]);
+            }
+            if (intToStr[0] == "-") {
+                resultArr.unshift("-");
+            }
+            resultArr.push(intToStr[0]);
+            var resultNum = parseInt(resultArr.join(""));
+            if (resultNum <= Math.pow(-2, 31) || resultNum >= Math.pow(2, 31) - 1) {
+                return 0;
+            }
+            return resultNum;
+
+        }
+
+    </script>
+</body>
+
+</html>

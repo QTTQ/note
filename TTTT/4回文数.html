@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function aaa(x) {
+            let numStr = x.toString()
+            let numLen = numStr.length
+            if (numLen == 1) return true
+            for (let i = 0; i < numLen; i++) {
+                if (numLen % 2 == 0) {
+                    if (numStr[i] != numStr[numLen - i - 1]) {
+                        return false
+                    }
+                } else {
+                    if (i != (numLen - 1) / 2) {
+                        if (numStr[i] != numStr[numLen - i - 1]) {
+                            return false
+                        }
+                    }
+                }
+            }
+            return true
+        }
+        let aaaaaaa = "1000021"
+        console.log(aaaaaaa.split(""))
+        console.log(aaa(1000021))
+        //split切分字符串 和 join拼接字符串
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        function aaa(nums, target) {
+            let mapArr = []
+            let res = []
+            nums.map((v, i) => {
+                let compt = target - v
+                if (mapArr.includes(v)) {
+                    res = [nums.indexOf(compt), i]
+                    return
+                }
+                mapArr = [...mapArr, compt]
+            })
+            return res
+        }
+        console.log(aaa([2, 7, 4, 11, 15], 11))
+
+
+
+        /**
+ 
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+        var twoSum = function (nums, target) {
+            // 用于记录数组nums的长度
+            const length = nums.length;
+            // 实例化一个Map对象
+            let hash = new Map();
+            let index = 0;
+            for (index = 0; index < length; index++) {
+                // 设置 hashMap 的 <key, value>，用于后面比较取值
+                hash.set(nums[index], index);
+            }
+
+
+            console.log(hash);
+            // 遍历数组中的每一个数，求出另一个与其相加可以满足条件的数的值，存储在 @param numToFind 中
+            let numToFind;
+            for (index = 0; index < length; index++) {
+                numToFind = target - nums[index];
+                // 查询 hashMap 中对应的值是否有对应的index，而且不能是当前数的下标（防止出现 3 + 3 = 6，但数组nums中只有一个3这样的情况）
+                if (hash.has(numToFind) && index !== hash.get(numToFind)) {
+                    return [index, hash.get(numToFind)];
+                }
+            }
+        };
+        twoSum([2, 7, 4, 11, 15], 11)
+    </script>
+</body>
+
+</html>

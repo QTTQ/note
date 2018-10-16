@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // 分析
+        // 循环字符串 
+        // 若遇到有效的左括号 -> 入栈 
+        // 若遇到有效的右括号 -> 出栈 
+        // 结束循环并判断栈是否为空，不为空说明有无效的括号
+
+
+        // let s = "()"
+        // let s = "()[]{}"
+        // let s = "("
+        let s = "(()("
+
+        const isValidParentheses = function (s) {
+            let stack = [];
+            let len = s.length;
+            let flag = true;
+            for (let i = 0; i < len; i++) {
+                let char = s.charAt(i);
+                let isEmpty = stack.length === 0;
+                let stackTop = stack[stack.length - 1];
+
+                const match = function (matchStr) {
+                    if (!isEmpty && stackTop === matchStr) {
+                        stack.pop();
+                    } else {
+                        flag = false;
+                    }
+                }
+
+                if (char === '[' || char === '{' || char === '(') {
+                    stack.push(char);
+                } else if (char === ']') {
+                    match('[')
+                } else if (char === '}') {
+                    match('{')
+                } else if (char === ')') {
+                    match('(');
+                } else {
+                    return false;
+                }
+            }
+            if (stack.length !== 0) {
+                return false;
+            } else {
+                return flag;
+            }
+        }
+        console.log(isValidParentheses(s));
+    </script>
+</body>
+
+</html>

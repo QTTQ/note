@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // // function Animal1(name,color) {
+        // //     this.name=name
+        // //     this.color=color
+        // //     this.getName=()=>(this.name)
+        // // } 
+
+        // // function Animal(opts){
+        // //     let obj=new Object()
+        // //     obj.name=opts.name
+        // //     obj.color=opts.color
+        // //     obj.getInfo=()=>("名字:"+obj.name+"yanse:"+obj.color)
+        // //     return obj
+        // // }
+        // // const cat=Animal({name:"aaa",color:"baidse"})
+        // // cat.getInfo()
+
+        // const car =(function(){
+        //     let name="aaa"
+        //     let sayName=()=>(console.log(name))
+        //     let getColor=(name)=>(console.log(name))
+        //     return {
+        //         name:sayName,
+        //         color:getColor
+        //     }
+        // })()
+
+        // car.name()
+
+
+        // const EventCenter = (() => {
+        //     let events = {}
+        //     let on = (evt, hander) => {
+        //         events[evt] = events[evt] || []
+        //         events[evt] = [...events[evt], { hander: hander }]
+        //         console.log(events[evt])
+        //     }
+        //     let fire = (evt, arg) => {
+        //         if (!events[evt]) return
+        //         // Object.keys(events).map((v, i) => {
+        //         //     events[evt][i].hander(arg)
+        //         // })
+        //         Object.keys(events).map((v, i) => {
+        //             events[evt][i].hander(arg)
+        //         })
+        //         // console.log(events[evt]);
+        //     }
+        //     let off = (evt) => { delete events[evt] }
+        //     return { on, fire, off }
+        //     // return {  fire, off }
+        // })()
+
+
+        // var number = 1
+        // EventCenter.on("click111", (data) => {
+        //     console.log("click事件" + data + "次" + number++);
+        //     console.log(number);
+        // })
+        // // // EventCenter.off('click');   //  只绑定一次
+        // // EventCenter.on('click111', function (data) {
+        // //     console.log('click 事件' + data + '次1' + number++);
+        // // });
+
+        // EventCenter.fire('click111', '绑定');
+        // EventCenter.fire('click111', '绑定1');
+        // EventCenter.fire('click111', '绑定2');
+        // let x = 1
+        // let y = 2;
+        // let z = 3;
+
+        // const add0 = (x, y, z) => {
+        //     return x + y + z
+        // };
+        // const add = x => y => z => x + y + z;
+        // const add1 = (x) => {
+        //     return (y) => {
+        //         return (z) => {
+        //             return x + y + z
+        //         }
+        //     }
+        // }
+        // console.log(add0(x, y, z), add(x)(y)(z), add1(x)(y)(z))
+
+        const _debounce=(fn, wait, time)=>{
+            let previous = null
+            let timer = null
+            return () => {
+                let now = +new Date()
+                if (!previous) previous = now;
+                if (now - previous > time) {
+                    clearTimeout(timer)
+                    fn()
+                    previous = now
+                } else {
+                    clearTimeout(timer)
+                    timer = setTimeout(() => {
+                        fn()
+                    }, wait)
+                }
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>

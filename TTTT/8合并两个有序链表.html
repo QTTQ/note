@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // 这道题也是为了熟悉JavaScript链表的操作等等。在生成一个新的链表时，
+        // 提供一个常数作为参数，避免了在直接输入l1或者l2的头结点时还需要逻辑
+        // 判断的复杂情况。直接在最后返回时，从该链表的第二个开始返回。
+        // 而判断进行排序的过程还是比较简单，直接比较l1和l2中结点的大小就好。
+        var mergeTwoLists = function (l1, l2) {
+            var l3 = new ListNode(-1);
+            var c3 = l3;
+
+            while (l1 !== null && l2 !== null) {
+                if (l1.val <= l2.val) {
+                    c3.next = l1;
+                    l1 = l1.next;
+                } else {
+                    c3.next = l2;
+                    l2 = l2.next;
+                }
+                c3 = c3.next;
+            }
+            //循环完某一链表后，将另一链表剩下的部分直接加入到l3
+            c3.next = (l1 === null) ? l2 : l1;
+            return l3.next;
+        };
+    </script>
+</body>
+
+</html>

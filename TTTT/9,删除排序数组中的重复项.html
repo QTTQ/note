@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 方法分析：
+        // 该题的解题思路还是比较简单的。首先，需要明确的有以下两点：
+
+        // 给定的数组 nums 是一个排过序的数组，那么，重复元素一定是在数组中相邻的元素。
+        // 也就是说，我们可以通过遍历数组，找出相邻相同项，并将其从数组中移除即可
+        // 需要原地删除，那么我们就不能创建一个副本，而是只能在原数组上进行操作
+        let nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+        var removeDuplicates = function (nums) {
+            //遍历数组
+            for (let i = 0; i < nums.length - 1; i++) {
+                //找出相等的相邻两项
+                console.log(i);
+                if (nums[i] == nums[i + 1]) {
+                    //移除元素并向前移动一位指针
+                    nums.splice(i, 1);
+                    i--;
+                }
+            }
+            //返回修改后数组的长度
+            return nums.length;
+        }
+        console.log(removeDuplicates(nums))
+        // console.log(nums)
+        // console.log(nums.splice(0, 1))
+        // console.log(nums)
+
+
+        // 我们首先定义一个 removeDuplicates 函数，其接收一个排序数组
+        // nums 作为参数；在函数内部，我们首先遍历数组，找出相同的相邻项，
+        // 然后移除之；注意移除了元素后，数组的值就被更新了，所以我们
+        // 需要把 i 减一，以确定不会跳位；最后返回数组的长度即可。
+
+        // 该算法的时间复杂度为：O(n)
+
+    </script>
+</body>
+
+</html>
