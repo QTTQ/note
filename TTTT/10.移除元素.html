@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+        let val = 3
+        var removeDuplicates = function (nums, val) {
+            //遍历数组
+            for (let i = 0; i < nums.length - 1; i++) {
+                //找出相等的相邻两项
+                if (nums[i] == val) {
+                    //移除元素并向前移动一位指针
+                    nums.splice(i, 1);
+                    i--;
+                }
+            }
+            //返回修改后数组的长度
+            return nums.length;
+        }
+        console.log(removeDuplicates(nums,val))
+    </script>
+</body>
+
+</html>

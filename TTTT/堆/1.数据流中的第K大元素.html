@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = [4, 5, 8, 2];
+        var KthLargest = function (k, nums) {
+            this.k = k
+            this.nums = nums
+        };
+
+
+        KthLargest.prototype.add = function (val) {
+            let arr=[...this.nums,val].sort((a,b)=>{
+                return a-b
+            })
+            console.log(arr)
+            return arr[this.k - 1]
+        };
+        kthLargest = new KthLargest(3, arr);
+        console.log(kthLargest.add(10))
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        var lemonadeChange = function (bills) {
+            let five = 1, ten = 0, twenty = 0
+            let haveFive = true
+            if (bills[0] != 5) return false
+            for (let i = 1; i < bills.length; i++) {
+                if (bills[i] == 5) {
+                    five++
+                } else {
+                    if (bills[i] > (ten * 10 + (five + 1) * 5) + twenty * 20) {
+                        return false
+                    }
+                    if (bills[i] >= 20) {
+                        let nArr = (bills[i] / 20).toString().split(".")
+                        twenty += nArr[0]
+                        ten += nArr[1]
+                        five++
+                    } else if (bills[i] >= 10) {
+                        let n = (bills[i] / 10)
+                        five=n-ten-1
+                        ten += n
+                    }
+
+                    let n = bills[i] / 10
+
+                    if (n >= ten) {
+                        five -= 2 * (n - ten - 1)
+                        ten = n
+                        if (five < 0 || ten < 0) {
+                            return false
+                        }
+                    } else {
+                        ten += n
+                        five--
+                        if (five < 0 || ten < 0) {
+                            return false
+                        }
+                    }
+                }
+            }
+
+            return true
+        }
+        console.log(lemonadeChange([5, 5, 5, 10, 20]));
+    </script>
+</body>
+
+</html>

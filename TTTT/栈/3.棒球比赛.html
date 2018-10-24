@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let ops = ["5", "-2", "4", "C", "D", "9", "+", "+"]
+        var calPoints = function (ops) {
+            let cArr = []
+            ops.map((v, i) => {
+                if (v !== "+" && v !== "D" && v !== "C") {
+                    cArr.push(v)
+                }
+                if (v == "C") {
+                    cArr.pop()
+                }
+
+                if (v == "D") {
+                    cArr.push(2 * parseInt(cArr[cArr.length - 1]))
+                }
+                if (v == "+") {
+                    cArr.push(parseInt(cArr[cArr.length - 1]) + parseInt(cArr[cArr.length - 2]))
+                }
+            })
+            return cArr.reduce((p, c, i, arr) => {
+                return p + parseInt(c)
+            }, 0)
+        };
+        console.log(calPoints(ops));
+    </script>
+</body>
+
+</html>

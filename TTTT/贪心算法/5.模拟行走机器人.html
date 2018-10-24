@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var robotSim = function (commands, obstacles) {
+            let arr = [0, 0]
+            let x = 0
+            let y = 0
+            let flag = "+Y"
+            let ii = 0
+            let temp = "+Y"
+            let sgin = false
+            let sgin1 = false
+            if (obstacles.length > 0) {
+                sgin1 = true
+            }
+            commands.map((v, i) => {
+                if (v == -1 && flag == "+Y") {
+                    flag = "+X"
+                } else if (v == -1 && flag == "-Y") {
+                    flag = "-X"
+                } else if (v == -1 && flag == "+X") {
+                    flag = "-Y"
+                } else if (v == -1 && flag == "-X") {
+                    flag = "+Y"
+                } else if (v == -2 && flag == "+Y") {
+                    flag = "-X"
+                } else if (v == -2 && flag == "-Y") {
+                    flag = "+X"
+                } else if (v == -2 && flag == "+X") {
+                    flag = "+Y"
+                } else if (v == -2 && flag == "-X") {
+                    flag = "-Y"
+                } else {
+
+                    if (!obstacles[ii]) {
+                        obstacles[ii] = []
+                        obstacles[ii][0] = 1000000000
+                        obstacles[ii][1] = 1000000000
+                    }
+                    for (let i = 1; i <= v; i++) {
+                        if (flag == "+Y") {
+                            y += 1
+                            if (y == obstacles[ii][1] && x == obstacles[ii][0]) {
+                                sgin = true
+                                y = obstacles[ii][1] - 1
+                            }
+                            arr = [x, y]
+                        }
+
+                        if (flag == "-Y") {
+                            y -= 1
+                            if (y == obstacles[ii][1] && x == obstacles[ii][0]) {
+                                sgin = true
+
+                                y = obstacles[ii][1] + 1
+                            }
+                            arr = [x, y]
+                        }
+
+                        if (flag == "+X") {
+                            x += 1
+                            if (x == obstacles[ii][0] && x == obstacles[ii][0]) {
+                                sgin = true
+
+                                x = obstacles[ii][0] - 1
+                            }
+                            arr = [x, y]
+                        }
+                        if (flag == "-X") {
+                            x -= 1
+                            if (x == obstacles[ii][0] && x == obstacles[ii][0]) {
+                                sgin = true
+
+                                x = obstacles[ii][0] + 1
+                            }
+                            arr = [x, y]
+                        }
+                    }
+                    if (temp != flag) {
+                        ii++
+                        temp = flag
+                    }
+                }
+            })
+            // if (!sgin && sgin1) {
+            //     return 0
+            // }
+            return arr[0] ** 2 + arr[1] ** 2
+            // return arr
+        };
+        // console.log(robotSim([4, -1, 4, -2, 4], [[1, 1], [2, 1], [4, 4], [5, -5], [2, -3], [-2, -3], [-1, -3], [-4, -1], [-4, 3], [5, 1]]));
+        // console.log(robotSim([4, -1, 4, -2, 4], [[-2, 4]], [2, 1]));
+        // console.log(robotSim([-2, -1, 4, 7, 8], [[1, 1], [2, 1], [4, 4], [5, -5], [2, -3], [-2, -3], [-1, -3], [-4, -1], [-4, 3], [5, 1]]))
+        // console.log(robotSim([-2, -1, 8, 9, 6], [[-1, 3], [0, 1], [-1, 5], [-2, -4], [5, 4], [-2, -3], [5, -1], [1, -1], [5, 5], [5, 2]]));
+        console.log(robotSim([-2,-1,4,7,8],[[1,1],[2,1],[4,4],[5,-5],[2,-3],[-2,-3],[-1,-3],[-4,-1],[-4,3],[5,1]]))
+
+    </script>
+</body>
+
+</html>

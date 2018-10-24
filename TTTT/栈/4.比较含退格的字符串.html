@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 这道题目只要弄清了题意，就很简单。 # 代表退格字符，
+        // 其会将它前面的那个字符在字符串中清除掉，当然，该字符本身也不会出现在结果之中。
+        // 例如，对于字符串"a#b"得到的结果就为"b"；对于字符串"#ab#c"得到的结果就为"ac"。
+        // 而且要注意到，每一次的操作都将直接对原字符串进行修改。
+
+
+        var backspaceCompare = function (S, T) {
+            return backspace(S) == backspace(T);
+        };
+        function backspace(str) {
+            let backspaceStr = '';
+            for (let i = 0; i < str.length; i++) {
+                backspaceStr = str[i] != "#" ? backspaceStr + str[i] : backspaceStr.slice(0, -1);
+            }
+            return backspaceStr;
+        }
+    </script>
+</body>
+
+</html>
