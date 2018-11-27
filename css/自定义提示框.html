@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip span {
+            display: none;
+        }
+
+        .sp {
+            display: none;
+        }
+
+        .tooltip:hover span {
+            display: inline;
+            position: absolute;
+            margin-top: 26px;
+            margin-left: -30px;
+            color: black;
+            font-size: 11pt;
+        }
+    </style>
+</head>
+
+<body>
+    <a class='tooltip' href='#'>
+        Hover on me!
+        <span>- I am a tooltip.</span>
+    </a>
+    <span class="sp">- I amasdasdada a tooltip.</span>
+
+</body>
+
+</html>

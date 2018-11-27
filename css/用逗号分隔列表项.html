@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* ul>li::after {
+            content: ";";
+        } */
+
+        ul>li:not(:last-child)::after {
+            content: ",";
+        }
+    </style>
+</head>
+
+<body>
+    有时我们会有需求，给每一列表项后面加上一个特殊符号，像 ',' 或 ';' 之类的。
+    最直接的方式是直接写在每一列表项后面，这样当然没有问题。但是当需求变化，要把这个符号替换为其他字符之后，工作量就比较大了。
+    这里给大家演示一个简单的方式:
+    ul > li::after {
+    content: ";";
+    }
+    当然，如果要给除最后一项外其他所有列表项后面添加一个符号，也可以用类似方法。不过这里我们就要借助伪类选择器了：
+    ul > li:not(:last-child)::after {
+    content: ",";
+    }
+    这里， :last-child 匹配最后一个列表项，而 :not 相当于取反操作。这样我们就可以给非最后一项添加符号了，效果类似：
+    <ul>
+        <li>3333</li>
+        <li>3333</li>
+        <li>3333</li>
+        <li>3333</li>
+        <li>3333</li>
+        <li>3333</li>
+        <li>3333</li>
+        <li>3333</li>
+        <li>3333</li>
+    </ul>
+</body>
+
+</html>

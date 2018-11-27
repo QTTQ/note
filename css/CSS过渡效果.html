@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #rotated-boy {
+            background-image: url(./cssImage.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            opacity: 1;
+            transition: width 1s, height 2s, left 1s, top 2s, opacity 3s;
+        }
+
+        #rotated-boy:hover {
+            width: 300px;
+            height: 300px;
+            top: 300px;
+            left: 300px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="rotated-boy"></div>
+    <!-- transition 是干什么用的？
+
+    transition 用于将元素从一种样式的效果逐渐转变为另一种样式的效果。它是一个复合 CSS 属性。
+
+    transition 由哪些简单属性组成？
+
+    transition-property 指定应用过渡效果的属性名
+    transition-duration 指定过渡效果花费时间，默认为 0
+    transition-timing-function 指定过渡效果的时间曲线，默认为 “ease”
+    transition-delay 指定过渡效果延时时间（多长时间后开始），默认为 0
+    transtion-property 属性
+
+    transtion-property 属性值：
+    none：没有属性应用过渡效果
+    all：所有的属性都应用过渡效果
+    类似 width、height 的简单属性：指定属性获得过渡效果
+    transition-timing-function 属性
+
+    transition-timing-function 属性值：
+    linear：以同样的速度开始至结束，等价于 cubic-bezier(0,0,1,1)
+    ease：以慢速开始，之后变快，最后慢速结束，等价于 cubic-bezier(0.25,0.1,0.25,1)
+    ease-in：以慢速开始，等价于 cubic-bezier(0.42,0,1,1)
+    ease-out：以慢速结束，等价于 cubic-bezier(0,0,0.58,1)
+    ease-in-out：以慢速开始和结束，等价于 cubic-bezier(0.42,0,0.58,1)
+    cubic-besizer(n,n,n,n)：自定义过渡效果，n 是介于 0 和 1 之间的值
+    如何使用 transition？
+
+    语法
+    transition: property duration timing-function delay;
+    看了语法之后，transition 的使用就很简单了，像这样：
+
+    {
+    transition: width 2s linear 0.1s;
+    }
+    也可以同时设置好几个属性的过渡效果，比如：
+
+    {
+    transition: width 2s, height 2s, transform 2s;
+    } -->
+
+</body>
+
+</html>

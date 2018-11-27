@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // https://blog.csdn.net/k346k346/article/details/51154786
+
+        // function randomString(n) {
+        //     let str = 'abcdefghijklmnopqrstuvwxyz9876543210';
+        //     let tmp = '',
+        //         i = 0,
+        //         l = str.length;
+        //     for (i = 0; i < n; i++) {
+        //         tmp += str.charAt(Math.floor(Math.random() * l));
+        //     }
+        //     return tmp;
+        // }
+        // console.log(randomString(8))
+        function permute(input) {
+            var permArr = [],
+                usedChars = [];
+            function main(input) {
+                console.log(input, "----------1---------")
+                var i, ch;
+                for (i = 0; i < input.length; i++) {
+                    ch = input.splice(i, 1)[0];
+                    usedChars.push(ch);
+                    if (input.length == 0) {
+                        permArr.push(usedChars.slice());
+                    }
+                    main(input);
+                    input.splice(i, 0, ch);
+                    console.log(input, "----------2---------")
+                    usedChars.pop();
+                }
+                return permArr
+            }
+            return main(input);
+        };
+        console.log(permute([5, 3, 7, 1]));
+    </script>
+</body>
+
+</html>

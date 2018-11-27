@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+                width: 230px;
+                height: 60px;
+                background-color: lightblue;
+                padding-left: 30px;
+                padding-top: 10px;
+            }
+            .pointer-events-none {
+                pointer-events: none;
+            }       
+            .pointer-events-auto {
+                pointer-events: auto;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="container pointer-events-none">
+        <div>
+            <a href="https://github.com/nanzhangren/CSS-skills" style="color: red;">No pointer-events class.</a>
+        </div>
+        <div class="pointer-events-auto">
+            <a href="http://www.baidu.com" style="color: green;">Set pointer-events auto.</a>
+        </div>
+    </div>
+
+    如上图，
+    两个链接在同一个 div 元素中，div 父元素设置 pointer-events 属性值为 none
+    div 父元素下有两个子 div 元素：
+    第一个子 div 元素没有重新设置自己的 pointer-events 属性
+    第二个子 div 元素设置 pointer-events 属性值为 auto
+    父 div 元素绑定了一个 click 事件
+    执行效果
+
+    当鼠标点击红色字体（第一个子 div 元素）时，链接并不能打开。
+    原因：该元素继承了父元素的 pointer-events 属性，值为 none，不能成为鼠标事件的目标。
+    当鼠标点击绿色字体（第二个子 div元素）时，父元素绑定的事件被触发，同时链接被打开。
+    原因：该元素设置了自己的 pointer-events 属性，值为 auto，可以成为鼠标事件的目标，同时会在事件流执行过程中触发父元素的事件。
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        var parentDiv = document.getElementsByClassName("pointer-events-none")[0];
+        var pointerNoneChildDiv = parentDiv.childNodes[0];
+        var pointerAutoChildDiv = parentDiv.childNodes[1];
+        parentDiv.addEventListener("click", function () {
+            alert("Click on parent DIV");
+        });
+    };
+</script>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        #container {
+            position: relative;
+            width: 600px;
+            height: 500px;
+            background: url(1.jpg);
+        }
+
+        @keyframes mymove {
+            from {
+                width: 0;
+                height: 0;
+                opcity: 1;
+                left: 225px;
+                top: 225px;
+            }
+
+            to {
+                width: 50px;
+                height: 50px;
+                opacity: 0;
+                left: 200px;
+                top: 200px;
+            }
+        }
+
+        #point:before {
+            content: ' ';
+            width: 10px;
+            height: 10px;
+            background-color: blue;
+            border-radius: 50%;
+            position: absolute;
+            left: 220px;
+            top: 220px;
+            z-index: 2;
+        }
+
+        #point:after {
+            content: ' ';
+            background-color: blue;
+            border-radius: 50%;
+            position: absolute;
+            left: 220px;
+            top: 220px;
+            z-index: 1;
+            animation: mymove 2s infinite;
+            -webkit-animation: mymove 2s infinite;
+        }
+    </style>
+</head>
+
+<body>
+        Step 1
+
+        创建一个 container div，并选取一张地图背景图片，CSS设置如下：
+        
+        #container {
+            position: relative;
+            width: 600px;
+            height: 500px;
+            background: url(map.jpg);
+        }
+        这里有两点需要注意：
+        将 position 设置为 relative，是为了后面设置坐标点位置时参考方便。
+        background 的 url 中是一个本地的图片，请记得应该是自己本地的图片路径及名称。
+        Step 2
+        
+        创建一个坐标点，CSS如下：
+        
+        #point:before {
+            content: ' ';
+            width: 10px;
+            height: 10px;
+            background-color: blue;
+            border-radius: 50%;
+            position: absolute;
+            left: 220px;
+            top: 220px;
+            z-index: 2;
+        }
+        
+        这里的 left 和 top 表示的是地图中我们要标识的坐标点。
+        Step 3
+        
+        使用CSS3 @keyframes 规则创建动画：
+        
+        @keyframes mymove {
+            from {
+                width: 0;
+                height: 0;
+                opcity: 1;
+                left: 225px;
+                top: 225px;
+            }
+            to {
+                width: 50px;
+                height: 50px;
+                opacity: 0;
+                left: 200px;
+                top: 200px;
+            }
+        }
+        @keyframes 规则用于创建自定义动画，主要是通过设置一些动画关键帧来实现动画效果的。from 和 to 设置的是 开始动画 和 结束动画 的样式。
+        这里的思想是：开始时设置一个大小为 0，完全显示的点；逐渐变化为 大小为 50 * 50，最终消失的点。
+        @keyframes 规则详见：http://www.runoob.com/cssref/css3-pr-animation-keyframes.html
+        Step 4
+        
+        接下来为创建的坐标点添加动画：
+        
+        #point:after {
+            content: ' ';
+            background-color: blue;
+            border-radius: 50%;
+            position: absolute;
+            left: 220px;
+            top: 220px;
+            z-index: 1;
+            animation: mymove 2s infinite;
+            -webkit-animation: mymove 2s infinite;
+        }
+        这里的 CSS 大多与 :before 相同。不同点在于：
+        z-index 在这里是 1，刚好小于 :before 中的 z-index 值 2。这样就能使 :before 中的 content 覆盖在 :after 之上，使坐标点看起来是不动的。
+        animation 属性用于将动画绑定在 DOM 元素之上。animation 属性是一个简写属性，由 6 个属性构成，详细可参考：http://www.w3school.com.cn/cssref/pr_animation.asp
+        animation 属性值 mymove 2s infinite：mymove 绑定的是前面定义的 keyframe，2s 指的是完成动画花费的时间，infinite 指的是动画播放无限次。
+    <div id="container">
+        <span id="point"></span>
+    </div>
+</body>
+
+</html>

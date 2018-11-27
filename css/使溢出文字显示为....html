@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .div {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div">aasddddddddddasdadadadasdadsdadasdadasdasdadasdasd</div>
+</body>
+<script>
+    window.onload = function () {
+        function aaa() {
+            alert("哈哈哈")
+        }
+        var btn = document.getElementsByClassName("div")[0]
+        btn.onclick=aaa
+    }
+</script>
+
+</html>
