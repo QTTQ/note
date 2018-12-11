@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 插入排序：每一步将一个待排序的记录，插入到前面已经排好序的有序序列中去，直到插完所有元素为止
+      // 时间复杂度 最好O(n) 最坏O(n2)
+      // 稳定
+
+      // 插入排序，往前比较，如果当前数比前一个小则进行第二个循环操作，反之则直接进入下次外层循环
+      let arr = [7, 4, 3, 67, 34, 1, 8];
+      //   function insertSort(arr) {
+      //     console.time();
+      //     for (let i = 1; i < arr.length; i++) {
+      //       let temp = arr[i];
+      //       for (let j = i - 1; j >= 0 && temp < arr[j]; j--) {
+      //         arr[j + 1] = arr[j];
+      //         arr[j] = temp;
+      //       }
+      //     }
+      //     console.timeEnd();
+      //     return arr;
+
+      //   }
+      //   console.log(insertSort(arr));
+
+      function insertSort(arr) {
+        for (let i = 1; i < arr.length; i++) {
+          let temp = arr[i];
+          for (let j = i - 1; j >= 0 && temp < arr[j]; j--) {
+              arr[j+1]=arr[j]
+              arr[j]=temp
+          }
+        }
+        return arr;
+      }
+
+      console.log(insertSort(arr));
+    </script>
+  </body>
+</html>

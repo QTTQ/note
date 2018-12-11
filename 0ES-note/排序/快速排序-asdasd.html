@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 快速排序
+      // 分而治之， 通过递归将数据依次分解为包含较小元素和较大元素的不同子序列
+      // 首先在列表中选择一个元素作为基准值, 列表中小于基准值的元素移到数组的底部，大于基准值的元素移到数组的顶部
+      // 时间复杂度O(nlogn)
+      // 不稳定
+      const quickSort = arr => {
+        if (arr.length <= 1) {
+          return arr;
+        }
+        const left = arr.filter((e, i) => e < arr[0] && i !== 0);
+        const right = arr.filter((e, i) => e >= arr[0] && i !== 0);
+        console.log(left, right);
+        return [...quickSort(left), arr[0], ...quickSort(right)];
+        // return quickSort(left).concat([arr[0]], quickSort(right));
+      };
+
+      const arr = [15, 10, 6, 34, 21, 66, 32];
+      console.log(quickSort(arr));
+      //   const quickSort = function(array, low, high) {
+      //     if (low >= high) {
+      //       return;
+      //     }
+      //     let i = low;
+      //     let j = high;
+      //     const tmp = array[i];
+      //     while (i < j) {
+      //       while (i < j && array[j] >= tmp) {
+      //         j--;
+      //       }
+      //       if (i < j) {
+      //         array[i++] = array[j];
+      //       }
+      //       while (i < j && array[i] <= tmp) {
+      //         i++;
+      //       }
+      //       if (i < j) {
+      //         array[j--] = array[i];
+      //       }
+      //     }
+      //     array[i] = tmp;
+      //     quickSort(array, low, i - 1);
+      //     quickSort(array, i + 1, high);
+      //   };
+      //   const arr = [1, 23, 7, 123, 45, 78, 10];
+      //   console.log(arr);
+      //   quickSort(arr, 0, arr.length - 1);
+      //   console.log(arr);
+    </script>
+  </body>
+</html>

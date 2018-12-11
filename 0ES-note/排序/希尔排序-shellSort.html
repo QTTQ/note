@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 希尔排序：插入排序的改进版，分组插入排序，逐步缩小增量
+      // 时间复杂度O(n2)
+      // 不稳定
+      //   原理：插入排序的改进版，克服了插入排序每次只能移动相邻位置的缺陷，希尔排序每次可以移动gap个位置
+      // function shellSort(arr) {
+      //   let gap = Math.floor(arr.length / 2);
+      // console.log(gap, "------------");
+      //   while (gap > 0) {
+      //     for (let i = gap; i < arr.length; i++) {
+      //       let j = i;
+      //       while (j >= gap && arr[j - gap] > arr[j]) {
+      //         [arr[j - gap], arr[j]] = [arr[j], arr[j - gap]];
+      //         j -= gap;
+      //       }
+      //     }
+      //     gap = Math.floor(gap / 2);
+      //   }
+      //   return arr
+      // }
+      function shellSort(arr) {
+        let gap = Math.floor(arr.length / 2);
+        while (gap > 0) {
+          for (let i = gap; i < arr.length; i++) {
+            let j = i;
+            while (j >= gap && arr[j - gap] > arr[j]) {
+              [arr[j - gap], arr[j]] = [arr[j], arr[j - gap]];
+              j -= gap;
+            }
+          }
+        console.log(gap, "------------");
+          gap = Math.floor(gap / 2);
+        console.log(gap, "------------1");
+        }
+        return arr
+      }
+
+      let arr = [7, 4, 3, 67, 34, 1, 8];
+      console.log(shellSort(arr)); // [ 1, 3, 4, 7, 8, 34, 67 ]
+    </script>
+  </body>
+</html>

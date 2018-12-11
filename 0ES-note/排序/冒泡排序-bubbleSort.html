@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 冒泡排序
+      // 比较次数 最好情况n-1次 最差n-1+n-2+...+1=n(n-1)/2，时间复杂的O(n2）
+      // 稳定
+      var arr = [3, 1, 4, 5, 9, 6];
+      //冒泡
+      function bubbleSort(arr) {
+        console.time("选择排序耗时");
+        for (let i = 0; i < arr.length; i++) {
+          for (let j = 0; j < arr.length; j++) {
+            if (arr[i] < arr[j]) {
+              [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+          }
+        }
+        console.timeEnd("选择排序耗时");
+        return arr;
+      }
+      console.log(bubbleSort(arr));
+    </script>
+  </body>
+</html>

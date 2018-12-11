@@ -97,6 +97,30 @@
             <div style="display:none; background-color:#FF3;">ccc</div>
         </div>
     </div>
+    <button id="btn">单击这里</button>
+    <button id="btn1">单击这里</button>
+
 </body>
+<script>
+    function demo1() {
+        var m = 5;
+        alert(m);
+        return m;
+    }
+    function demo2() {
+        var m = 55;
+        alert(m);
+    }
+    // var a = demo1;//a是整个函数体，是一个函数对象
+    // var b = demo1();//b是函数执行后返回的值5
+    // alert(demo1);
+    // alert(demo1());
+
+    var e = document.getElementById("btn");
+    var e1 = document.getElementById("btn1");
+    e.addEventListener("click", demo1);
+    e1.addEventListener("click", demo2());
+    // e.addEventListener("click", demo2());
+</script>
 
 </html>

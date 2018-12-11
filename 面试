@@ -1,0 +1,77 @@
+##Retina 屏幕上 1px 有几种实现方法？
+   答 1、 viewport + rem 实现
+   同时通过设置对应viewport的rem基准值，这种方式就可以像以前一样轻松愉快的写1px了。
+    在devicePixelRatio = 2 时，输出viewport：
+    <meta name="viewport" content="initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
+
+    在devicePixelRatio = 3 时，输出viewport：
+    <meta name="viewport" content="initial-scale=0.3333333333333333, maximum-scale=0.3333333333333333, minimum-scale=0.3333333333333333, user-scalable=no">
+
+    例子：
+    if (!dpr && !scale) {
+    var isAndroid = win.navigator.appVersion.match(/android/gi);
+    var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+    var devicePixelRatio = win.devicePixelRatio;
+    if (isIPhone) {
+        // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+        if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {                
+            dpr = 3;
+        } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+            dpr = 2;
+        } else {
+            dpr = 1;
+        }
+    } else {
+        // 其他设备下（比如安卓），仍旧使用1倍的方案
+        dpr = 1;
+    }
+        scale = 1 / dpr;
+    }```
+
+
+    对于安卓机做检测，动态加载CSS
+   2、 伪类 + transform 实现
+   单条border样式设置：
+    .scale-1px{
+    position: relative;
+    border:none;
+    }
+    .scale-1px:after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    background: #000;
+    width: 100%;
+    height: 1px;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    }   
+    四条boder样式设置:
+    .scale-1px{
+    position: relative;
+    margin-bottom: 20px;
+    border:none;
+    }
+    .scale-1px:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #000;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 200%;
+    height: 200%;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+    }
+
+    最好在使用前也判断一下，结合 JS 代码，判断是否 Retina 屏：
+    if(window.devicePixelRatio && devicePixelRatio >= 2){
+    document.querySelector('ul').className = 'scale-1px';
+    }
+

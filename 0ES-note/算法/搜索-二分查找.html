@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        // 非递归算法
+        function binary_search1(arr, key) {
+            var low = 0,
+                high = arr.length - 1;
+            while (low <= high) {
+                var mid = parseInt((high + low) / 2);
+                if (key == arr[mid]) {
+                    return mid;
+                } else if (key > arr[mid]) {
+                    low = mid + 1;
+                } else if (key < arr[mid]) {
+                    high = mid - 1;
+                } else {
+                    return -1;
+                }
+            }
+        };
+        var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 23, 44, 86];
+        var result1 = binary_search1(arr, 10);
+        alert(result1); // 9 返回目标元素的索引值    
+
+
+        // 递归算法
+        function binary_search(arr, low, high, key) {
+            if (low > high) {
+                return -1;
+            }
+            var mid = parseInt((high + low) / 2);
+            if (arr[mid] == key) {
+                return mid;
+            } else if (arr[mid] > key) {
+                high = mid - 1;
+                return binary_search(arr, low, high, key);
+            } else if (arr[mid] < key) {
+                low = mid + 1;
+                return binary_search(arr, low, high, key);
+            }
+        };
+        var result = binary_search(arr, 0, 13, 10);
+        alert(result); // 9 返回目标元素的索引值  
+    </script>
+</body>
+
+</html>

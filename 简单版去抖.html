@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>输入框： <input type="text" id="exampleInput" /></div>
+    <script>
+      window.onload = function() {
+        let ss=[1]
+        console.log(typeof ss)
+        let inputEl = document.getElementById("exampleInput");
+
+        inputEl.oninput = debounce(ajax); // debouce 函数执行了，返回一个函数，该函数为事件的回调函数
+
+        // 事件真正的处理函数（handler）,参数是回调函数传递过来的。
+        // 常见场景就是边输入查询关键字，边请求查询数据，比如百度的首页搜索
+        function ajax(event) {
+          console.log("HTTP 异步请求：", event.target.value);
+          // $.ajax() 请求数据 ...
+        }
+
+        function debounce(func, delay) {
+          // 参数为传入的事件处理函数和间隔时间
+          let interval = delay || 1000;
+          let timer = null; // 闭包保存的 timer 变量，会常驻内存
+
+          return args => {
+            // 返回的匿名函数是事件的回调函数，在事件触发时执行，参数为 DOM 事件对象(event)
+
+            let context = this; // 事件的回调函数中，this 指向事件的绑定的 DOM 元素对象(HTMLElement)
+
+            console.log(timer);
+            clearTimeout(timer); // 如果事件回调函数中存在定时器，则清空上次定时器，重新计时。如果间隔时间到后，处理函数自然就被执行了。
+            timer = setTimeout(() => {
+              func.call(context, args); // 定时器时间到后，执行事件真正的处理函数 handler
+              // 执行的事件处理函数（handler），需要把调用对象 this 和事件对象 传递过去，就像没被debounce处理过一样
+            }, interval);
+          };
+        }
+      };
+
+      // //       取消函数
+      // // 假如去抖函数的间隔时间为 5 秒钟，我在这 5 秒钟内又想立即执行可以怎么做？于是我们给回调函数加个取消函数属性。
+      // // 函数也是一个对象，可以像其他一般对象那样添加方法：
+      // // <div>
+      // //     输入框： <input type="text" id="exampleInput"><button id="cancelBtn">取消</button>
+      // // </div>
+      // var inputEl = document.getElementById("exampleInput");
+
+      // var debouncedFunc = debounce(ajax, 5000, true); // 将事件处理函数经过去抖函数处理。
+      // inputEl.oninput = debouncedFunc; // 绑定去抖后的事件回调函数
+
+      // var cancelBtnEL = document.getElementById("cancelBtn");
+      // cancelBtnEL.onclick = debouncedFunc.cancel; // 绑定回调函数的属性 cancel 方法，点击页面，重置去抖效果
+
+      // function ajax(event) {
+      //   console.log("HTTP 异步请求：", event.target.value);
+      // }
+
+      // function debounce(func, delay, immediate) {
+      //   var interval = delay || 5000;
+      //   var timer = null;
+      //   var revokeFunc = function(args) {
+      //     var context = this;
+      //     clearTimeout(timer);
+      //     if (immediate) {
+      //       callNow = !timer;
+      //       timer = setTimeout(function() {
+      //         timer = null;
+      //       }, interval);
+
+      //       if (callNow) {
+      //         func.call(context, args);
+      //       }
+      //     } else {
+      //       timer = setTimeout(function() {
+      //         func.call(context, args);
+      //       }, interval);
+      //     }
+      //   };
+
+      //   revokeFunc.cancel = function() {
+      //     clearTimeout(timer); // 清空上一次事件触发的定时器
+      //     timer = null; // 重置 timer 为 null, 从而下一次事件触发就能立即执行。
+      //   };
+
+      //   return revokeFunc;
+      // }
+    </script>
+  </body>
+</html>
