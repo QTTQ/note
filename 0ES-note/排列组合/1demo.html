@@ -1,49 +1,42 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>无标题文档</title>
-<script>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <script>
+      var arr = ["A", "B", "C"];
 
-var arr = ['A','B','C'];
+      function show(arr, num) {
+        var resultNum = 0;
+        var iNow = 1;
 
-function show(arr,num){
-	
-	var resultNum = 0;
-	var iNow = 1;
-	
-	if(num==1){
-		return arr.length;
-	}
-	
-	function change(arr,iNow){
-		debugger
-		for(var i=0;i<arr.length;i++){
-			
-			// var result = arr.concat();
-			let result=Object.assign(arr)
-			console.log('--',result)
-			result.splice(i,1);
-			
-			if( iNow == num ){
-				resultNum += result.length;
-			}
-			else{
-				change(result,iNow+1);
-			}
-			
-		}
-		
-	}
-	change(arr,iNow+1);
-	
-	return resultNum;
-}
+        if (num == 1) {
+          return arr.length;
+        }
 
-console.log(show(arr,2));  
+        function change(arr, iNow) {
+          debugger;
+          for (var i = 0; i < arr.length; i++) {
+            // var result = arr.concat();
+            let result = Object.assign(arr);
+            console.log("--", result);
+            result.splice(i, 1);
 
+            if (iNow == num) {
+              resultNum += result.length;
+            } else {
+              change(result, iNow + 1);
+            }
+          }
+        }
+        change(arr, iNow + 1);
 
-/*var arr = ['A','B','C','D'];
+        return resultNum;
+      }
+
+      console.log(show(arr, 2));
+
+      /*var arr = ['A','B','C','D'];
 
 function show(arr,num){
 	
@@ -85,25 +78,22 @@ function show(arr,num){
 	return resultArr;
 }
 
-console.log(show(arr,1)); */ 
+console.log(show(arr,1)); */
 
+      // function A(m,n){
+      // 	return f(m) / f(m-n);
+      // }
 
-// function A(m,n){
-// 	return f(m) / f(m-n);
-// }
+      // function f(num){
+      // 	if(num<=1){
+      // 		return 1;
+      // 	}
+      // 	return num * f(num-1);
+      // }
 
-// function f(num){
-// 	if(num<=1){
-// 		return 1;
-// 	}
-// 	return num * f(num-1);
-// }
+      // console.log(A(4,2));
+    </script>
+  </head>
 
-// console.log(A(4,2));
-
-</script>
-</head>
-
-<body>
-</body>
+  <body></body>
 </html>
