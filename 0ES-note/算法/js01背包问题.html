@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //公式  f[i][j]=Math.max(f[i-1][w],f[i-1][j]+arrV[i-1])
+      // 其实 就是当前最大值等于i-1 的最大值 加上 arrV[i-1] 的值
+      // 横坐标x 为 当前 容量
+      // 纵坐标y 为 当前 数组个数
+      // y/x 1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
+      //  0:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      //  1:[0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+      //  2:[0, 0, 0, 4, 5, 5, 5, 9, 9, 9, 9, 9, 9, 9, 9, 9]
+      //  3:[0, 0, 0, 4, 5, 5, 5, 10, 10, 10, 14, 15, 15, 15, 19, 19]
+      //  4:[0, 0, 0, 4, 5, 5, 5, 10, 11, 11, 14, 15, 16, 16, 19, 21]
+      //  5:[0, 0, 0, 4, 5, 5, 5, 10, 11, 13, 14, 15, 17, 18, 19, 21]
+
+      // 类似 这个样子  每层最大值  为这这层-1的 最大值加上 当前层 剩余容量的值
+      // 记住 i  是 按数组索引顺序来的  不能变 比如  当i=1 时  不能应该取得时 数组对应得i-1得索引 而不能随意取数组中最大得值
+
+      // f[3][2]=Math.max(f[2][2],f[2][2-arrW[i]]+arrV[i])
+      const M = 5; //物品数组的长度
+      const W = 10; //包
+      // const arrV = [4, 5, 10, 11, 13]; //每件物品的value
+      // const arrW = [3, 4, 7, 8, 9]; //每件物品的体积
+      const arrV = [6, 3, 5, 4, 6];
+      const arrW = [2, 2, 6, 5, 4];
+
+      function show(M, W, arrV, arrW) {
+        let result = [];
+        for (var i = 0; i <= M; i++) {
+          result[i] = [];
+          for (var j = 0; j <= W; j++) {
+            if (i == 0) {
+              result[i][j] = 0;
+            } else if (arrW[i - 1] > j) {
+              result[i][j] = result[i - 1][j];
+            } else {
+              result[i][j] = Math.max(
+                arrV[i - 1] + result[i - 1][j - arrW[i - 1]],
+                result[i - 1][j]
+              );
+            }
+          }
+        }
+        console.log(result);
+        return result[i - 1][j - 1];
+      }
+      console.log(show(M, W, arrV, arrW));
+      //by 司徒正美
+      function knapsack(weights, values, W) {
+        var n = weights.length - 1;
+        var f = [[]];
+        for (var j = 0; j <= W; j++) {
+          if (j < weights[0]) {
+            //如果容量不能放下物品0的重量，那么价值为0
+            f[0][j] = 0;
+          } else {
+            //否则等于物体0的价值
+            f[0][j] = values[0];
+          }
+        }
+        for (var j = 0; j <= W; j++) {
+          for (var i = 1; i <= n; i++) {
+            if (!f[i]) {
+              //创建新一行
+              f[i] = [];
+            }
+            if (j < weights[i]) {
+              //等于之前的最优值
+              f[i][j] = f[i - 1][j];
+            } else {
+              f[i][j] = Math.max(
+                f[i - 1][j],
+                f[i - 1][j - weights[i]] + values[i]
+              );
+            }
+          }
+        }
+        return f[n][W];
+      }
+      var a = knapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10);
+      console.log(a);
+      //var arrV = [4,5];
+      //var arrW = [3,4];
+      //var W = 16;   //0 0 0 0 .... 0
+      //var W = 16;   //0 0 0 4 4 4 ..... 4
+      //var W = 7;   //0 0 0 4 (5,4) 5 5 9 9 ..... 9
+      //var W = 16;     //0 0 0 4 5 5 5 (10,9) 10 10 14  15 15 15 19 19 19
+    </script>
+  </body>
+</html>
