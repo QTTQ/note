@@ -14,15 +14,14 @@
       // 时间复杂度O(nlogn)
       // 不稳定
 
-      function quickSort(arr) {
-        if (arr.length <= 1) {
-          return arr;
-        }
-        const l = arr.filter((v, i) => v < arr[0]);
-        const r = arr.filter((v, i) => v >= arr[0] && i !== 0);
-        return [...quickSort(l), arr[0], ...quickSort(r)];
-      }
-
+      // function quickSort(arr) {
+      //   if (arr.length <= 1) {
+      //     return arr;
+      //   }
+      //   const lArr = arr.filter((v, i) => v < arr[0]);
+      //   const rArr = arr.filter((v, i) => v >= arr[0] && i !== 0);
+      //   return [...quickSort(lArr), arr[0], ...quickSort(rArr)];
+      // }
       // const quickSort = arr => {
       //   if (arr.length <= 1) {
       //     return arr;
@@ -33,37 +32,36 @@
       //   // return quickSort(left).concat([arr[0]], quickSort(right));
       // };
 
-      const arr = [15, 10, 6, 34, 21, 66, 32];
-      console.log(quickSort(arr));
-      //   const quickSort = function(array, low, high) {
-      //     if (low >= high) {
-      //       return;
-      //     }
-      //     let i = low;
-      //     let j = high;
-      //     const tmp = array[i];
-      //     while (i < j) {
-      //       while (i < j && array[j] >= tmp) {
-      //         j--;
-      //       }
-      //       if (i < j) {
-      //         array[i++] = array[j];
-      //       }
-      //       while (i < j && array[i] <= tmp) {
-      //         i++;
-      //       }
-      //       if (i < j) {
-      //         array[j--] = array[i];
-      //       }
-      //     }
-      //     array[i] = tmp;
-      //     quickSort(array, low, i - 1);
-      //     quickSort(array, i + 1, high);
-      //   };
-      //   const arr = [1, 23, 7, 123, 45, 78, 10];
-      //   console.log(arr);
-      //   quickSort(arr, 0, arr.length - 1);
-      //   console.log(arr);
+      // const arr = [15, 10, 6, 34, 21, 66, 32];
+      // console.log(quickSort(arr));
+      //循环法 快排
+      const quickSort = function(array, low, high) {
+        if (low >= high) {
+          return;
+        }
+        let i = low;
+        let j = high;
+        const tmp = array[i];
+        while (i < j) {
+          while (i < j && array[j] >= tmp) {
+            j--;
+          }
+          if (i < j) {
+            array[i++] = array[j];
+          }
+          while (i < j && array[i] <= tmp) {
+            i++;
+          }
+          if (i < j) {
+            array[j--] = array[i];
+          }
+        }
+        array[i] = tmp;
+        quickSort(array, low, i - 1);
+        quickSort(array, i + 1, high);
+      };
+      const arr = [23, 1, 7, 123, 45, 78, 10];
+      quickSort(arr, 0, arr.length - 1);
     </script>
   </body>
 </html>

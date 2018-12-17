@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //     问题: 在递归函数从树形数据中取出指定的数据时
+      //     return 返回的值除了第一层之外总是 undefind
+      // 解决方法: 在递归调用时 return 返回就行; 因为
+      // return 第一次返回时只是结束当前的方法,return
+      // ,后面的递归其实会接着走,所以给递归函数一个return就行.
+      InquireChildren = function(data, InquireIdVald) {
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].children.length > 0) {
+            if (data[i].id == InquireIdVald) {
+              return data[i];
+            } else {
+              // console.log(0);
+            }
+            return InquireChildren(data[i].children, InquireIdVald);
+          } else {
+            if (data[i].id == InquireIdVald) {
+              return data[i];
+            } else {
+              // console.log(0);
+            }
+          }
+        }
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const array = [7, 3, 9, 6, 11, 2, 4, 5];
+      const merge = (left, right) => {
+        let res = [],
+          il = 0,
+          ir = 0;
+        while (il < left.length && ir < right.length) {
+          if (left[il] < right[ir]) {
+            res.push(left[il++]);
+          } else {
+            res.push(right[ir++]);
+          }
+        }
+        console.log(res);
+        while (il < left.length) {
+          res.push(left[il++]);
+        }
+        while (ir < right.length) {
+          res.push(right[ir++]);
+        }
+        return res;
+      };
+      function mergeSortRec(arr) {
+        let len = arr.length;
+        if (len === 1) {
+          return arr;
+        }
+        let mid = Math.floor(len / 2),
+          left = arr.slice(0, mid),
+          right = arr.slice(mid, len);
+        return merge(mergeSortRec(left), mergeSortRec(right));
+      }
+      console.log(mergeSortRec(array));
+    </script>
+  </body>
+</html>

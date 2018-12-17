@@ -29,9 +29,11 @@
       const W = 10; //包
       // const arrV = [4, 5, 10, 11, 13]; //每件物品的value
       // const arrW = [3, 4, 7, 8, 9]; //每件物品的体积
-      const arrV = [6, 3, 5, 4, 6];
-      const arrW = [2, 2, 6, 5, 4];
+      // const arrV = [6, 3, 5, 4, 6];
+      // const arrW = [2, 2, 6, 5, 4];
 
+      const arrV = [3, 4, 7, 8, 9];
+      const arrW = [1, 1, 1, 1, 1];
       function show(M, W, arrV, arrW) {
         let result = [];
         for (var i = 0; i <= M; i++) {
@@ -61,6 +63,24 @@
       //var W = 16;     //0 0 0 4 5 5 5 (10,9) 10 10 14  15 15 15 19 19 19
 
       // 司徒正美 教程 https://segmentfault.com/a/1190000012829866/
+
+      // 贪心算法
+      let knapsack01 = (weights, values, C) => {
+        let n = weights.length,
+          memo = new Array(C + 1).fill(-1);
+        //i:物品编号，j:限重
+        for (let i = 0; i <= C; i++) {
+          memo[i] = i >= weights[0] ? values[0] : 0;
+        }
+        console.log(memo,"--0---");
+        for (let i = 1; i < n; i++) {
+          for (let j = C; j >= weights[i]; j--) {
+            memo[j] = Math.max(memo[j], values[i] + memo[j - weights[i]]);
+          }
+        }
+        return memo[C];
+      };
+      console.log(knapsack01([1, 2, 3], [6, 10, 12], 5));
     </script>
   </body>
 </html>

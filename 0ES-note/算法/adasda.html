@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //归并排序
+
+      function mergeSort(arr) {
+        let len = arr.length;
+        if (len === 1) return arr;
+        // let mid = Math.floor(len / 2),
+        //   left = arr.slice(0, mid),
+        //   right = arr.slice(mid, len);
+
+        // let mid=Math.floor(len/2)
+        // let left=0
+        // let right=arr.length-1
+        return merge(mergeSort(left),mergeSort(right));
+      }
+    </script>
+  </body>
+</html>

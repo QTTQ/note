@@ -1,0 +1,152 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //  寻路算法
+    class FindPath {
+        constructor(arr) {
+            this.visited = new Array(arr.length).fill(false);
+            this.from = new Array(arr.length).fill(-1);
+            for (let i = 0; i < this.visited.length; i++) {
+                if (!this.visited[i]) {
+                    this.dfs(arr, i);
+                }
+            }
+            // console.log(this.from)
+        }
+        dfs(arr, v) {
+            this.visited[v] = true;
+            for (let i = 0; i < arr[v].length; i++) {
+                if (!this.visited[arr[v][i]]) {
+                    this.from[arr[v][i]] = v;
+                    this.dfs(arr, arr[v][i])
+                }
+            }
+        }
+        hasPath(w) {
+            return this.visited[w]
+        }
+        find(w, vec) {
+            let stack = [],
+                p = w;
+            while (p !== -1) {
+                stack.push(p);
+                p = this.from[p];
+            }
+            let temp;
+            while (stack.length) {
+                temp = stack.pop();
+                vec.push(temp);
+            }
+        }
+        showPath(w) {
+            let vector = [],
+                path = '';
+            this.find(w, vector);
+            console.log(vector)
+            for (let i = 0; i < vector.length; i++) {
+                if (i === vector.length - 1) {
+                    path += vector[i]
+                } else {
+                    path += `${vector[i]} -> `
+                }
+            }
+            console.log(path)
+        }
+    }
+    let graph = [
+        [1, 2, 5, 6],
+        [0],
+        [0],
+        [4, 5],
+        [3, 5, 6],
+        [0, 3, 4],
+        [0, 4]
+    ]
+    new FindPath(graph).showPath(6)
+</script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    // 无向图最短路径算法
+    class ShortestPath {
+        constructor(arr) {
+            this.visited = new Array(arr.length).fill(false);
+            this.from = new Array(arr.length).fill(-1);
+            this.ord = new Array(arr.length).fill(-1);
+            this.graph = arr;
+            this.queue = [];
+        }
+        pathStart(s) {
+            this.queue.push(s);
+            this.ord[s] = 0;
+            this.visited[s] = true;
+            while (this.queue.length) {
+                let v = this.queue.shift();
+                for (let i = 0; i < this.graph[v].length; i++) {
+                    let temp = this.graph[v][i];
+                    if (!this.visited[temp]) {
+                        this.queue.push(temp);
+                        this.visited[temp] = true;
+                        this.from[temp] = v;
+                        this.ord[temp] = this.ord[v] + 1;
+                    }
+                }
+            }
+            console.log(this.ord);
+            return this
+        }
+        find(w, vec) {
+            let stack = [],
+                p = w;
+            while (p !== -1) {
+                stack.push(p);
+                p = this.from[p];
+            }
+            let temp;
+            while (stack.length) {
+                temp = stack.pop();
+                vec.push(temp);
+            }
+        }
+        showPath(w) {
+            let vector = [],
+                path = '';
+            this.find(w, vector)
+            for (let i = 0; i < vector.length; i++) {
+                if (i === vector.length - 1) {
+                    path += vector[i]
+                } else {
+                    path += `${vector[i]} -> `
+                }
+            }
+            console.log(path)
+        }
+        length(w) {
+            return this.ord[w];
+        }
+    }
+    let graph = [
+        [1, 2, 5, 6],
+        [0],
+        [0],
+        [4, 5],
+        [3, 5, 6],
+        [0, 3, 4],
+        [0, 4]
+    ];
+    new ShortestPath(graph).pathStart(0).showPath(3)
+</script>
+</body>
+</html>
