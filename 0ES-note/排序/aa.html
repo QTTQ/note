@@ -8,38 +8,26 @@
   </head>
   <body>
     <script>
-      const array = [7, 3, 9, 6, 11, 2, 4, 5];
-      const merge = (left, right) => {
-        let res = [],
-          il = 0,
-          ir = 0;
-        while (il < left.length && ir < right.length) {
-          if (left[il] < right[ir]) {
-            res.push(left[il++]);
-          } else {
-            res.push(right[ir++]);
+      // let arr = [3, 1, 4, 7, 5];
+      let arr = [7, 4, 3, 67, 34, 1, 8];
+      // function qucikSort(arr) {
+      //   if (arr.length <= 1) return arr;
+      //   const lArr = arr.filter(v => v < a[0]);
+      //   const rArr = arr.filter((v, i) => v >= arr[0] && i != 0);
+      //   return [...qucikSort(lArr), arr[0], ...qucikSort(rArr)];
+      // }
+      function insertSort(arr) {
+        for (let i = 1; i < arr.length; i++) {
+          for (let j = i; j >= 0; j--) {
+            if (arr[i] < arr[j]) {
+              // [arr[i], arr[j]] = [arr[j], arr[i]];
+              console.log(arr[i], arr[j], i, j, "-1-");
+            }
           }
         }
-        console.log(res);
-        while (il < left.length) {
-          res.push(left[il++]);
-        }
-        while (ir < right.length) {
-          res.push(right[ir++]);
-        }
-        return res;
-      };
-      function mergeSortRec(arr) {
-        let len = arr.length;
-        if (len === 1) {
-          return arr;
-        }
-        let mid = Math.floor(len / 2),
-          left = arr.slice(0, mid),
-          right = arr.slice(mid, len);
-        return merge(mergeSortRec(left), mergeSortRec(right));
+        return arr
       }
-      console.log(mergeSortRec(array));
+      console.log(insertSort(arr));
     </script>
   </body>
 </html>

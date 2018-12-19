@@ -15,23 +15,11 @@
       // 不稳定
 
       // function quickSort(arr) {
-      //   if (arr.length <= 1) {
-      //     return arr;
-      //   }
+      //   if (arr.length <= 1) return arr;
       //   const lArr = arr.filter((v, i) => v < arr[0]);
-      //   const rArr = arr.filter((v, i) => v >= arr[0] && i !== 0);
+      //   const rArr = arr.filter((v, i) => v >= arr[0] && i !== 0);//假如不写i！=0会过滤不掉数组中小的 返回的还是原数组
       //   return [...quickSort(lArr), arr[0], ...quickSort(rArr)];
       // }
-      // const quickSort = arr => {
-      //   if (arr.length <= 1) {
-      //     return arr;
-      //   }
-      //   const left = arr.filter((e, i) => e < arr[0] && i !== 0);
-      //   const right = arr.filter((e, i) => e >= arr[0] && i !== 0);
-      //   return [...quickSort(left), arr[0], ...quickSort(right)];
-      //   // return quickSort(left).concat([arr[0]], quickSort(right));
-      // };
-
       // const arr = [15, 10, 6, 34, 21, 66, 32];
       // console.log(quickSort(arr));
       //循环法 快排

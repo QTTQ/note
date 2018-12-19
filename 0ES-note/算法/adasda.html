@@ -8,20 +8,15 @@
   </head>
   <body>
     <script>
-      //归并排序
+      let arr = [3, 1, 4, 7, 5];
 
-      function mergeSort(arr) {
-        let len = arr.length;
-        if (len === 1) return arr;
-        // let mid = Math.floor(len / 2),
-        //   left = arr.slice(0, mid),
-        //   right = arr.slice(mid, len);
-
-        // let mid=Math.floor(len/2)
-        // let left=0
-        // let right=arr.length-1
-        return merge(mergeSort(left),mergeSort(right));
+      function qucikSort(arr) {
+        let lIndex = 0;
+        let rIndex = arr.length - 1;
+        let mid = Math.floor((lIndex + rIndex) / 2);
+        return [...qucikSort(lIndex), arr[0], ...qucikSort(lIndex)];
       }
+      console.log(qucikSort(arr));
     </script>
   </body>
 </html>
