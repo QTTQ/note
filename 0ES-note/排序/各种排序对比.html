@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let arr = [7, 4, 3, 67, 34, 1, 8];
+        var generateRandomArray = function (n, rangeL, rangeR) {
+            var arr = [];
+            for (var i = 0; i < n; i++) {
+                arr.push(Math.floor(Math.random() * (rangeR - rangeL + 1)))
+            }
+            return arr;
+        }
+
+        function bubbleSort(arr) {
+            console.time("冒泡排序耗时");
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = 0; j < arr.length; j++) {
+                    if (arr[i] < arr[j]) {
+                        [arr[i], arr[j]] = [arr[j], arr[i]];
+                    }
+                }
+            }
+            console.timeEnd("冒泡排序耗时");
+            return arr;
+        }
+        // 选择排序：每一趟从待排序的数据元素中选择最小（或最大）的一个元素作为首元素
+        // 时间复杂度O(n2)
+        // 不稳定
+        function selectionSort(arr) {
+            console.time("选择排序耗时");
+            for (let j = 0; j < arr.length - 1; j++) {
+                let min = j;
+                for (let i = j + 1; i < arr.length; i++) {
+                    if (arr[min] > arr[i]) {
+                        min = i;
+                    }
+                }
+                if (min !== j) {
+                    [arr[min], arr[j]] = [arr[j], arr[min]];
+                }
+            }
+            console.timeEnd("选择排序耗时");
+            return arr;
+        }
+        function insertSort(arr) {
+            console.time("插入序耗时");
+            for (let i = 1; i < arr.length; i++) {
+                let temp = arr[i];
+                for (let j = i - 1; j >= 0 && temp < arr[j]; j--) {
+                    arr[j + 1] = arr[j]
+                    arr[j] = temp
+                }
+            }
+            console.timeEnd("插入序耗时");
+            return arr;
+        }
+        function shellSort(arr) {
+            console.time("希尔序耗时");
+            let gap = Math.floor(arr.length / 2);
+            while (gap > 0) {
+                for (let i = gap; i < arr.length; i++) {
+                    let j = i;
+                    while (j >= gap && arr[j - gap] > arr[j]) {
+                        [arr[j - gap], arr[j]] = [arr[j], arr[j - gap]];
+                        j -= gap;
+                    }
+                }
+                gap = Math.floor(gap / 2);
+            }
+            console.timeEnd("希尔序耗时");
+            return arr
+        }
+        const merge = (left, right) => {
+            let result = [], il = 0, ir = 0;
+            while (il < left.length && ir < right.length) {
+                if (left[il] < right[ir]) {
+                    result.push(left[il++]);
+                } else {
+                    result.push(right[ir++]);
+                }
+            }
+            while (il < left.length) {
+                result.push(left[il++]);
+            }
+            while (ir < right.length) {
+                result.push(right[ir++]);
+            }
+            return result;
+        };
+
+        /**
+         * @msg:下边都是O(nlogn)级别的方法 
+         * @param {type} 
+         * @return: 
+         */
+        function mergeSortRec(arr) {
+            let length = arr.length;
+            if (length === 1) {
+                return arr;
+            }
+            let mid = Math.floor(length / 2),
+                left = arr.slice(0, mid),
+                right = arr.slice(mid, length);
+            return merge(mergeSortRec(left), mergeSortRec(right));
+        }
+        function mergeFn(arr) {
+            return mergeSortRec(arr)
+        }
+        function quickSort(arr) {
+            if (arr.length <= 1) return arr;
+            const lArr = arr.filter((v, i) => v < arr[0]);
+            const rArr = arr.filter((v, i) => v >= arr[0] && i !== 0);//假如不写i！=0会过滤不掉数组中小的 返回的还是原数组
+            return [...quickSort(lArr), arr[0], ...quickSort(rArr)];
+        }
+        function quick(arr) {
+            return quickSort(arr)
+        }
+
+        function arrFn() {
+            return generateRandomArray(10000, 300, 19039)
+        }
+        // console.log(bubbleSort(arrFn()));
+        // console.log(selectionSort(arrFn()));
+        console.log(insertSort(arrFn()));
+        console.log(shellSort(arrFn()));
+        // console.log(mergeFn(arrFn()));
+        // console.log(quick(arrFn()));
+
+    </script>
+</body>
+
+</html>

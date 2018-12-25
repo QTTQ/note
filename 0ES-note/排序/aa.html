@@ -1,33 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-  </head>
-  <body>
-    <script>
-      // let arr = [3, 1, 4, 7, 5];
-      let arr = [7, 4, 3, 67, 34, 1, 8];
-      // function qucikSort(arr) {
-      //   if (arr.length <= 1) return arr;
-      //   const lArr = arr.filter(v => v < a[0]);
-      //   const rArr = arr.filter((v, i) => v >= arr[0] && i != 0);
-      //   return [...qucikSort(lArr), arr[0], ...qucikSort(rArr)];
-      // }
-      function insertSort(arr) {
-        for (let i = 1; i < arr.length; i++) {
-          for (let j = i; j >= 0; j--) {
-            if (arr[i] < arr[j]) {
-              // [arr[i], arr[j]] = [arr[j], arr[i]];
-              console.log(arr[i], arr[j], i, j, "-1-");
-            }
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //冒泡
+    let arr = [7, 4, 3, 67, 34, 1, 8];
+    function bubbleSort(arr) {
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+          if (arr[i] < arr[j]) {
+            [arr[i], arr[j]] = [arr[j], arr[i]]
           }
         }
-        return arr
       }
-      console.log(insertSort(arr));
-    </script>
-  </body>
+      return arr
+    }
+    //选择
+    function selectSort(arr) {
+      for (let i = 0; i < arr.length - 1; i++) {
+        let min = i;
+        for (let j = i + 1; j < arr.length; j++) {
+          if (arr[min] > arr[j]) {
+            min = j
+          }
+        }
+        if (i != min) {
+          [arr[min], arr[i]] = [arr[i], arr[min]]
+        }
+      }
+      return arr
+    }
+    //插入 
+    function insertSort(arr) {
+      for (let i = 1; i < arr.length; i++) {
+        let temp = arr[i]
+        for (let j = i - 1; j >= 0; j--) {
+          if (temp < arr[j]) {
+            arr[j + 1] = arr[j]
+            arr[j] = temp
+          }
+        }
+      }
+      return arr
+    }
+    // 希尔
+
+    function shellSort(arr) {
+      let gap = Math.floor(arr.length / 2)
+      while (gap > 0) {
+        for (let i = gap; i < arr.length; i++) {
+          let j = i
+          while (j >= gap && arr[j - gap] > arr[j]) {
+            [arr[i + 1], arr[i]] = [arr[i], temp];
+            j -= gap;
+          }
+        }
+        gap = Math.floor(gap / 2);
+      }
+    }   
+    // console.log(bubbleSort(arr));
+    // console.log(selectSort(arr));
+    console.log(insertSort(arr));
+
+
+  </script>
+</body>
+
 </html>
