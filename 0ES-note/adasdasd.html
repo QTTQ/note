@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <script>
+   const myobj={
+       h3:{parent:"h2",name:"副总经理（市场）"},
+       h1:{parent:"h0",name:"公司机构"},
+       h7:{parent:"h6",name:"副总经理（总务）"},
+       h4:{parent:"h3",name:"销售经理"},
+       h2:{parent:"h1",name:"总经理"},
+       h8:{parent:"h0",name:"财务总监"},
+       h6:{parent:"h4",name:"仓管总监"},
+       h5:{parent:"h4",name:"销售代表"},
+       h0:{parent:"",name:"root"}
+   }
+   function plainTree(obj){
+        let res={}
+        for(let key in obj){
+            let parent=obj[key].parent
+            if(parent==""){
+                res=obj[key]
+            }else{
+                obj[parent][key]=obj[key]
+            }
+        }
+        return res
+   }
+   function transObject(tableData,keys){
+       let hashTable={},res=[];
+       for(let i=0;i<tableData.length;i++){
+           let arr=res,cur=hashTable;
+           for(let j=0;j<keys.length;i++){
+               let key=keys[j],filed=tableData[i][key]
+               if(!cur[filed]){
+                   let pusher={value:filed},tmp=[];
+                   if(j!==(keys.length-1)){
+                       pusher.children=tmp;
+                   }
+                   cur[filed]={pos:arr.push(pusher)-1}
+                   cur=cur[filed]
+                   arr=tmp
+               }else{
+                   cur=cur[filed]
+                   arr=arr[cur.pos].children
+               }
+           }
+       }
+       return res
+   }
+   </script> 
+</body>
+</html>
