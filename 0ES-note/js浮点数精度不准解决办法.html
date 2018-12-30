@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //  1、如果只是用来展示一个浮点数的结果，则可以借用 Number 
+        //  对象的 toFixed 和 parseFloat 方法。下面代码片段中，fixed 
+        //  参数表示要保留几位小数，可以根据实际场景调整精度。
+        function formatNum(num, fixed = 10) {
+            return parseFloat(a.toFixed(fixed))
+        }
+        var a = 0.1 + 0.222; 
+        console.log(a)
+        console.log(formatNum(a)); //0.3
+
+        // 2、如果需要进行浮点数的加减乘除等运算，由上文可知，在小于 
+        // Number.MAXSAFEINTEGER 范围的整数是可以被精确表示出来的，
+        // 所以可以先把小数转化为整数，运算得到结果后再转化为对应的小数。
+        // 比如两个浮点数的加法：
+        function add(num1, num2) {
+            let decimalLen1 = (num1.toString().split('.')[1] || '').length;
+            console.log(num2.toString().split('.'),"----");
+            //第一个参数的小数个数  
+            let decimalLen2 = (num2.toString().split('.')[1] || '').length;
+            //第二个参数的小数个数  
+            let baseNum = Math.pow(10, Math.max(decimalLen1, decimalLen2));
+            return (num1 * baseNum + num2 * baseNum) / baseNum;
+        }
+        console.log(add(0.1, 0.02));//0.3
+
+    </script>
+</body>
+
+</html>
