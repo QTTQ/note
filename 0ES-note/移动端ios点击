@@ -1,0 +1,14 @@
+移动端的一些问题
+js点击事件在ios中失效的3种解决方案
+
+复制代码
+第一种：
+改为： 用#generate外面的标签，但不要是 docuemnt或者body
+$('任意的#generate的父元素').on('click', '#generate', function ()}
+
+第二种:
+将 #generate 标签改为 a标签 或者button，便可以点击了
+
+第三种：
+#generate 标签上增加 css样式：cursor :pointer; 即可，但会产生一个阴影
+复制代码
