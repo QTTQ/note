@@ -1,2 +1,0 @@
-数组形式：props:[ 'valueName1','valueName2']-----可以作为子组件的一个变量使用；
-对象形式：props:{valueName:{type:string,default:'value'}}------可以规定传输过来的值的数据类型和默认值但不能作为子组件内部变量使用
