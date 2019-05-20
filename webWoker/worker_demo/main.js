@@ -5,7 +5,7 @@ var result = document.querySelector('.result');
 
 if (window.Worker) { // Check if Browser supports the Worker api.
 	// Requires script name as input
-	var myWorker = new Worker("worker.js");
+	var myWorker = new Worker("testworker.js");
 
 	// onkeyup could be used instead of onchange if you wanted to update the answer every time
 	// an entered value is changed, and you don't want to have to unfocus the field to update its .value
@@ -24,5 +24,6 @@ if (window.Worker) { // Check if Browser supports the Worker api.
 	myWorker.onmessage = function (e) {
 		result.textContent = e.data;
 		console.log('Main (myWorker.onmessage): Message received from worker');
+		myWorker.terminate()
 	}
 }
