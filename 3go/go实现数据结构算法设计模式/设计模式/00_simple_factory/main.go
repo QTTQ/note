@@ -2,14 +2,15 @@ package simplefactory
 
 import "fmt"
 
+//API API
 type API interface {
 	Say(name string) string
 }
 
+//NewAPI NewAPI
 func NewAPI(t int) API {
 	if t == 1 {
 		return &hiAPI{}
-
 	} else if t == 2 {
 		return &helloAPI{}
 	}
