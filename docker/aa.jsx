@@ -209,7 +209,7 @@
 // 宝塔
 // http://47.104.200.78:8888/7c6431d1
 // username: aaa
-// password: 3ac31055
+// password: btqaz123
 
 
 
@@ -222,7 +222,7 @@
 // 配置// Dockerfile 文件
 // 生成镜像 docker build -t amdlserver:0.01 .
 // 创建并运行容器
-// docker run -d --net=host --name amdl amdlserver:0.01
+// docker run -d -it --net=host --name amdl amdlserver:0.01
 
 
 
