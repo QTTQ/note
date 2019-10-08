@@ -196,9 +196,9 @@
 
 // 查看镜像：docker images
 
-// 删除镜像：docker -rmi  IMAGEID  
+// 删除镜像：docker rmi  IMAGEID  
 
-// 强制删除镜像：docker -rmi -f  IMAGEID  
+// 强制删除镜像：docker rmi -f  IMAGEID  
 
 // 利用镜像创建容器：docker run --name centos -itd centos:latest 
 // ————————————————
@@ -223,6 +223,18 @@
 // 生成镜像 docker build -t amdlserver:0.01 .
 // 创建并运行容器
 // docker run -d -it --net=host --name amdl amdlserver:0.01
+
+
+// 日志 
+// docker log id
+
+// liunx 权限 
+// chmod 777 /www/go/amdlserver/main
+
+
+
+
+
 
 
 
