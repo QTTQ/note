@@ -56,7 +56,7 @@ postgresql:
         - DB_NAME=redmine_production
         - DB_USER=redmine
         - DB_PASS=password
-        
+
 <br><br>redmine：
     image: sameersbn/redmine:3.2.0-4
     links:
@@ -68,3 +68,9 @@ postgresql:
 　　通过docker-compose 启动容器组，删除原来创建的容器。
 
 删除容器命令：docker rm xxx    （-f 强制删除运行中容器）
+
+
+
+docker 常用命令
+
+https://learnku.com/articles/29690
