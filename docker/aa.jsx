@@ -231,6 +231,17 @@
 // liunx 权限 
 // chmod 777 /www/go/amdlserver/main
 
+//启动redis
+// docker run -d --name redis redis --appendonly yes
+// #查看是否已启动redis容器
+// docker ps|grep redis
+
+
+
+// 介绍的文章 很不错
+https://www.cnblogs.com/lienhua34/p/5170335.html
+
+
 
 
 
