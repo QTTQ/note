@@ -171,3 +171,35 @@ Address Dog  address dog address dog type
 用了指向指针的指针，也就是二级指针。根据上面得出的院里二级指针作
 为参数如果被修改了不会带出道函数的外部，但是整个二级指针指向的内
 容如果修改了却可以带导函数的外部。
+
+
+
+
+
+如果对指针类型进行反射操作的话,
+
+就必需, 先调用Elem()方法.
+
+Sample :
+        
+        kind := reflect.TypeOf(s).Kind()
+
+        // 参数为指针时: kind == reflect.Ptr 为指针类型
+        if kind == reflect.Ptr {
+            v := reflect.ValueOf(s)
+            for i := 0; i < v.Elem().Type().NumField(); i++ {
+                tag := v.Elem().Type().Field(i).Tag.Get(tagName)
+                if tag == "" || tag == "-" {
+                    continue
+                }
+                validator := parseValidatorFromTag(tag)
+                valid, err := validator.Validate(v.Elem().Field(i).Interface())
+                if !valid && err != nil {
+                    errs = append(errs, fmt.Errorf("%s%s", v.Elem().Type().Field(i).Name, err.Error()))
+                }
+            }
+        }
+
+
+链接：https://www.jianshu.com/p/ae08f75b8f64
+来源：简书
