@@ -1,5 +1,5 @@
 登陆数据库
-mysql -uroot -ppassword；
+mysql -uroot -ppassword;
 
 创建数据库
 CREATE DATABASE ddz；
