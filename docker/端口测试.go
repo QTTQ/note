@@ -15,7 +15,6 @@ netstat -tnulp | grep 8080 看看是否有进程在侦听
 查看防火墙状态 systemctl status firewalld
 开启防火墙 systemctl start firewalld  
 关闭防火墙 systemctl stop firewalld
-开启防火墙 service firewalld start 
 若遇到无法开启
 先用：systemctl unmask firewalld.service 
 然后：systemctl start firewalld.service
