@@ -271,3 +271,19 @@ Options	Mean
 -i	以交互模式运行容器，通常与 -t 同时使用；
 -t	为容器重新分配一个伪输入终端，通常与 -i 同时使用；
 -d	后台运行容器，并返回容器ID；
+
+
+
+docker中 启动所有的容器命令
+docker中 启动所有的容器命令
+
+docker start $(docker ps -a | awk '{ print $1}' | tail -n +2)
+
+docker中    关闭所有的容器命令
+
+docker stop $(docker ps -a | awk '{ print $1}' | tail -n +2)
+
+如果确定所有none镜像确实没用，直接加个-f强制删除，谨慎
+
+docker rmi -f `docker images | grep  "<none>" | awk '{print $3}'`
+

@@ -27,11 +27,10 @@ docker pull mysql
 
 docker run --name mysql5.7 -e MYSQL_ROOT_PASSWORD=123456 -p 3307:3306 -d mysql:5.7
 
+docker run --name mysql57 --net=host -e MYSQL_ROOT_PASSWORD=123456 -d mysql:latest
+
+
 //-----------------------------
-
-
-
-
 
 
 docker容器之间的通信

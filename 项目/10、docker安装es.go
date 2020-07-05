@@ -15,7 +15,7 @@ Docker安装ES
 
 运行ES
 
-1 docker run --name elasticsearch --net hahanetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -d elasticsearch:7.4.1
+1 docker run --name elasticsearch --net network -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -d elasticsearch:7.4.1
  
 
 查看 http://localhost:9200/
@@ -28,8 +28,6 @@ Reference
 https://hub.docker.com/_/elasticsearch
 
 https://www.elastic.co/downloads/elasticsearch
-
-
 
 
 

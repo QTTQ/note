@@ -1,0 +1,12 @@
+https://www.cnblogs.com/niceyoo/p/11546370.html
+
+
+
+docker pull nginx
+docker run -it -d --name nginx -p 9999:9999 -v /home/nginx/conf/nginx.conf:/etc/nginx/nginx.conf -v /home/nginx/www:/home/nginx/www --privileged nginx
+
+
+
+
+正常的 
+https://blog.csdn.net/ddhsea/article/details/92203713

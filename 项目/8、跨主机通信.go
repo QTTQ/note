@@ -809,3 +809,4 @@
 
 普通方式
 docker run -d --name amdlserver1 --ip=47.104.200.78 --link=redis:redis -p 8084:8084 amdlserver:latest
+
