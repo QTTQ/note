@@ -11,6 +11,8 @@
 curl -sSL https://get.daocloud.io/docker | sh
 ）
 
+
+
 4.设置yum源
   sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 5.查看仓库中docker版本 
