@@ -118,11 +118,85 @@
 
 好使的 
 docker pull quay.io/coreos/etcd
-docker run -itd -p 2379:2379 --restart=always --name etcd quay.io/coreos/etcd /usr/local/bin/etcd --advertise-client-urls http://0.0.0.0:2379 --listen-client-urls http://0.0.0.0:2379
+// 
+docker run -itd -p 2379:2379 --restart=always --name etcd quay.io/coreos/etcd /usr/local/bin/etcd \
+-name etcd0 \
+--initial-advertise-peer-urls http://0.0.0.0:2380 \
+--listen-peer-urls http://0.0.0.0:2380 \
+--advertise-client-urls http://139.196.139.33:2379 \
+--listen-client-urls http://0.0.0.0:2379 \
+-initial-cluster-token etcd-cluster-1 \
+-initial-cluster etcd0=http://0.0.0.0:2380 \
+-initial-cluster-state new
+
+
+docker run -itd -p 2379:2379 --restart=always --name etcd quay.io/coreos/etcd /usr/local/bin/etcd --initial-advertise-peer-urls http://0.0.0.0:2380 --listen-peer-urls http://0.0.0.0:2380 --advertise-client-urls http://0.0.0.0:2379 --listen-client-urls http://0.0.0.0:2379
+
+
+
+docker run -itd -p 2379:2379 --restart=always --name etcd quay.io/coreos/etcd /usr/local/bin/etcd --advertise-client-urls http:/139.196.139.33:2379 --listen-client-urls http:///0.0.0.0:2379
+
+
+docker run -p 2379:2379 \
+ -p 2380:2380 --volume=${DATA_DIR}:/etcd-data --name etcd ${REGISTRY}:${ETCD_VERSION} /usr/local/bin/etcd --data-dir=/etcd-data --name ${NAME_1} --initial-advertise-peer-urls http://${HOST_1}:2380 --listen-peer-urls http://0.0.0.0:2380 \
+ --advertise-client-urls http://${HOST_1}:2379 --listen-client-urls http://0.0.0.0:2379 \
+ --initial-cluster ${NAME_1}=http://${HOST_1}:2380
+
+
+
+
+查看etcd 状态 
+journalctl -xe -u etcd
+
 ————————————————
 版权声明：本文为CSDN博主「左手Z右边」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 原文链接：https://blog.csdn.net/qijkkwcw/java/article/details/103080710
 
 
 
+docker run -d -v /usr/share/ca-certificates/:/etc/ssl/certs -p 4001:4001 -p 2380:2380 -p 2379:2379 \
+ --name etcd etcd /usr/local/bin/etcd \
+ -name etcd0 \
+ -advertise-client-urls http://192.168.3.3:2379,http://192.168.3.3:4001 \
+ -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 \
+ -initial-advertise-peer-urls http://192.168.3.3:2380 \
+ -listen-peer-urls http://0.0.0.0:2380 \
+ -initial-cluster-token etcd-cluster-1 \
+ -initial-cluster etcd0=http://192.168.3.3:2380 \
+ -initial-cluster-state new
 
+
+
+ docker run -d -p 2380:2380 -p 2379:2379 \
+ --name etcd quay.io/coreos/etcd /usr/local/bin/etcd \
+ -name etcd0 \
+ -advertise-client-urls http://139.196.139.33:2379 \
+ -listen-client-urls http://0.0.0.0:2379 \
+ -initial-advertise-peer-urls http://localhost:2380 \
+ -listen-peer-urls http://139.196.139.33:2380 \
+ -initial-cluster-token etcd-cluster-1 \
+ -initial-cluster etcd0=http://139.196.139.33:2380 \
+ -initial-cluster-state new
+
+
+
+ https://blog.csdn.net/ucmir183/article/details/84454575
+
+  docker run -d \
+  -p 2379:2379 \
+  --name etcd \
+  quay.io/coreos/etcd \
+   /usr/local/bin/etcd \
+  --listen-client-urls http://0.0.0.0:2379 \
+  --advertise-client-urls http://139.196.139.33:2379
+
+
+
+  docker run -d \
+  -p 2379:2379 \
+  --name etcd \
+  quay.io/coreos/etcd \
+   /usr/local/bin/etcd \
+  --listen-client-urls http://0.0.0.0:2379 \
+  --advertise-client-urls http://121.40.61.218:2379
+  // --advertise-client-urls http://121.40.187.123:2379

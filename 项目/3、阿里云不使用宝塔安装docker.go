@@ -17,6 +17,9 @@ curl -sSL https://get.daocloud.io/docker | sh
   yum list docker-ce --showduplicates | sort -r
 6. 安装docker
   sudo yum install docker-ce
+// 这步出错 的话
+dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+// https://blog.csdn.net/shana_8/article/details/105190368
 7.启动Docker,设置开机启动,停止Docker
   sudo systemctl start docker
   sudo systemctl enable docker

@@ -1,0 +1,617 @@
+ETCD
+简介
+etcd 是一个分布式一致性k-v存储系统，可用于服务注册发现与共享配置，具有以下优点。
+• 简单 ： 相比于晦涩难懂的paxos算法，etcd基于相对简单且易实现的raft算法实现一致性，并通过gRPC提供接口调用
+• 安全：支持TLS通信，并可以针对不同的用户进行对key的读写控制
+• 高性能：10,000 /秒的单机写性能，节点越多写性能逐渐减低（强一致性的特性），读性能逐渐升高（读写分离）
+raft讲解：http://thesecretlivesofdata.com/raft/
+搭建
+下载：yum install etcd
+以2台主机搭建集群为例
+A，配置 /etc/etcd/etcd.conf
+B，配置 /etc/etcd/etcd.conf
+设置V3环境：
+• 在/etc/profile里加上 export  ETCDCTL_API=3
+• 重启：. /etc/profile （注意点后有个空格）
+启动：systemctl start etcd，重启：systemctl restart etcd
+查看节点：etcdctl member list
+配置
+#ETCD_CORS="" #逗号分隔的CORS原始白名单（跨源资源共享）
+ETCD_DATA_DIR="/var/lib/etcd/default.etcd" #服务运行数据保存的路径
+#ETCD_WAL_DIR="" #专用wal目录的路径
+ETCD_LISTEN_PEER_URLS="http://192.168.127.131:2380" #成员之间通信的地址
+ETCD_LISTEN_CLIENT_URLS="http://192.168.127.131:2379,http://localhost:2379" #对外提供服务的地址，不能用域名，如需外部访问配置为http://0.0.0.0:2379（不能是云主机的公网ip）
+#ETCD_MAX_SNAPSHOTS="5" #要保留的最大快照文件数（0表示不受限制）
+#ETCD_MAX_WALS="5" #要保留的最大wal文件数（0表示不受限制）
+ETCD_NAME="etcd1"  #节点名称，默认为default
+#ETCD_SNAPSHOT_COUNT="100000" #触发快照到磁盘的已提交事务数
+#ETCD_HEARTBEAT_INTERVAL="100" #心跳间隔的时间（以毫秒为单位）
+#ETCD_ELECTION_TIMEOUT="1000" #选举超时的时间（以毫秒为单位）
+#ETCD_QUOTA_BACKEND_BYTES="0" #当后端大小超过给定配额时（0默认为低空间配额），引发警报
+#ETCD_MAX_REQUEST_BYTES="1572864" #服务器将接受的最大客户端请求大小（字节）
+#ETCD_GRPC_KEEPALIVE_MIN_TIME="5s" #客户端在ping服务器之前应等待的最短持续时间间隔
+#ETCD_GRPC_KEEPALIVE_INTERVAL="2h0m0s" #服务器到客户端ping的频率持续时间，以检查连接是否处于活动状态（0表示禁用）
+#ETCD_GRPC_KEEPALIVE_TIMEOUT="20s" #关闭非响应连接之前的额外持续等待时间
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://192.168.127.131:2380" #该节点成员对等的URL地址，且会通告群集的其余成员节点
+ETCD_ADVERTISE_CLIENT_URLS="http://192.168.127.131:2379,http://localhost:2379" #对外公告的该节点客户端监听地址，如需外部访问配置为http://0.0.0.0:2379（不能是云主机的公网ip）
+#ETCD_DISCOVERY="" #用于引导群集的发现UR
+#ETCD_DISCOVERY_FALLBACK="proxy" #发现服务失败时的预期行为“退出”或“代理”“proxy”仅支持v2 API
+#ETCD_DISCOVERY_PROXY="" #用于流量到发现服务的HTTP代理
+#ETCD_DISCOVERY_SRV="" #DNS srv域用于引导群集
+ETCD_INITIAL_CLUSTER="etcd1=http://192.168.127.131:2380,etcd2=http://192.168.127.130:2380" #集群中所有节点的信息
+ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster" #创建集群的 token，这个值每个集群保持唯一
+ETCD_INITIAL_CLUSTER_STATE="new" #初始集群状态
+#ETCD_STRICT_RECONFIG_CHECK="true" #拒绝可能导致仲裁丢失的重新配置请求
+#ETCD_ENABLE_V2="true" #接受etcd V2客户端请求
+交互
+写入或更新键
+etcdctl put foo bar  >>> OK
+读取键
+应用可以从 etcd 集群中读取键的值。查询可以读取单个 key，或者某个范围的键
+假设 etcd 集群存储有下面的键：
+foo = bar
+foo1 = bar1
+foo2 = bar2
+foo3 = bar3
+etcdctl get foo >>> foo bar
+etcdctl get foo --hex  >>> \x66\x6f\x6f  \x62\x61\x72 #读16进制
+etcdctl get foo --print-value-only >>> bar   #只读取键 foo 的值
+etcdctl get foo foo2 >>> foo bar foo1 bar1 #读一个范围，含头不含尾
+etcdctl get --prefix foo  #读取所有以foo开头的键
+-----------------------其他--------------------
+etcdctl get --prefix --rev=1 foo #读取foo上一期的值
+etcdctl get --from-key b  #读取大于等于键 b 的 byte 值的键的命令
+删除键
+etcdctl del foo  >>> 1
+$ etcdctl del --prev-kv zoo  >>> 1 zoo  val #删除并返回键值对
+etcdctl del foo foo9 >>> n?  #删除一个范围
+etcdctl del --prefix zoo  >>> n?  #删除一个范围
+etcdctl del --from-key b >>> 2  #删除大于等于键 b 的 byte 值的键的命令
+观察键的变化
+etcdctl watch foo
+# 在另外一个终端: etcdctl put foo bar
+foo
+bar
+etcdctl watch foo --hex  #16进制格式在键 foo 上进行观察的命令
+etcdctl watch foo foo9 #观察一个范围
+etcdctl watch --prefix foo #观察前缀为 foo 的键
+etcdctl watch -i  #
+watch foo
+watch zoo
+授予租约
+#授予租约，TTL为10秒
+etcdctl lease grant 10
+lease 32695410dcc0ca06 granted with TTL(10s)
+#附加键 foo 到租约32695410dcc0ca06
+etcdctl put  foo bar --lease=32695410dcc0ca06
+OK
+撤销租约
+etcdctl lease revoke 32695410dcc0ca06
+lease 32695410dcc0ca06 revoked
+etcdctl get foo
+空应答，因为租约撤销导致foo被删除
+维持租约
+etcdctl lease keep-alive 32695410dcc0ca06 #将租约时间刷新至初始化状态
+节点管理
+etcdctl member list ：列出etcd 集群信息
+etcdctl member add：添加节点
+第一步：etcdctl member add myetcd3  http://192.168.127.132:2380，执行后会出现提示信息如：
+ETCD_NAME="myetcd3"
+ETCD_INITIAL_CLUSTER="myetcd1=http://x.x.x.x:2380,myetcd2=http://x.x.x.x:2380,myetcd3=http://x.x.x.x:2380"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://192.168.127.132:2380"
+ETCD_INITIAL_CLUSTER_STATE="existing"
+新节点的etcd配置文件必须包括以上输出内容
+第二步：启动myetcd3 
+值得注意的是，如果原先的集群只有1个节点，在新节点成功启动之前，新集群并不能正确的形成。
+因为原先的单节点集群无法完成leader的选举。
+直到新节点启动完，和原先的节点建立连接以后，新集群才能正确形成
+etcdctl member remove：删除节点
+etcdctl member remove 8828272f7b3b3630
+权限认证
+1.创建root角色,对所有KV有读写权限
+etcdctl role add root
+2.添加root用户
+# etcdctl user add root
+3.创建root账号后，为root用户分配root角色
+# etcdctl user grant-role root root
+# etcdctl user get root
+User: root
+Roles:  root
+# etcdctl role get root
+Role: root
+KV Read:
+KV Write:
+    
+4.开启auth认证
+# etcdctl auth enable
+# etcdctl auth disable 取消auth认证
+5.添加非root账号，一个jw的账号
+# etcdctl --user=root:123456 user add jw
+6.添加角色，一个jw_role的角色,并指定权限
+# etcdctl --user=root:123456 role add jw_role 
+# etcdctl --user=root:123456 role  grant-permission jw_role readwrite --prefix foo
+7.为jw的账号分配jw_role的角色
+# etcdctl --user=root:123456  user grant-role jw jw_role
+8.查看jw与jw_role
+# etcdctl user get jw --user=root
+Password: 
+User: jw
+Roles: jw_role
+# etcdctl role get jw_role --user=root
+Password: 
+Role jw_role
+KV Read:
+    [foo, fop) (prefix foo)
+KV Write:
+    [foo, fop) (prefix foo)
+SDK
+github.com/etcd-io/etcd/clientv3
+文档：https://godoc.org/github.com/etcd-io/etcd/clientv3#GetLogger
+pb文件：https://github.com/etcd-io/etcd/tree/master/etcdserver/etcdserverpb
+type Auth
+权限管理
+type Auth interface {
+    // AuthEnable enables auth of an etcd cluster.
+    AuthEnable(ctx context.Context) (*AuthEnableResponse, error)
+    // AuthDisable disables auth of an etcd cluster.
+    AuthDisable(ctx context.Context) (*AuthDisableResponse, error)
+    // AuthStatus returns the status of auth of an etcd cluster.
+    AuthStatus(ctx context.Context) (*AuthStatusResponse, error)
+    // UserAdd adds a new user to an etcd cluster.
+    UserAdd(ctx context.Context, name string, password string) (*AuthUserAddResponse, error)
+    // UserAddWithOptions adds a new user to an etcd cluster with some options.
+    UserAddWithOptions(ctx context.Context, name string, password string, opt *UserAddOptions) (*AuthUserAddResponse, error)
+    // UserDelete deletes a user from an etcd cluster.
+    UserDelete(ctx context.Context, name string) (*AuthUserDeleteResponse, error)
+    // UserChangePassword changes a password of a user.
+    UserChangePassword(ctx context.Context, name string, password string) (*AuthUserChangePasswordResponse, error)
+    // UserGrantRole grants a role to a user.
+    UserGrantRole(ctx context.Context, user string, role string) (*AuthUserGrantRoleResponse, error)
+    // UserGet gets a detailed information of a user.
+    UserGet(ctx context.Context, name string) (*AuthUserGetResponse, error)
+    // UserList gets a list of all users.
+    UserList(ctx context.Context) (*AuthUserListResponse, error)
+    // UserRevokeRole revokes a role of a user.
+    UserRevokeRole(ctx context.Context, name string, role string) (*AuthUserRevokeRoleResponse, error)
+    // RoleAdd adds a new role to an etcd cluster.
+    RoleAdd(ctx context.Context, name string) (*AuthRoleAddResponse, error)
+    // RoleGrantPermission grants a permission to a role.
+    RoleGrantPermission(ctx context.Context, name string, key, rangeEnd string, permType PermissionType) (*AuthRoleGrantPermissionResponse, error)
+    // RoleGet gets a detailed information of a role.
+    RoleGet(ctx context.Context, role string) (*AuthRoleGetResponse, error)
+    // RoleList gets a list of all roles.
+    RoleList(ctx context.Context) (*AuthRoleListResponse, error)
+    // RoleRevokePermission revokes a permission from a role.
+    RoleRevokePermission(ctx context.Context, role string, key, rangeEnd string) (*AuthRoleRevokePermissionResponse, error)
+    // RoleDelete deletes a role.
+    RoleDelete(ctx context.Context, role string) (*AuthRoleDeleteResponse, error)
+}
+type Config
+type Config struct {
+    Endpoints []string `json:"endpoints"`
+    // AutoSyncInterval is the interval to update endpoints with its latest members.
+    // 0 disables auto-sync. By default auto-sync is disabled.
+    AutoSyncInterval time.Duration `json:"auto-sync-interval"`
+    // 连接超时
+    DialTimeout time.Duration `json:"dial-timeout"`
+    // 间隔时间ping服务器
+    DialKeepAliveTime time.Duration `json:"dial-keep-alive-time"`
+    // 等待结果返回的最长时间
+    DialKeepAliveTimeout time.Duration `json:"dial-keep-alive-timeout"`
+    // MaxCallSendMsgSize is the client-side request send limit in bytes.
+    // If 0, it defaults to 2.0 MiB (2 * 1024 * 1024).
+    MaxCallSendMsgSize int
+    // MaxCallRecvMsgSize is the client-side response receive limit.
+    // If 0, it defaults to "math.MaxInt32", because range response can
+    MaxCallRecvMsgSize int
+    // TLS holds the client secure credentials, if any.
+    TLS *tls.Config
+    Username string `json:"username"`
+    Password string `json:"password"`
+    // RejectOldCluster when set will refuse to create a client against an outdated cluster.
+    RejectOldCluster bool `json:"reject-old-cluster"`
+    // DialOptions is a list of dial options for the grpc client (e.g., for interceptors).
+    // For example, pass "grpc.WithBlock()" to block until the underlying connection is up.
+    // Without this, Dial returns immediately and connecting the server happens in background.
+    DialOptions []grpc.DialOption
+    // Context is the default client context; it can be used to cancel grpc dial out and
+    // other operations that do not have an explicit context.
+    Context context.Context
+    // LogConfig configures client-side logger.
+    // If nil, use the default logger.
+    // TODO: configure gRPC logger
+    LogConfig *zap.Config
+    // PermitWithoutStream when set will allow client to send keepalive pings to server without any active streams(RPCs).
+    PermitWithoutStream bool `json:"permit-without-stream"`
+}
+type Client
+type Client struct {
+    Cluster
+    KV
+    Lease
+    Watcher
+    Auth
+    Maintenance
+    Username string
+    Password string
+}
+func New(cfg Config) (*Client, error)
+func (c *Client) Close() error
+func NewFromURL(url string) (*Client, error)  从一个URL创建一个新的etcdv3客户端。
+func NewFromURLs(urls []string) (*Client, error)  从url创建一个新的etcdv3客户端。
+func (c *Client) Endpoints() []string   endpoint列出客户端注册的端点
+func (c *Client) SetEndpoints(eps ...string)   更新客户机的端点（所有）
+func (c *Client) Sync(ctx context.Context) error   Sync将客户端端点与etcd成员中的已知端点进行同步
+type Cluster
+type Cluster interface {
+    // MemberList lists the current cluster membership.
+    MemberList(ctx context.Context) (*MemberListResponse, error)
+    // MemberAdd adds a new member into the cluster.
+    MemberAdd(ctx context.Context, peerAddrs []string) (*MemberAddResponse, error)
+    // MemberAddAsLearner adds a new learner member into the cluster.
+    MemberAddAsLearner(ctx context.Context, peerAddrs []string) (*MemberAddResponse, error)
+    // MemberRemove removes an existing member from the cluster.
+    MemberRemove(ctx context.Context, id uint64) (*MemberRemoveResponse, error)
+    // MemberUpdate updates the peer addresses of the member.
+    MemberUpdate(ctx context.Context, id uint64, peerAddrs []string) (*MemberUpdateResponse, error)
+    // MemberPromote promotes a member from raft learner (non-voting) to raft voting member.
+    MemberPromote(ctx context.Context, id uint64) (*MemberPromoteResponse, error)
+}
+func NewCluster(c *Client) Cluster
+type KV
+type KV interface {
+    Put(ctx context.Context, key, val string, opts ...OpOption) (*PutResponse, error)
+    Get(ctx context.Context, key string, opts ...OpOption) (*GetResponse, error)
+    Delete(ctx context.Context, key string, opts ...OpOption) (*DeleteResponse, error)
+    // Compact compacts etcd KV history before the given rev.
+    Compact(ctx context.Context, rev int64, opts ...CompactOption) (*CompactResponse, error)
+    Do(ctx context.Context, op Op) (OpResponse, error)
+    // Txn creates a transaction.
+    Txn(ctx context.Context) Txn
+}
+func NewKV(c *Client) KV
+type Lease
+type Lease interface {
+    // 获取一个新租约
+    Grant(ctx context.Context, ttl int64) (*LeaseGrantResponse, error)
+    // 删除一个
+    Revoke(ctx context.Context, id LeaseID) (*LeaseRevokeResponse, error)
+    // 检索指定租约信息
+    TimeToLive(ctx context.Context, id LeaseID, opts ...LeaseOption) (*LeaseTimeToLiveResponse, error)
+    // 检索所有租约
+    Leases(ctx context.Context) (*LeaseLeasesResponse, error)
+    // 将LeaseID设为永久有效
+    KeepAlive(ctx context.Context, id LeaseID) (<-chan *LeaseKeepAliveResponse, error)
+    // 续租一次
+    KeepAliveOnce(ctx context.Context, id LeaseID) (*LeaseKeepAliveResponse, error)
+    Close() error
+}
+type LeaseGrantResponse struct {
+    *pb.ResponseHeader
+    ID    LeaseID
+    TTL   int64
+    Error string
+}
+type LeaseKeepAliveResponse struct {
+    *pb.ResponseHeader
+    ID  LeaseID
+    TTL int64
+}
+type LeaseTimeToLiveResponse struct {
+    *pb.ResponseHeader
+    ID  LeaseID `json:"id"`
+    // TTL is the remaining TTL in seconds for the lease; the lease will expire in under TTL+1 seconds. Expired lease will return -1.
+    TTL int64 `json:"ttl"`
+    // GrantedTTL is the initial granted time in seconds upon lease creation/renewal.
+    GrantedTTL int64 `json:"granted-ttl"`
+    // Keys is the list of keys attached to this lease.
+    Keys [][]byte `json:"keys"`
+}
+type Watcher
+type Watcher interface {
+    Watch(ctx context.Context, key string, opts ...OpOption) WatchChan
+    RequestProgress(ctx context.Context) error
+    Close() error
+}
+cli, err := clientv3.New(clientv3.Config{
+    Endpoints:   endpoints,
+    DialTimeout: dialTimeout,
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close()
+rch := cli.Watch(context.Background(), "foo", clientv3.WithPrefix())
+for wresp := range rch {
+    for _, ev := range wresp.Events {
+        fmt.Printf("%s %q : %q\n", ev.Type, ev.Kv.Key, ev.Kv.Value)
+    }
+}
+// PUT "foo1" : "bar"
+type Op
+func OpDelete(key string, opts ...OpOption) Op   根据给定的键和操作选项返回“delete”操作
+func OpGet(key string, opts ...OpOption) Op   据给定的键和操作选项返回“get”操作
+func OpPut(key, val string, opts ...OpOption) Op  根据给定的键值和操作选项返回“put”操作
+func OpTxn(cmps []Cmp, thenOps []Op, elseOps []Op) Op   根据给定的事务条件返回“txn”操作
+func (op Op) IsCountOnly() bool   返回是否设置了countOnly
+func (op Op) IsDelete() bool
+func (op Op) IsGet() bool
+func (op Op) IsPut() bool
+func (op Op) IsTxn() bool
+func (op Op) IsKeysOnly() bool   返回是否设置了keysOnly
+func (op Op) IsSerializable() bool  如果serializable字段为真，则IsSerializable返回真。
+func (op Op) KeyBytes() []byte   返回保存Op key的字节片
+func (op Op) MaxCreateRev() int64   返回操作的最大创建版次
+func (op Op) MaxModRev() int64      返回操作的最大修改版次
+func (op Op) MinCreateRev() int64
+func (op Op) MinModRev() int64  
+func (op Op) RangeBytes() []byte   返回包含Op的range结束符(如果有的话)的字节片
+func (op Op) Rev() int64    返回所请求的版次(如果有)
+func (op Op) Txn() ([]Cmp, []Op, []Op)     
+func (op Op) ValueBytes() []byte   返回保存Op值的字节片(如果有的话)
+func (op *Op) WithKeyBytes(key []byte)   设置Op的key的字节片
+func (op *Op) WithRangeBytes(end []byte)    设置Op的范围结束的字节片
+func (op *Op) WithValueBytes(v []byte)    设置Op值的字节片
+type OpOption
+func WithCountOnly() OpOption  只返回键的数量
+func WithPrefix() OpOption   前缀匹配
+func WithLease(leaseID LeaseID) OpOption   WithLease将一个租约ID附加到'Put'请求中的键上
+func WithLimit(n int64) OpOption  限制从'Get'请求返回的结果的数量。如果为0则不限制
+func WithPrevKV() OpOption  WithPrevKV获取事件发生前的前一个键值对
+func WithLastRev() []OpOption   获取在请求范围内具有最新修改版本的键
+func WithMaxCreateRev(rev int64) OpOption    过滤掉了创建修订大于给定修订的Get键
+func WithMaxModRev(rev int64) OpOption   过滤掉修改版本大于给定版本的Get键
+func WithMinCreateRev(rev int64) OpOption
+func WithMinModRev(rev int64) OpOption
+func WithRev(rev int64) OpOption    指定了“Get”请求的存储版本。或开始'watch'的版本
+type GetResponse
+type GetResponse pb.RangeResponse
+type RangeResponse struct {
+    Header *ResponseHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+    // kvs is the list of key-value pairs matched by the range request.
+    // kvs is empty when count is requested.
+    Kvs []*mvccpb.KeyValue `protobuf:"bytes,2,rep,name=kvs" json:"kvs,omitempty"`
+    // more indicates if there are more keys to return in the requested range.
+    More bool `protobuf:"varint,3,opt,name=more,proto3" json:"more,omitempty"`
+    // count is set to the number of keys within the range when requested.
+    Count int64 `protobuf:"varint,4,opt,name=count,proto3" json:"count,omitempty"`
+}
+type DeleteResponse
+type DeleteResponse pb.DeleteRangeResponse
+type DeleteRangeResponse struct {
+    Header *ResponseHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+    // deleted is the number of keys deleted by the delete range request.
+    Deleted int64 `protobuf:"varint,2,opt,name=deleted,proto3" json:"deleted,omitempty"`
+    // if prev_kv is set in the request, the previous key-value pairs will be returned.
+    PrevKvs []*mvccpb.KeyValue `protobuf:"bytes,3,rep,name=prev_kvs,json=prevKvs" json:"prev_kvs,omitempty"`
+}
+type PutResponse
+type PutResponse pb.PutResponse
+type PutResponse struct {
+    Header *ResponseHeader `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
+    // if prev_kv is set in the request, the previous key-value pair will be returned.
+    PrevKv *mvccpb.KeyValue `protobuf:"bytes,2,opt,name=prev_kv,json=prevKv" json:"prev_kv,omitempty"`
+}
+type OpResponse
+func (op OpResponse) Del() *DeleteResponse
+func (op OpResponse) Get() *GetResponse
+func (op OpResponse) Put() *PutResponse
+func (op OpResponse) Txn() *TxnResponse
+type WatchChan
+type WatchChan <-chan WatchResponse
+type WatchResponse
+type WatchResponse struct {
+    Header pb.ResponseHeader
+    Events []*Event
+    // CompactRevision is the minimum revision the watcher may receive.
+    CompactRevision int64
+    // Canceled is used to indicate watch failure.
+    // If the watch failed and the stream was about to close, before the channel is closed,
+    // the channel sends a final response that has Canceled set to true with a non-nil Err().
+    Canceled bool
+    // Created is used to indicate the creation of the watcher.
+    Created bool
+    // contains filtered or unexported fields
+}
+func (wr *WatchResponse) Err() error   如果此WatchResponse持有错误，则Err是错误值
+func (wr *WatchResponse) IsProgressNotify() bool   如果是进度通知，则IsProgressNotify返回true
+type Event
+type Event mvccpb.Event
+func (e *Event) IsCreate() bool   如果事件告诉键是新创建的，则IsCreate返回true
+func (e *Event) IsModify() bool   如果事件告诉在现有键上添加了一个新值，则IsModify返回true
+type Txn
+type Txn interface {
+    //比较，成功传给Then，失败传给Else
+    If(cs ...Cmp) Txn
+    Then(ops ...Op) Txn
+    Else(ops ...Op) Txn
+    // 提交事务
+    Commit() (*TxnResponse, error)
+}
+Txn(context.TODO()).If(
+ Compare(Value(k1), ">", v1),
+ Compare(Version(k1), "=", 2)
+).Then(
+ OpPut(k2,v2), OpPut(k3,v3)
+).Else(
+ OpPut(k4,v4), OpPut(k5,v5)
+).Commit()
+mvcc/mvccpb
+https://godoc.org/go.etcd.io/etcd/mvcc/mvccpb
+type Event
+type Event struct {
+    // 如果类型是PUT，则表示 新数据已存储到密钥中。如果类型是DELETE，表示删除了密钥。
+    Type Event_EventType `protobuf:"varint,1,opt,name=type,proto3,enum=mvccpb.Event_EventType" json:"type,omitempty"`
+    Kv  *KeyValue `protobuf:"bytes,2,opt,name=kv" json:"kv,omitempty"`
+    // prev_kv在事件发生之前保存键值对
+    PrevKv *KeyValue `protobuf:"bytes,3,opt,name=prev_kv,json=prevKv" json:"prev_kv,omitempty"`
+}
+type Event_EventType
+type Event_EventType int32
+const (
+    PUT    Event_EventType = 0
+    DELETE Event_EventType = 1
+)
+type KeyValue
+type KeyValue struct {
+    Key []byte `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+    // 最后一次修订的版本
+    CreateRevision int64 `protobuf:"varint,2,opt,name=create_revision,json=createRevision,proto3" json:"create_revision,omitempty"`
+    // 上一次修订
+    ModRevision int64 `protobuf:"varint,3,opt,name=mod_revision,json=modRevision,proto3" json:"mod_revision,omitempty"`
+    // key的版本，如果删除会置为0，每修改一次会加1
+    Version int64 `protobuf:"varint,4,opt,name=version,proto3" json:"version,omitempty"`
+    // value is the value held by the key, in bytes.
+    Value []byte `protobuf:"bytes,5,opt,name=value,proto3" json:"value,omitempty"`
+    // lease is the ID of the lease that attached to key.
+    // When the attached lease expires, the key will be deleted.
+    // If lease is 0, then no lease is attached to the key.
+    Lease int64 `protobuf:"varint,6,opt,name=lease,proto3" json:"lease,omitempty"`
+}
+例子
+租约：
+cli, err := clientv3.New(clientv3.Config{
+    Endpoints:   endpoints,
+    DialTimeout: dialTimeout,
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close()
+// minimum lease TTL is 5-second
+resp, err := cli.Grant(context.TODO(), 5)
+if err != nil {
+    log.Fatal(err)
+}
+// after 5 seconds, the key 'foo' will be removed
+_, err = cli.Put(context.TODO(), "foo", "bar", clientv3.WithLease(resp.ID))
+if err != nil {
+    log.Fatal(err)
+}
+TLS通信：
+package main
+import (
+    "crypto/tls"
+    "crypto/x509"
+    "github.com/coreos/etcd/clientv3"
+    "io/ioutil"
+    "log"
+)
+var (
+    endpoints      = []string{"https://172.17.84.204:2379", "https://172.17.84.205:2379", "https://172.17.84.206:2379"}
+)
+func newTLS(etcdCert,etcdCertKey,etcdCa string) (*tls.Config,error){
+    cert, err := tls.LoadX509KeyPair(etcdCert, etcdCertKey)
+    if err != nil {
+        return nil,err
+    }
+    caData, err := ioutil.ReadFile(etcdCa)
+    if err != nil {
+        return nil,err
+    }
+    pool := x509.NewCertPool()
+    pool.AppendCertsFromPEM(caData)
+    tlsConfig := &tls.Config{
+        Certificates: []tls.Certificate{cert},
+        RootCAs:      pool,
+    }
+    return tlsConfig,nil
+}
+func main() {
+    var etcdCert = "./ca/etcd-client.pem"
+    var etcdCertKey = "./ca/etcd-client-key.pem"
+    var etcdCa = "./ca/ca.pem"
+    tlsConfig,err := newTLS(etcdCert,etcdCertKey,etcdCa)
+    if err != nil {
+        panic(err)
+    }
+    
+    cfg := clientv3.Config{
+        Endpoints: endpoints,
+        TLS:       tlsConfig,
+    }
+    cli, err := clientv3.New(cfg)
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+DO:
+cli, err := clientv3.New(clientv3.Config{
+    Endpoints:   endpoints,
+    DialTimeout: dialTimeout,
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close()
+ops := []clientv3.Op{
+    clientv3.OpPut("put-key", "123"),
+    clientv3.OpGet("put-key"),
+    clientv3.OpPut("put-key", "456")}
+for _, op := range ops {
+    if _, err := cli.Do(context.TODO(), op); err != nil {
+        log.Fatal(err)
+    }
+}
+TXN:
+cli, err := clientv3.New(clientv3.Config{
+    Endpoints:   endpoints,
+    DialTimeout: dialTimeout,
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close()
+kvc := clientv3.NewKV(cli)
+_, err = kvc.Put(context.TODO(), "key", "xyz")
+if err != nil {
+    log.Fatal(err)
+}
+ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
+_, err = kvc.Txn(ctx).
+    // txn value comparisons are lexical
+    If(clientv3.Compare(clientv3.Value("key"), ">", "abc")).
+    // the "Then" runs, since "xyz" > "abc"
+    Then(clientv3.OpPut("key", "XYZ")).
+    // the "Else" does not run
+    Else(clientv3.OpPut("key", "ABC")).
+    Commit()
+cancel()
+if err != nil {
+    log.Fatal(err)
+}
+gresp, err := kvc.Get(context.TODO(), "key")
+if err != nil {
+    log.Fatal(err)
+}
+for _, ev := range gresp.Kvs {
+    fmt.Printf("%s : %s\n", ev.Key, ev.Value)
+}
+key : XYZ
+WithRev：
+cli, err := clientv3.New(clientv3.Config{
+    Endpoints:   endpoints,
+    DialTimeout: dialTimeout,
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close()
+presp, err := cli.Put(context.TODO(), "foo", "bar1")
+if err != nil {
+    log.Fatal(err)
+}
+_, err = cli.Put(context.TODO(), "foo", "bar2")
+if err != nil {
+    log.Fatal(err)
+}
+ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
+resp, err := cli.Get(ctx, "foo", clientv3.WithRev(presp.Header.Revision))
+cancel()
+if err != nil {
+    log.Fatal(err)
+}
+for _, ev := range resp.Kvs {
+    fmt.Printf("%s : %s\n", ev.Key, ev.Value)
+}
+foo : bar1

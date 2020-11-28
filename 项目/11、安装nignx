@@ -10,3 +10,106 @@ docker run -it -d --name nginx -p 9999:9999 -v /home/nginx/conf/nginx.conf:/etc/
 
 正常的 
 https://blog.csdn.net/ddhsea/article/details/92203713
+
+
+安装命令:docker pull nginx
+安装完成之后进行测试:
+
+sudo docker run --name nginx-test -p 8081:80 -d nginx
+
+
+
+查看docker 镜像进程
+
+sudo docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+f77f78d2228d        nginx               "nginx -g 'daemon of…"   12 seconds ago      Up 11 seconds       0.0.0.0:8081->80/tcp   nginx-test
+
+
+
+
+在docker中部署nginx
+
+创建如下文件:
+
+mkdir -p ~/nginx/www ~/nginx/logs ~/nginx/conf
+
+
+
+拷贝容器内 Nginx 默认配置文件到本地当前目录下的 conf 目录，容器 ID 可以查看 docker ps 命令输入中的第一列：
+sudo docker cp f77f78d2228d:/etc/nginx/nginx.conf ~/nginx/conf
+
+
+
+sudo docker run -d -p 8082:80 --name nginx-test-web -v ~/nginx/www:/usr/share/nginx/html -v ~/nginx/conf/nginx.conf:/etc/nginx/nginx.conf -v ~/nginx/logs:/var/log/nginx nginx
+ad4106aed276c3a4c4e5b74a70d7388bf65e9e0dae8a1e360f97baa6b0b7f0fe
+
+sudo docker ps 
+
+
+
+查看 localhost:8082
+
+
+
+ 
+
+在~/nginx/www 下创建 index.html
+
+重新访问:localhost:8082
+————————————————
+版权声明：本文为CSDN博主「ddhsea」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/ddhsea/java/article/details/92203713
+
+
+mysql 操作命令
+https://www.cnblogs.com/niewd/p/11481030.html
+
+
+
+
+nginx的使用(启动、重启、关闭)
+
+竹立荷塘 2018-08-28 23:49:00  200586  收藏 24
+版权
+1. 首先利用配置文件启动nginx。
+
+命令: nginx -c /usr/local/nginx/conf/nginx.conf
+
+ 
+
+重启服务： service nginx restart
+
+ 
+
+2. 快速停止或关闭Nginx：nginx -s stop
+
+ 
+
+3. 正常停止或关闭Nginx：nginx -s quit
+
+ 
+
+4. 配置文件修改重装载命令：nginx -s reload
+
+
+https://blog.csdn.net/u014786723/article/details/80220810
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+centos 安装 nginx
+
+
+
+https://www.cnblogs.com/opsprobe/p/10773582.html

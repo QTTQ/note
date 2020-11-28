@@ -10,7 +10,7 @@ docker images
 
 创建 redis.conf
 cd /
-mkdir etc/redis/config
+mkdir -p etc/redis/config
 cd etc/redis/config
 touch redis.conf
 vim redis.conf

@@ -1,0 +1,11 @@
+https://www.jb51.net/article/174677.htm
+
+
+build: # 不带缓存的构建镜像
+  docker-compose build --no-cache;
+up: # 构建并启动容器
+  docker-compose up -d
+down: # 删除所有容器,镜像
+  docker-compose down
+restart: #重启容器
+  docker-compose build; docker-compose down; docker-compose up -d

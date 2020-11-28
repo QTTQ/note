@@ -1,0 +1,15 @@
+-1，先检查是否安装了telnet ：
+ 
+  rpm -qa | grep telnet
+-2. 然后检查yum列表里面有什么
+ 
+[root@slave01 ~]# yum list | grep telnet
+telnet-server.x86_64                       1:0.17-48.el6                 @base 
+telnet.x86_64                              1:0.17-48.el6                 base
+ 
+-3、安装
+ 
+yum install -y telnet-server.x86_64
+yum install -y telnet.x86_64
+ 
+-4.执行telnet ip port
