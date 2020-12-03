@@ -114,6 +114,10 @@ https://github.com/medcl/elasticsearch-analysis-ik/releases/tag/v6.3.2
 [root@7a15021e618a elasticsearch]# mkdir ik
 [root@7a15021e618a elasticsearch]# cd ik
 [root@7a15021e618a elasticsearch]# cp /home/elasticsearch-analysis-ik-6.3.2.zip .
+// *********也可用cp****************
+docker cp /home/es/elasticsearch-analysis-ik-7.6.2.zip es:/usr/share/elasticsearch/plugins/ik
+// **********************************************
+
 [root@7a15021e618a elasticsearch]# unzip elasticsearch-analysis-ik-6.3.2.zip
 [root@7a15021e618a elasticsearch]# rm -rf elasticsearch-analysis-ik-6.3.2.zip
 [root@7a15021e618a elasticsearch]# exit
@@ -264,3 +268,8 @@ chmod -R 777 /opt/elasticsearch-5.5.2
 
 
 docker run -d  --name es  -u 1000:1000  -v /home/es:/usr/share/elasticsearch/data  -v /home/es/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml  -e "discovery.type=single-node"  -e "xpack.security.enabled=false"  -e "TZ=fanxp/cq"  -p 9200:9200  es
+
+// 报这个错误  执行 chmod -R 777 /home/es/ 就好了
+OpenJDK 64-Bit Server VM warning: Option UseConcMarkSweepGC was deprecated in version 9.0 and will likely be removed in a future release.
+{"type": "server", "timestamp": "2020-12-01T07:52:43,374Z", "level": "WARN", "component": "o.e.b.ElasticsearchUncaughtExceptionHandler", "cluster.name": "docker-cluster", "node.name": "92f59f6c93a7", "message": "uncaught exception in thread [main]", 
+"stacktrace": ["org.elasticsearch.bootstrap.StartupException: ElasticsearchException[failed to bind service]; nested: AccessDeniedException[/usr/share/elasticsearch/data/nodes];",
